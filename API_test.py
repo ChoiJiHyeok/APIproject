@@ -28,4 +28,4 @@ for page in range(1, total_page+1):
               f'내용: {date_summary}')
 end_time = time.time()
 
-print(end_time-stat_time)
+print('실행 시간: ', end_time-stat_time, '초')

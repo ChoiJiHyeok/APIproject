@@ -1,48 +1,64 @@
-# select()를 이용한 다중 TCP 에코 서버
-# 읽기 이벤트만 조사한다.
+import socketserver
+from datetime import datetime
 
-import socket, select
+server_ip = 'localhost'
+server_port = 9000
 
-sock_list = []
-buffer = 1024
-port = 2500
-# 서버 소켓을 생성
-s_sock = socket.socket()
-s_sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-s_sock.bind(('localhost', port))
-s_sock.listen(5)
 
-sock_list.append(s_sock)
-print(f'{port}연결대기중 : ...')
+# 소켓 요청 처리
+class TH(socketserver.BaseRequestHandler):
+    def handle(self):
+        c_sock = self.request
+        if c_sock not in server.c_socks:
+            server.c_socks.append(c_sock)
+        server.p_msg(c_sock, '연결됨')
+        server.receive(c_sock)
 
-while True:
-    # 읽기, 쓰기, 애러 = select.select(읽기 감시 소켓, 쓰기 감시 소켓, 애러 감시 소켓, 블로킹 모드 설정)
-    # 블로킹 모드 : 기본값, 넌 블로킹 모드 : select.select([], [], [], 0)
-    r_sock, w_sock, e_sock = select.select(sock_list, [], [], 0)
 
-    for s in r_sock:
+# 서버 객체 생성
+class TTS(socketserver.ThreadingMixIn, socketserver.TCPServer):
+    pass
 
-        # 이곳에 있는게 맞지 않나? 한번 해보고 안돼면 지우자
-        # c_sock, addr = s_sock.accept()
 
-        # 서버 소켓 에서 입력 받은 경우
-        if s == s_sock:
-            c_sock, addr = s_sock.accept()
-            sock_list.append(c_sock)
-            print(f'{addr[0]} : {addr[1]} 연결')
-        # 클라이언트 소켓 에서 입력 받은 경우
-        else:
+class MainServer:
+    def __init__(self):
+        self.c_socks = []
+
+    def receive(self, c):
+        while True:
             try:
-                data = s.recv(buffer)
-                print('받은메시지: ', data.decode())
-                if data:
-                    print('보낸 소켓: ', s)
-                    print('보낸 메시지: ', data)
-                    c_sock.send(data)
-            # 연결 종료
-            except:
-                print(f'{addr[0]} : {addr[1]} 연결 종료')
-                s.close()
-                sock_list.remove(s)
+                rmsg = c.recv(1024).decode()
+                if rmsg:
+                    self.p_msg(c, '받은 메시지:', rmsg)
+                    self.reaction(c, rmsg)
+            except ConnectionResetError:
+                self.p_msg(c, '연결 비정상 종료')
+                self.c_socks.remove(c)
+                c.close()
+                break
+            else:
                 continue
-s_sock.close()
+
+############################################################################
+
+    def reaction(self, c, msg):
+        pass
+
+
+############################################################################
+
+    def p_msg(self, sock, head, *msg):
+        if msg:
+            print(f'{datetime.now()} / {sock.getpeername()} / {head} {msg}')
+        else:
+            print(f'{datetime.now()} / {sock.getpeername()} / {head}')
+
+    def send_msg(self, c, msg):
+        c.sendall(msg.encode())
+        self.p_msg(c, '보낸 메시지:', msg)
+
+
+if __name__ == '__main__':
+    server = MainServer()
+    with TTS((server_ip, server_port), TH) as TS:
+        TS.serve_forever()

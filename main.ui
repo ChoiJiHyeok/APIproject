@@ -24,11 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-<<<<<<< HEAD
-     <number>1</number>
-=======
      <number>0</number>
->>>>>>> f194b85 (230206 UI 생성)
     </property>
     <widget class="QWidget" name="page">
      <widget class="QLineEdit" name="hle_code">

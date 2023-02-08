@@ -22,7 +22,7 @@ def db_execute(sql):
     return c.fetchall()
 
 
-# 소켓 요청 처리
+# 소켓 연결 요청 처리
 class TH(socketserver.BaseRequestHandler):
     def handle(self):
         c_sock = self.request
@@ -37,10 +37,12 @@ class TTS(socketserver.ThreadingMixIn, socketserver.TCPServer):
     pass
 
 
-class MainServer:
+# 소켓별 서버
+class Server:
     def __init__(self):
         self.c_socks = []
 
+    # 수신 메서드 ,클라 연결 종료시 종료 메시지 남기고 연결 소켓 제거
     def receive(self, c):
         while True:
             try:
@@ -49,15 +51,14 @@ class MainServer:
                     self.p_msg(c, '받은 메시지:', rmsg)
                     self.reaction(c, rmsg[0], rmsg[1])
             except ConnectionResetError:
-                self.p_msg(c, '연결 비정상 종료')
+                self.p_msg(c, '연결 종료')
                 self.c_socks.remove(c)
                 c.close()
                 break
             else:
                 continue
 
-############################################################################
-
+    # 반응 메서드
     def reaction(self, c, head, msg):
         print(head, msg)
         if head == 'login':
@@ -81,13 +82,17 @@ class MainServer:
                 db_execute(sql)
                 self.send_msg(c, 'signup', ['success', f's{num}'])
 
-############################################################################
+###########################################################################
+# 도구 메서드
+###########################################################################
 
+    # 클라소켓, 주제, 내용으로 클라에 데이터 전송
     def send_msg(self, c, head, value):
         msg = json.dumps([head, value])
         c.sendall(msg.encode())
         self.p_msg(c, '보낸 메시지:', value)
 
+    # 클라소켓, 메시지 종류, 내용을 매개 변수로 콘솔에 확인 내용 출력
     def p_msg(self, sock, head, *msg):
         if msg:
             print(f'{datetime.now()} / {sock.getpeername()} / {head} {msg}')
@@ -96,6 +101,6 @@ class MainServer:
 
 
 if __name__ == '__main__':
-    server = MainServer()
+    server = Server()
     with TTS((server_ip, server_port), TH) as TS:
         TS.serve_forever()

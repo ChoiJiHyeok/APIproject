@@ -42,6 +42,8 @@ class TTS(socketserver.ThreadingMixIn, socketserver.TCPServer):
 class Server:
     def __init__(self):
         self.c_socks = []
+        self.admin_socks = []
+        self.student_socks = []
 
 ###########################################################################
 # 스레드 객체
@@ -58,6 +60,10 @@ class Server:
             except ConnectionResetError:
                 self.p_msg(c, '연결 종료')
                 self.c_socks.remove(c)
+                if c in self.student_socks:
+                    self.student_socks.remove(c)
+                if c in self.admin_socks:
+                    self.admin_socks.remove(c)
                 c.close()
                 break
             else:
@@ -74,6 +80,11 @@ class Server:
                 sql = f"select distinct quiz_num from quiz;"
                 quiz_num = db_execute(sql)
                 self.send_msg(c, 'login', ['success', msg[0], msg[2], quiz_num])
+                if msg[1] == '관리자':
+                    self.admin_socks.append(c)
+                else:
+                    self.student_socks.append(c)
+                self.p_msg(c, '권한:', msg[1])
             else:
                 self.send_msg(c, 'login', ['failure'])
         # 회원가입
@@ -98,6 +109,8 @@ class Server:
                 for v in msg:
                     sql = f"insert into quiz values('{v[0]}', '{v[1]}', '{v[2]}', '{v[3]}', '{v[4]}');"
                     db_execute(sql)
+                for administrator in self.admin_socks:
+                    self.send_msg(administrator, 'add_acb_num', msg[0][0])
             else:
                 sql = f"delete from quiz where quiz_num = {msg[0][0]};"
                 db_execute(sql)

@@ -689,11 +689,6 @@
         </attribute>
         <column>
          <property name="text">
-          <string>문제등록NO</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
           <string>문제</string>
          </property>
         </column>
@@ -752,7 +747,7 @@
          <string>배점 총합:</string>
         </property>
        </widget>
-       <widget class="QLabel" name="label_8">
+       <widget class="QLabel" name="al_score">
         <property name="geometry">
          <rect>
           <x>640</x>

@@ -13,6 +13,7 @@ db_pw = 'aaaa'
 db = 'api'
 
 
+# DB에 값을 변경하거나 불러오는 함수
 def db_execute(sql):
     conn = p.connect(host=db_host, port=db_port, user=db_user, password=db_pw, db=db, charset='utf8')
     c = conn.cursor()
@@ -65,13 +66,17 @@ class Server:
     # 반응 메서드
     def reaction(self, c, head, msg):
         print(head, msg)
+        # 로그인
         if head == 'login':
             sql = f"select * from login_data where member_num = '{msg[0]}' and authority = '{msg[1]}' and member_name='{msg[2]}';"
             login = db_execute(sql)
             if login:
-                self.send_msg(c, 'login', ['success', msg[0], msg[2]])
+                sql = f"select distinct quiz_num from quiz;"
+                quiz_num = db_execute(sql)
+                self.send_msg(c, 'login', ['success', msg[0], msg[2], quiz_num])
             else:
                 self.send_msg(c, 'login', ['failure'])
+        # 회원가입
         elif head == 'signup':
             if msg[0] == '관리자':
                 sql = "select count(*) from login_data where member_num like 'a%';"
@@ -85,6 +90,25 @@ class Server:
                 sql = f"insert into login_data values('s{num}', '{msg[0]}','{msg[1]}')"
                 db_execute(sql)
                 self.send_msg(c, 'signup', ['success', f's{num}'])
+        # ``` 문제 만들기
+        elif head == 'register_question':
+            sql = "select count(distinct quiz_num) from quiz;"
+            quiz_num = db_execute(sql)[0][0]
+            if msg[0][0] > quiz_num:
+                for v in msg:
+                    sql = f"insert into quiz values('{v[0]}', '{v[1]}', '{v[2]}', '{v[3]}', '{v[4]}');"
+                    db_execute(sql)
+            else:
+                sql = f"delete from quiz where quiz_num = {msg[0][0]};"
+                db_execute(sql)
+                for v in msg:
+                    sql = f"insert into quiz values('{v[0]}', '{v[1]}', '{v[2]}', '{v[3]}', '{v[4]}');"
+                    db_execute(sql)
+        elif head == 'load_quiz':
+            sql = f"select * from quiz where quiz_num= '{msg}'"
+            quiz_list = db_execute(sql)
+            self.send_msg(c, 'load_quiz', quiz_list)
+        # ```
 
 ###########################################################################
 # 도구 메서드

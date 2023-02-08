@@ -215,6 +215,7 @@ class WindowClass(QMainWindow, form_class):
 
     # 메시지 종류, 내용을 매개 변수로 콘솔에 확인 내용 출력
     def p_msg(self, head, *msg):
+        # 단순히 보기 편하게 할려고 만든 조건
         if msg:
             print(f'{datetime.now()} / {head} {msg}')
         else:

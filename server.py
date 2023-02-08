@@ -96,18 +96,26 @@ class Server:
         elif head == 'signup':
             # 관리자 권한 가입 정보 DB에 저장 및 정보 전송 [성공여부, 회원 코드]
             if msg[0] == '관리자':
+                # 회원 코드를 생성하기위해 번호조회
                 sql = "select count(*) from login_data where member_num like 'a%';"
                 num = int(db_execute(sql)[0][0])+1
+                # DB에 회원 정보 등록[회원코드, 권한, 이름]
                 sql = f"insert into login_data values('a{num}', '{msg[0]}', '{msg[1]}')"
                 db_execute(sql)
                 self.send_msg(c, 'signup', ['success', f'a{num}'])
             # 학생 권한 가입 정보 DB에 저장 및 정보 전송 [성공여부, 회원 코드]
             else:
+                # 회원 코드를 생성하기위해 번호조회
                 sql = "select count(*) from login_data where member_num like 's%';"
                 num = int(db_execute(sql)[0][0])+1
+                # DB에 회원 정보 등록[회원코드, 권한, 이름]
                 sql = f"insert into login_data values('s{num}', '{msg[0]}','{msg[1]}')"
                 db_execute(sql)
+                # 회원관리 DB에 신규 등록
+                sql = f"insert into study_progress values('F','{msg[1]}', '0', '0');"
+                db_execute(sql)
                 self.send_msg(c, 'signup', ['success', f's{num}'])
+
         # ``` 문제 만들기
         # 문제 등록하기
         elif head == 'register_question':

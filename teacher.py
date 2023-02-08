@@ -28,6 +28,8 @@ class WindowClass(QMainWindow, form_class):
         self.abt_del.clicked.connect(self.del_space)
         self.abt_finish.clicked.connect(self.register_question)
         self.abt_cancel.clicked.connect(self.del_atw_q)
+        self.atw_q.currentCellChanged.connect(self.total_score)
+        self.acb_num.currentIndexChanged.connect(self.send_quiz_num)
 
         # 서버 연결
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -49,9 +51,13 @@ class WindowClass(QMainWindow, form_class):
         print(head, msg)
         if head == 'login':
             if msg[0] == 'success':
-                self.stackedWidget.setCurrentIndex(2)
                 self.code = msg[1]
                 self.name = msg[2]
+                self.stackedWidget.setCurrentIndex(2)
+                # 나중에 분리
+                for i in msg[3]:
+                    self.acb_num.addItem(str(i[0]))
+                #
                 self.messagebox('로그인 성공')
             else:
                 self.messagebox('로그인 실패')
@@ -61,9 +67,16 @@ class WindowClass(QMainWindow, form_class):
                 self.messagebox(f'가입 성공, 발급 코드: {code} 입니다.')
             else:
                 self.messagebox('가입 실패')
+        elif head == 'load_quiz':
+            self.atw_q.setRowCount(0)
+            self.atw_q.setRowCount(len(msg))
+            for row, quiz_list in enumerate(msg):
+                for col, value in enumerate(quiz_list):
+                    if col != 0:
+                        self.atw_q.setItem(row, col-1, QTableWidgetItem(value))
 
 ###########################################################################
-# 시그널 - 머서드
+# 시그널 - 메서드
 ###########################################################################
     # 로그인 (선생 프로그램으로 서버에 [선생 코드, 권한, 이름] 전송)
     def login(self):
@@ -100,28 +113,62 @@ class WindowClass(QMainWindow, form_class):
             num = max_num-1
         self.atw_q.removeRow(num)
 
-    # 문제목록의 내용 전부 DB에 저장
+    # 문제 등록 (서버에 [문제 목록] 전송)
     def register_question(self):
+        try:
+            box = int(self.acb_num.currentText())
+        except ValueError:
+            box = self.acb_num.count()
         t_list = []
         row = self.atw_q.rowCount()
         col = self.atw_q.columnCount()
         try:
             for i in range(row):
-                q_list = []
+                q_list = [box]
                 for j in range(col):
-                    q_list.append(self.atw_q.item(i, j).text())
+                    if j < 2:
+                        q_list.append(self.atw_q.item(i, j).text())
+                    else:
+                        q_list.append(int(self.atw_q.item(i, j).text()))
                 t_list.append(q_list)
-        except:
-            self.messagebox('등록 실패')
-        score = int(self.al_score.text())
-        if score == 100:
-            for vlaue in t_list:
-                spl = f"insert from "
+            score = int(self.al_score.text())
+            if score == 100:
+                self.send_msg('register_question', t_list)
+                self.atw_q.clearContents()
+                self.atw_q.setRowCount(0)
+                self.al_score.setNum(0)
+                # 나중에 삭제
+                self.acb_num.addItem(str(box))
+                #
+            else:
+                self.messagebox('만점은 100 입니다.')
+        except ValueError:
+            self.messagebox('배점 또는 point란에 문자가 있습니다.')
+        except AttributeError:
+            self.messagebox('빈칸이 있습니다.')
+
+    # 선택셀 변경시 배점 총합을 라벨에 출력
+    def total_score(self):
+        row = self.atw_q.rowCount()
+        score = 0
+        try:
+            for i in range(row):
+                score += int(self.atw_q.item(i, 2).text())
+        except AttributeError:
+            pass
+        except ValueError:
+            pass
+        self.al_score.setNum(score)
 
     # 문제목록의 내용 전부 삭제
     def del_atw_q(self):
         self.atw_q.clearContents()
         self.atw_q.setRowCount(0)
+
+    # 문제 등록 넘버를 서버로 송신
+    def send_quiz_num(self):
+        num = self.acb_num.currentText()
+        self.send_msg('load_quiz', num)
 
 ###########################################################################
 # 도구 메서드

@@ -82,10 +82,11 @@ class WindowClass(QMainWindow, form_class):
             rmsg = json.loads(c.recv(1024).decode())
             if rmsg:
                 self.p_msg('받은 메시지:', rmsg)
-                self.reaction(c, rmsg[0], rmsg[1])
+                self.reaction(rmsg[0], rmsg[1])
 
     # 반응 메서드
-    def reaction(self, c, head, msg):
+    def reaction(self, head, msg):
+        print(head, msg)
         if head == 'login':
             if msg[0] == 'success':
                 self.stackedWidget.setCurrentIndex(1)

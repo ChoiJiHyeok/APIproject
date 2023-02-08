@@ -32,15 +32,19 @@ class TH(socketserver.BaseRequestHandler):
         server.receive(c_sock)
 
 
-# 서버 객체 생성
+# 소켓 객체 생성
 class TTS(socketserver.ThreadingMixIn, socketserver.TCPServer):
     pass
 
 
-# 소켓별 서버
+# 메인서버
 class Server:
     def __init__(self):
         self.c_socks = []
+
+###########################################################################
+# 스레드 객체
+###########################################################################
 
     # 수신 메서드 ,클라 연결 종료시 종료 메시지 남기고 연결 소켓 제거
     def receive(self, c):

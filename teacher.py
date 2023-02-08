@@ -20,8 +20,14 @@ class WindowClass(QMainWindow, form_class):
         self.stackedWidget.setCurrentIndex(0)
 
         # 시그널 - 메서드
+        # 로그인, 회원가입
         self.hbt_add.clicked.connect(self.signup)
         self.hbt_login.clicked.connect(self.login)
+        # 문제 만들기
+        self.abt_add.clicked.connect(self.add_space)
+        self.abt_del.clicked.connect(self.del_space)
+        self.abt_finish.clicked.connect(self.register_question)
+        self.abt_cancel.clicked.connect(self.del_atw_q)
 
         # 서버 연결
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -36,10 +42,11 @@ class WindowClass(QMainWindow, form_class):
             rmsg = json.loads(c.recv(1024).decode())
             if rmsg:
                 self.p_msg('받은 메시지:', rmsg)
-                self.reaction(c, rmsg[0], rmsg[1])
+                self.reaction(rmsg[0], rmsg[1])
 
     # 반응 메서드
-    def reaction(self, c, head, msg):
+    def reaction(self, head, msg):
+        print(head, msg)
         if head == 'login':
             if msg[0] == 'success':
                 self.stackedWidget.setCurrentIndex(2)
@@ -79,6 +86,42 @@ class WindowClass(QMainWindow, form_class):
         elif user:
             self.send_msg('signup', ['학생', name])
         self.hle_add_name.clear()
+
+    # 문제목록에 문제 추가 하기
+    def add_space(self):
+        num = self.atw_q.rowCount()
+        self.atw_q.setRowCount(num+1)
+
+    # 문제목록에 문제 삭제 하기
+    def del_space(self):
+        max_num = self.atw_q.rowCount()
+        num = self.atw_q.currentRow()
+        if num < 0:
+            num = max_num-1
+        self.atw_q.removeRow(num)
+
+    # 문제목록의 내용 전부 DB에 저장
+    def register_question(self):
+        t_list = []
+        row = self.atw_q.rowCount()
+        col = self.atw_q.columnCount()
+        try:
+            for i in range(row):
+                q_list = []
+                for j in range(col):
+                    q_list.append(self.atw_q.item(i, j).text())
+                t_list.append(q_list)
+        except:
+            self.messagebox('등록 실패')
+        score = int(self.al_score.text())
+        if score == 100:
+            for vlaue in t_list:
+                spl = f"insert from "
+
+    # 문제목록의 내용 전부 삭제
+    def del_atw_q(self):
+        self.atw_q.clearContents()
+        self.atw_q.setRowCount(0)
 
 ###########################################################################
 # 도구 메서드

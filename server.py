@@ -78,7 +78,7 @@ class Server:
             else:
                 sql = "select count(*) from login_data where member_num like 's%';"
                 num = int(db_execute(sql)[0][0])+1
-                sql = f"insert into login_data values('a{num}', '{msg[0]}',' {msg[1]}')"
+                sql = f"insert into login_data values('s{num}', '{msg[0]}','{msg[1]}')"
                 db_execute(sql)
                 self.send_msg(c, 'signup', ['success', f's{num}'])
 

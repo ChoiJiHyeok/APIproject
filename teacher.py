@@ -49,31 +49,46 @@ class WindowClass(QMainWindow, form_class):
     # 반응 메서드
     def reaction(self, head, msg):
         print(head, msg)
+        # 로그인
         if head == 'login':
+            # 로그인 성공
             if msg[0] == 'success':
+                # 나중에 쓸수도 있기에 만든 변수
                 self.code = msg[1]
                 self.name = msg[2]
+                # 관리자 페이지 이동
                 self.stackedWidget.setCurrentIndex(2)
+                # 문제 등록 번호 콤보박스에 등록
                 for i in msg[3]:
                     self.acb_num.addItem(str(i[0]))
                 self.messagebox('로그인 성공')
+            # 로그인 실패
             else:
                 self.messagebox('로그인 실패')
+        # 회원가입
         elif head == 'signup':
+            # 가입 성공 및 회원 코드 띄우기
             if msg[0] == 'success':
                 code = msg[1]
                 self.messagebox(f'가입 성공, 발급 코드: {code} 입니다.')
+            # 가입 실패 코드 띄우기
             else:
                 self.messagebox('가입 실패')
+        # ``` 문제 만들기
+        # 테이블 위젯에 문제 띄우기
         elif head == 'load_quiz':
+            # 테이블 위젯 셋팅
             self.atw_q.setRowCount(0)
             self.atw_q.setRowCount(len(msg))
+            # 테이블 위젯 셀에 내용 저장
             for row, quiz_list in enumerate(msg):
                 for col, value in enumerate(quiz_list):
                     if col != 0:
                         self.atw_q.setItem(row, col-1, QTableWidgetItem(value))
+        # 추가된 문제 등록번호 콤보박스에 저장
         elif head == 'add_acb_num':
             self.acb_num.addItem(str(msg))
+        # ```
 
 ###########################################################################
 # 송신
@@ -103,13 +118,16 @@ class WindowClass(QMainWindow, form_class):
 
     # 문제 등록 (서버에 [문제 목록] 전송)
     def register_question(self):
+        # 콤보 박스 내용이 숫자가 아닌경우 신규 문제 등록
         try:
             box = int(self.acb_num.currentText())
         except ValueError:
             box = self.acb_num.count()
+        # 초기 셋팅
         t_list = []
         row = self.atw_q.rowCount()
         col = self.atw_q.columnCount()
+        # 테이블 위젯의 셀 내용 list에 저장하기
         try:
             for i in range(row):
                 q_list = [box]
@@ -119,6 +137,7 @@ class WindowClass(QMainWindow, form_class):
                     else:
                         q_list.append(int(self.atw_q.item(i, j).text()))
                 t_list.append(q_list)
+            # 등록할 문제 목록의 배점 합계가 100점인지 여부 확인
             score = int(self.al_score.text())
             if score == 100:
                 self.send_msg('register_question', t_list)
@@ -127,6 +146,7 @@ class WindowClass(QMainWindow, form_class):
                 self.al_score.setNum(0)
             else:
                 self.messagebox('만점은 100 입니다.')
+        # 작성된 문제 목록에 문제가 있는경우
         except ValueError:
             self.messagebox('배점 또는 point란에 문자가 있습니다.')
         except AttributeError:
@@ -151,22 +171,25 @@ class WindowClass(QMainWindow, form_class):
     def del_space(self):
         max_num = self.atw_q.rowCount()
         num = self.atw_q.currentRow()
+        # 테이블 위젯의 선택한 셀이 없는 경우
         if num < 0:
             num = max_num-1
+        # 테이블 위젯의 특정 셀의 행 지우기
         self.atw_q.removeRow(num)
 
     # 선택셀 변경시 배점 총합을 라벨에 출력
     def total_score(self):
         row = self.atw_q.rowCount()
         score = 0
+        # 작성중 계속 시그널이 들어오는 함수로 애러 발생을 pass 처리
         try:
             for i in range(row):
                 score += int(self.atw_q.item(i, 2).text())
+            self.al_score.setNum(score)
         except AttributeError:
             pass
         except ValueError:
             pass
-        self.al_score.setNum(score)
 
     # 문제목록의 내용 전부 삭제
     def del_atw_q(self):

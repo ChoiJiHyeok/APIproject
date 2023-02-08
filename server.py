@@ -76,25 +76,32 @@ class Server:
         if head == 'login':
             sql = f"select * from login_data where member_num = '{msg[0]}' and authority = '{msg[1]}' and member_name='{msg[2]}';"
             login = db_execute(sql)
+            # 클라에서 받은 정보가 DB에 등록 되어 있는경우
             if login:
+                # DB에 저장된 문제 등록 목록 및 정보 클라에 전달
+                # [로그인성공여부, 회원코드, 회원이름, 문제등록번호목록]
                 sql = f"select distinct quiz_num from quiz;"
                 quiz_num = db_execute(sql)
                 self.send_msg(c, 'login', ['success', msg[0], msg[2], quiz_num])
+                # 정보를 선생과 학생으로 구분하여 전송하기위해 list에 소켓 저장
                 if msg[1] == '관리자':
                     self.admin_socks.append(c)
                 else:
                     self.student_socks.append(c)
-                self.p_msg(c, '권한:', msg[1])
+            # 학생 또는 선생 프로그램에서 다른 권한의 계정으로 로그인 시도한 경우
+            # 로그인 정보가 틀린경우
             else:
                 self.send_msg(c, 'login', ['failure'])
         # 회원가입
         elif head == 'signup':
+            # 관리자 권한 가입 정보 DB에 저장 및 정보 전송 [성공여부, 회원 코드]
             if msg[0] == '관리자':
                 sql = "select count(*) from login_data where member_num like 'a%';"
                 num = int(db_execute(sql)[0][0])+1
                 sql = f"insert into login_data values('a{num}', '{msg[0]}', '{msg[1]}')"
                 db_execute(sql)
                 self.send_msg(c, 'signup', ['success', f'a{num}'])
+            # 학생 권한 가입 정보 DB에 저장 및 정보 전송 [성공여부, 회원 코드]
             else:
                 sql = "select count(*) from login_data where member_num like 's%';"
                 num = int(db_execute(sql)[0][0])+1
@@ -102,21 +109,27 @@ class Server:
                 db_execute(sql)
                 self.send_msg(c, 'signup', ['success', f's{num}'])
         # ``` 문제 만들기
+        # 문제 등록하기
         elif head == 'register_question':
             sql = "select count(distinct quiz_num) from quiz;"
             quiz_num = db_execute(sql)[0][0]
+            # 신규 문제
             if msg[0][0] > quiz_num:
+                # 문제 DB에 저장
                 for v in msg:
                     sql = f"insert into quiz values('{v[0]}', '{v[1]}', '{v[2]}', '{v[3]}', '{v[4]}');"
                     db_execute(sql)
+                # 관리자 권한을 가진 모든 클라에게 전송 [추가 등록된 문제 등록 번호]
                 for administrator in self.admin_socks:
                     self.send_msg(administrator, 'add_acb_num', msg[0][0])
+            # 기존 문제 수정
             else:
                 sql = f"delete from quiz where quiz_num = {msg[0][0]};"
                 db_execute(sql)
                 for v in msg:
                     sql = f"insert into quiz values('{v[0]}', '{v[1]}', '{v[2]}', '{v[3]}', '{v[4]}');"
                     db_execute(sql)
+        # 해당 등록 번호의 문제 목록 클라에 전송
         elif head == 'load_quiz':
             sql = f"select * from quiz where quiz_num= '{msg}'"
             quiz_list = db_execute(sql)
@@ -135,6 +148,7 @@ class Server:
 
     # 클라소켓, 메시지 종류, 내용을 매개 변수로 콘솔에 확인 내용 출력
     def p_msg(self, sock, head, *msg):
+        # 단순히 보기 편하게 할려고 만든 조건
         if msg:
             print(f'{datetime.now()} / {sock.getpeername()} / {head} {msg}')
         else:

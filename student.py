@@ -37,6 +37,7 @@ class WindowClass(QMainWindow, form_class):
         self.setupUi(self)
         self.stackedWidget.setCurrentIndex(0)
         self.read_api()
+        self.action = True
 
         # 시그널 - 메서드
         self.hbt_add.clicked.connect(self.signup)
@@ -45,8 +46,8 @@ class WindowClass(QMainWindow, form_class):
         # 서버 연결
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.sock.connect((svrip, port))
-        print('연결된 서버:' + svrip)
-        th = threading.Thread(target=self.receive, args=(self.sock,))
+        self.p_msg('연결된 서버: ', svrip)
+        th = threading.Thread(target=self.receive, args=(self.sock,), daemon=True)
         th.start()
 
     # API 자료가 업데이트 돼면 DB자료 변경
@@ -85,7 +86,6 @@ class WindowClass(QMainWindow, form_class):
 
     # 반응 메서드
     def reaction(self, c, head, msg):
-        print(head, msg)
         if head == 'login':
             if msg[0] == 'success':
                 self.stackedWidget.setCurrentIndex(1)

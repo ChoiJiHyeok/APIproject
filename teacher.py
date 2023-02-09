@@ -29,6 +29,8 @@ class WindowClass(QMainWindow, form_class):
         self.abt_cancel.clicked.connect(self.del_atw_q)
         self.atw_q.currentCellChanged.connect(self.total_score)
         self.acb_num.currentIndexChanged.connect(self.send_quiz_num)
+        # 학생관리
+        self.atw.currentChanged.connect(self.atw_move)
 
         # 서버 연결
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -106,14 +108,15 @@ class WindowClass(QMainWindow, form_class):
 
     # 회원 가입 (선생, 학생 프로그램 상관없이 서버에 [권한, 이름] 전송)
     def signup(self):
-        name = self.hle_add_name.text()
+        name = self.hle_add_name.text().split()[0]
         admin = self.hrb_admin.isChecked()
         user = self.hrb_user.isChecked()
-        if admin:
-            self.send_msg('signup', ['관리자', name])
-        elif user:
-            self.send_msg('signup', ['학생', name])
-        self.hle_add_name.clear()
+        if name:
+            if admin:
+                self.send_msg('signup', ['관리자', name])
+            elif user:
+                self.send_msg('signup', ['학생', name])
+            self.hle_add_name.clear()
 
     # 문제 등록 (서버에 [문제 목록] 전송)
     def register_question(self):
@@ -155,6 +158,11 @@ class WindowClass(QMainWindow, form_class):
     def send_quiz_num(self):
         num = self.acb_num.currentText()
         self.send_msg('load_quiz', num)
+
+    def atw_move(self):
+        tab = self.atw.currentIndex()
+        if tab == 1:
+            self.send_msg('management', '')
 
 
 ###########################################################################

@@ -17,6 +17,7 @@ class WindowClass(QMainWindow, form_class):
         super().__init__()
         self.setupUi(self)
         self.stackedWidget.setCurrentIndex(0)
+        self.user_management = False
 
         # 시그널 - 메서드
         # 로그인, 회원가입
@@ -31,6 +32,7 @@ class WindowClass(QMainWindow, form_class):
         self.acb_num.currentIndexChanged.connect(self.send_quiz_num)
         # 학생관리
         self.atw.currentChanged.connect(self.atw_move)
+        self.alw_user.itemDoubleClicked.connect(self.study_progress)
 
         # 서버 연결
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -42,7 +44,7 @@ class WindowClass(QMainWindow, form_class):
     # 수신 메서드
     def receive(self, c):
         while True:
-            rmsg = json.loads(c.recv(1024).decode())
+            rmsg = json.loads(c.recv(10000).decode())
             if rmsg:
                 self.p_msg('받은 메시지:', rmsg)
                 self.reaction(rmsg[0], rmsg[1])
@@ -59,6 +61,7 @@ class WindowClass(QMainWindow, form_class):
                 self.name = msg[2]
                 # 관리자 페이지 이동
                 self.stackedWidget.setCurrentIndex(2)
+                self.atw.setCurrentIndex(0)
                 # 문제 등록 번호 콤보박스에 등록
                 for i in msg[3]:
                     self.acb_num.addItem(str(i[0]))
@@ -90,6 +93,35 @@ class WindowClass(QMainWindow, form_class):
         elif head == 'add_acb_num':
             self.acb_num.addItem(str(msg))
         # ```
+        # ``` 학생 관리
+        # 처음 학생 관리창 들어가면 전체 학생 리스트 불러오기
+        elif head == 'management':
+            self.alw_user.clear()
+            for value in msg:
+                self.alw_user.addItem(f'[{value[0]}]{value[1]}')
+        # 학생 회원가입시 코드및 이름 받아오기
+        elif head == 'add_alw_user':
+            self.alw_user.addItem(f'[{msg[0]}]{msg[1]}')
+        elif head == 'study':
+            self.atw_record.clear()
+            if msg != 'False':
+                for m in msg[0]:
+                    self.add_top_tree(str(m[0]), str(m[1]), str(m[2]), msg[1])
+
+    # tree 위젯에 item 추가하기
+    def add_top_tree(self, num, name, score, value):
+        item = QTreeWidgetItem(self.atw_record)
+        item.setText(0, num)
+        item.setText(1, name)
+        item.setText(2, score)
+        for i in value:
+            if str(i[0]) == num:
+                sub_item = QTreeWidgetItem(item)
+                sub_item.setText(0, str(i[1]))
+                sub_item.setText(1, str(i[2]))
+                sub_item.setText(2, str(i[3]))
+                sub_item.setText(3, str(i[4]))
+                sub_item.setText(4, str(i[5]))
 
 ###########################################################################
 # 송신
@@ -159,10 +191,17 @@ class WindowClass(QMainWindow, form_class):
         num = self.acb_num.currentText()
         self.send_msg('load_quiz', num)
 
+    # tab위젯 tab이동시 index 받기
     def atw_move(self):
         tab = self.atw.currentIndex()
-        if tab == 1:
+        if tab == 1 and not self.user_management:
+            self.user_management = True
             self.send_msg('management', '')
+
+    # 학생관리창에서 학생이름을 더블 클릭하면 서버에 신호 전송
+    def study_progress(self):
+        name = self.alw_user.currentItem().text().split(']')[1]
+        self.send_msg('study', name)
 
 
 ###########################################################################

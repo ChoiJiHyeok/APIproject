@@ -60,10 +60,13 @@ class Server:
             except ConnectionResetError:
                 self.p_msg(c, '연결 종료')
                 self.c_socks.remove(c)
+                print('연결된 클라: ', len(self.c_socks))
                 if c in self.student_socks:
                     self.student_socks.remove(c)
+                    print('연결된 학생: ', len(self.student_socks))
                 if c in self.admin_socks:
                     self.admin_socks.remove(c)
+                    print('연결된 선생: ', len(self.student_socks))
                 c.close()
                 break
             else:
@@ -115,6 +118,9 @@ class Server:
                 sql = f"insert into study_progress values('F','{msg[1]}', '0', '0');"
                 db_execute(sql)
                 self.send_msg(c, 'signup', ['success', f's{num}'])
+                for client in self.admin_socks:
+                    self.send_msg(client, 'add_alw_user', [f's{num}', f'{msg[1]}'])
+
         # ``` 문제 만들기
         # 문제 등록하기
         elif head == 'register_question':
@@ -143,8 +149,20 @@ class Server:
             self.send_msg(c, 'load_quiz', quiz_list)
         # ```
         # ``` 학생 관리
-        # elif head == 'management':
-        #     sql = ''
+        elif head == 'management':
+            sql = "select member_num ,member_name from login_data where member_num like 's%';"
+            user_infor = db_execute(sql)
+            self.send_msg(c, 'management', user_infor)
+        elif head == 'study':
+            sql = f"select quiz_num, min(student_name), sum(quiz_point) as sum from quiz_student" \
+                  f" where student_name = '{msg}' group by quiz_num;"
+            user_infor = db_execute(sql)
+            sql = f"select * from quiz_student where student_name = '{msg}' order by quiz_num;"
+            more_infor = db_execute(sql)
+            if user_infor:
+                self.send_msg(c, 'study', [user_infor, more_infor])
+            else:
+                self.send_msg(c, 'study', 'False')
 
 ###########################################################################
 # 도구 메서드

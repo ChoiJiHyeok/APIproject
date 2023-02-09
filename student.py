@@ -118,14 +118,15 @@ class WindowClass(QMainWindow, form_class):
 
     # 회원 가입 (선생, 학생 프로그램 상관없이 서버에 [권한, 이름] 전송)
     def signup(self):
-        name = self.hle_add_name.text()
+        name = self.hle_add_name.text().split()[0]
         admin = self.hrb_admin.isChecked()
         user = self.hrb_user.isChecked()
-        if admin:
-            self.send_msg('signup', ['관리자', name])
-        elif user:
-            self.send_msg('signup', ['학생', name])
-        self.hle_add_name.clear()
+        if name:
+            if admin:
+                self.send_msg('signup', ['관리자', name])
+            elif user:
+                self.send_msg('signup', ['학생', name])
+            self.hle_add_name.clear()
 
 ###########################################################################
 # 도구 메서드

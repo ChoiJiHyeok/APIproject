@@ -165,8 +165,35 @@ class Server:
                 self.send_msg(c, 'study', [user_infor, more_infor])
             else:
                 self.send_msg(c, 'study', 'False')
+        #```
+        # 학생용
+        # 학생이 학습내용 풀러오기
 
-        #####장은희
+        elif head == 'call_contents':
+            if msg[1] != '연도선택':
+                try:
+                    year=msg[1].split("~")
+                    print(year)
+                    sql=f'SELECT *FROM learning_data WHERE date BETWEEN "{year[0]}" AND "{year[1]}"'
+                    study_contents=db_execute(sql)
+                    print(study_contents)
+                    self.send_msg(c, 'load_history', study_contents)
+                except IndexError:
+                    print('study')
+            else:
+                print('gg')
+        elif head == "save_contents": # 학습내용 저장 하기
+            sql=f'UPDATE study_progress SET study_progress = "{msg[0]}:{msg[1]}~{msg[2]}" WHERE student_name = "{msg[0]}"'
+            update_progress=db_execute(sql)
+            print(update_progress)
+
+        elif head == 'loading_studying': #저장된 학습내용 불러오기
+            sql=f'SELECT *FROM learning_data WHERE date BETWEEN "{msg[1]}" AND "{msg[2]}"'
+            find_contents=db_execute(sql)
+            self.send_msg(c, 'loading_studying', find_contents)
+
+
+        # ####장은희
         # 실시간 상담 (학생프로그램)
         elif head == 'st_chat':
             member_num = msg[0]

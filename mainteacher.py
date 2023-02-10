@@ -126,7 +126,7 @@ class WindowClass(QMainWindow, form_class):
             if msg != 'False':
                 for m in msg[0]:
                     self.add_top_tree(str(m[0]), str(m[1]), str(m[2]), msg[1])
-        #####장은희
+        # ###장은희
         # 실시간 상담 (학생->선생님)
         elif head == 'st_chat':
             self.alw_chat.addItem(f"{msg[1]}({msg[2]}) : {msg[3]}")
@@ -149,7 +149,6 @@ class WindowClass(QMainWindow, form_class):
                 sub_item.setText(2, str(i[3]))
                 sub_item.setText(3, str(i[4]))
                 sub_item.setText(4, str(i[5]))
-
 
 ###########################################################################
 # 송신

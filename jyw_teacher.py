@@ -19,6 +19,8 @@ class WindowClass(QMainWindow, form_class):
         self.stackedWidget.setCurrentIndex(0)
         self.user_management = False
 
+        self.ale_chat.returnPressed.connect(self.at_chat) # 실시간상담채팅
+
         # 시그널 - 메서드
         # 로그인, 회원가입
         self.hbt_add.clicked.connect(self.signup)
@@ -48,7 +50,7 @@ class WindowClass(QMainWindow, form_class):
             tmsg = ''
             while True:
                 # 전송된 데이터를 20바이트씩 받기
-                msg = c.recv(20)
+                msg = c.recv(1024)
                 tmsg += msg.decode()
 
                 print(tmsg)
@@ -79,7 +81,6 @@ class WindowClass(QMainWindow, form_class):
                 self.name = msg[2]
                 # 관리자 페이지 이동
                 self.stackedWidget.setCurrentIndex(2)
-                self.atw.setCurrentIndex(0)
                 # 문제 등록 번호 콤보박스에 등록
                 for i in msg[3]:
                     self.acb_num.addItem(str(i[0]))
@@ -125,6 +126,14 @@ class WindowClass(QMainWindow, form_class):
             if msg != 'False':
                 for m in msg[0]:
                     self.add_top_tree(str(m[0]), str(m[1]), str(m[2]), msg[1])
+        #####장은희
+        # 실시간 상담 (학생->선생님)
+        elif head == 'st_chat':
+            self.alw_chat.addItem(f"{msg[1]}({msg[2]}) : {msg[3]}")
+            self.alw_chat.scrollToBottom()
+        # 실시간 상담 (자기자신)
+        elif head == 'at_chat':
+            self.alw_chat.addItem(f"{msg[1]}({msg[2]}) : {msg[3]}")
 
     # tree 위젯에 item 추가하기
     def add_top_tree(self, num, name, score, value):
@@ -140,6 +149,7 @@ class WindowClass(QMainWindow, form_class):
                 sub_item.setText(2, str(i[3]))
                 sub_item.setText(3, str(i[4]))
                 sub_item.setText(4, str(i[5]))
+
 
 ###########################################################################
 # 송신
@@ -220,6 +230,19 @@ class WindowClass(QMainWindow, form_class):
     def study_progress(self):
         name = self.alw_user.currentItem().text().split(']')[1]
         self.send_msg('study', name)
+
+
+    #####장은희
+    # 상담 (관리자 프로그램으로 서버에 [관리자코드, 관리자이름, 채팅시간, 채팅내용] 전송)
+    def at_chat(self):
+        chat_time = str(datetime.now()) #strftime("%Y-%m-%d %H:%M:%S")
+        time = datetime.now().strftime("%H:%M")
+        chat_msg = self.ale_chat.text()
+        # self.alw_chat.addItem(f"{self.name}({time}) : {chat_msg}")
+        if chat_msg and chat_time:
+            self.send_msg('at_chat', [self.code, self.name, chat_time, chat_msg, time])
+        self.alw_chat.scrollToBottom()
+        self.ale_chat.clear()
 
 
 ###########################################################################

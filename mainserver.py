@@ -193,7 +193,7 @@ class Server:
             self.send_msg(c, 'loading_studying', find_contents)
 
 
-        #####장은희
+        # ####장은희
         # 실시간 상담 (학생프로그램)
         elif head == 'st_chat':
             member_num = msg[0]

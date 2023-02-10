@@ -1,6 +1,6 @@
-import pymysql as p
 import sys
 from PyQt5.QtWidgets import *
+import pymysql as p
 from PyQt5 import uic
 import socket
 import threading
@@ -11,11 +11,10 @@ import math
 from tkinter import messagebox, Tk
 import json
 
-
 form_class = uic.loadUiType("main.ui")[0]
 svrip = 'localhost'
 port = 9000
-#
+
 db_host = '10.10.21.105'
 db_port = 3306
 db_user = 'network'
@@ -41,7 +40,6 @@ class WindowClass(QMainWindow, form_class):
         self.action = True
 
         # 시그널 - 메서드
-
         self.hbt_add.clicked.connect(self.signup)
         self.hbt_login.clicked.connect(self.login)
         self.hle_name.returnPressed.connect(self.login)
@@ -91,14 +89,14 @@ class WindowClass(QMainWindow, form_class):
             for i in range(1000,2001,100):
                 if i == 2000:
                     self.comboBox.addItem(str(i) + '년' + '~' + str(i + 23)+'년')
-                    # self.send_msg('call_contents', [index, self.comboBox.currentText()])
                 else:
                     self.comboBox.addItem(str(i)+'년'+'~'+str(i+100)+'년')
-                    # self.send_msg('call_contents', [index, self.comboBox.currentText()])
+
+        elif index==2:
+            self.send_msg("call_quiz", ['quiz_num' , 'quiz', 'score'])
+
         else:
             print(index)
-        # if index == 2:
-
     def select_year(self):
         self.send_msg("call_contents", ['연도', self.comboBox.currentText()])
 
@@ -114,11 +112,14 @@ class WindowClass(QMainWindow, form_class):
         self.send_msg('loading_studying', [self.name, self.save1, self.save2])
 
     # 수신 메서드
+    # 수신 메서드
+    # 수신 메서드
     def receive(self, c):
         while True:
             new_msg = True
             tmsg = ''
             while True:
+                # 전송된 데이터를 20바이트씩 받기
                 msg = c.recv(1024)
                 tmsg += msg.decode()
 
@@ -158,11 +159,16 @@ class WindowClass(QMainWindow, form_class):
         # db learning_data  Qtablewidget에 표시
         elif head == 'load_history':
             self.msg = len(msg)
+            self.stw_contents.setRowCount(0)
             self.stw_contents.setRowCount(len(msg))
             self.stw_contents.setColumnCount(3)
+            header = self.stw_contents.horizontalHeader()
             for i in range(len(msg)):
                 for j in range(3):
                     self.stw_contents.setItem(i, j, QTableWidgetItem(str(msg[i][j])))
+            header.setSectionResizeMode(0, QHeaderView.ResizeToContents)
+            header.setSectionResizeMode(1, QHeaderView.ResizeToContents)
+            header.setSectionResizeMode(2, QHeaderView.ResizeToContents)
             # self.stw_contents.resizeColumnsToContents() # 내용에 따라서 크리 자동으로 조절
         # 저장된 학습내용 불러옴
         elif head == 'loading_studying':
@@ -171,6 +177,31 @@ class WindowClass(QMainWindow, form_class):
             for i in range(len(msg)):
                 for j in range(3):
                     self.stw_contents.setItem(i, j, QTableWidgetItem(str(msg[i][j])))
+        #학생이 문제 풀기
+        elif head == "loading_quiz":
+            #quiz load
+            self.stw_test.setRowCount(0)
+            self.stw_test.setRowCount(len(msg))
+            self.stw_test.setColumnCount(3)
+
+            for i in range(len(msg)):
+                for j in range(3):
+                    self.stw_test.setItem(i, j, QTableWidgetItem(str(msg[i][j])))
+
+
+            #정답란 제출란
+            row_list = []
+            for l in range(len(msg)):
+                row_list.append('문제' + str(l+1))
+            print(row_list)
+            self.answer_table.setRowCount(len(msg))
+            self.answer_table.setColumnCount(1)
+            self.answer_table.setVerticalHeaderLabels(row_list)  # row 항목명 세팅
+
+
+
+
+
         # ####장은희
         # 실시간 상담 (자기자신)
         elif head == 'st_chat':
@@ -187,9 +218,9 @@ class WindowClass(QMainWindow, form_class):
     # 로그인 (학생 프로그램으로 서버에 [학생 코드, 권한, 이름] 전송)
     def login(self):
         code = self.hle_code.text()
-        name = self.hle_name.text()
-        if code and name:
-            self.send_msg('login', [code, '학생', name])
+        self.name = self.hle_name.text()
+        if code and self.name:
+            self.send_msg('login', [code, '학생', self.name])
         else:
             self.messagebox('로그인 실패')
         self.hle_code.clear()

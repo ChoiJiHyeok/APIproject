@@ -40,6 +40,9 @@ class WindowClass(QMainWindow, form_class):
         self.read_api()
         self.action = True
 
+        #장은희테스트
+        self.stw.setCurrentIndex(3)
+
         # 시그널 - 메서드
 
         self.hbt_add.clicked.connect(self.signup)
@@ -177,8 +180,9 @@ class WindowClass(QMainWindow, form_class):
             self.slw_chat.addItem(f"{msg[1]}({msg[2]}) : {msg[3]}")
         # 실시간 상담 (선생님->학생)
         elif head == 'at_chat':
-            self.slw_chat.addItem(f"{msg[1]}({msg[2]}) : {msg[3]}")
-            self.slw_chat.scrollToBottom()
+            if self.hle_code.text() == msg[0]:
+                self.slw_chat.addItem(f"{msg[1]}({msg[2]}) : {msg[3]}")
+                self.slw_chat.scrollToBottom()
 
 
 ###########################################################################
@@ -244,6 +248,8 @@ class WindowClass(QMainWindow, form_class):
             print(f'{datetime.now()} / {head} {msg}')
         else:
             print(f'{datetime.now()} / {head}')
+
+
 
 
 if __name__ == "__main__":

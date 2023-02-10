@@ -209,7 +209,7 @@ class Server:
             for admin in self.admin_socks:
                 self.send_msg(admin, 'st_chat', st_chat_list)
 
-            # sql = f"select disticnt * from chatlog "
+            sql = f"select disticnt * from chatlog "
 
         # 실시간 상담 (관리자프로그램)
         elif head == 'at_chat':

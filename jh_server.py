@@ -53,7 +53,7 @@ class Server:
     def receive(self, c):
         while True:
             try:
-                rmsg = json.loads(c.recv(1024).decode())
+                rmsg = json.loads(c.recv(4096).decode())
                 if rmsg:
                     self.p_msg(c, '받은 메시지:', rmsg)
                     self.reaction(c, rmsg[0], rmsg[1])
@@ -177,7 +177,7 @@ class Server:
                     sql=f'SELECT *FROM learning_data WHERE date BETWEEN "{year[0]}" AND "{year[1]}"'
                     study_contents=db_execute(sql)
                     print(study_contents)
-                    self.send_msg(c, 'load_history', study_contents)
+                    self.send_msg(c,'load_history',study_contents)
                 except IndexError:
                     print('study')
             else:
@@ -190,7 +190,15 @@ class Server:
         elif head == 'loading_studying': #저장된 학습내용 불러오기
             sql=f'SELECT *FROM learning_data WHERE date BETWEEN "{msg[1]}" AND "{msg[2]}"'
             find_contents=db_execute(sql)
-            self.send_msg(c, 'loading_studying', find_contents)
+            self.send_msg(c,'loading_studying',find_contents)
+
+        elif head == 'call_quiz':
+            sql=f'SELECT {msg[0]},{msg[1]},{msg[2]} FROM api.quiz'
+            find_quiz=db_execute(sql)
+            print(find_quiz,'퀴즈전송')
+            self.send_msg(c,'loading_quiz',find_quiz)
+
+
 
 
         # ####장은희

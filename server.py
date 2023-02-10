@@ -171,9 +171,6 @@ class Server:
     # 클라소켓, 주제, 내용으로 클라에 데이터 전송
     def send_msg(self, c, head, value):
         msg = json.dumps([head, value])
-        print('서버 전송 바이트: ', len(msg))
-        # 전송 데인터의 처음 10바이트를 전송 길이정보를 넣어 전송
-        msg = f"{len(msg):<10}"+msg
         c.sendall(msg.encode())
         self.p_msg(c, '보낸 메시지:', value)
 

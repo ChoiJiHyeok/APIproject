@@ -1,0 +1,678 @@
+Index: main.ui
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<ui version=\"4.0\">\r\n <class>MainWindow</class>\r\n <widget class=\"QMainWindow\" name=\"MainWindow\">\r\n  <property name=\"geometry\">\r\n   <rect>\r\n    <x>0</x>\r\n    <y>0</y>\r\n    <width>800</width>\r\n    <height>600</height>\r\n   </rect>\r\n  </property>\r\n  <property name=\"windowTitle\">\r\n   <string>MainWindow</string>\r\n  </property>\r\n  <widget class=\"QWidget\" name=\"centralwidget\">\r\n   <widget class=\"QStackedWidget\" name=\"stackedWidget\">\r\n    <property name=\"geometry\">\r\n     <rect>\r\n      <x>0</x>\r\n      <y>0</y>\r\n      <width>801</width>\r\n      <height>561</height>\r\n     </rect>\r\n    </property>\r\n    <property name=\"currentIndex\">\r\n     <number>2</number>\r\n    </property>\r\n    <widget class=\"QWidget\" name=\"page\">\r\n     <widget class=\"QLineEdit\" name=\"hle_code\">\r\n      <property name=\"geometry\">\r\n       <rect>\r\n        <x>360</x>\r\n        <y>200</y>\r\n        <width>113</width>\r\n        <height>20</height>\r\n       </rect>\r\n      </property>\r\n     </widget>\r\n     <widget class=\"QPushButton\" name=\"hbt_login\">\r\n      <property name=\"geometry\">\r\n       <rect>\r\n        <x>490</x>\r\n        <y>200</y>\r\n        <width>75</width>\r\n        <height>51</height>\r\n       </rect>\r\n      </property>\r\n      <property name=\"text\">\r\n       <string> 로그인</string>\r\n      </property>\r\n     </widget>\r\n     <widget class=\"QLabel\" name=\"label\">\r\n      <property name=\"geometry\">\r\n       <rect>\r\n        <x>300</x>\r\n        <y>200</y>\r\n        <width>56</width>\r\n        <height>20</height>\r\n       </rect>\r\n      </property>\r\n      <property name=\"text\">\r\n       <string>CODE :</string>\r\n      </property>\r\n     </widget>\r\n     <widget class=\"Line\" name=\"line_6\">\r\n      <property name=\"geometry\">\r\n       <rect>\r\n        <x>210</x>\r\n        <y>150</y>\r\n        <width>421</width>\r\n        <height>20</height>\r\n       </rect>\r\n      </property>\r\n      <property name=\"orientation\">\r\n       <enum>Qt::Horizontal</enum>\r\n      </property>\r\n     </widget>\r\n     <widget class=\"Line\" name=\"line_8\">\r\n      <property name=\"geometry\">\r\n       <rect>\r\n        <x>200</x>\r\n        <y>160</y>\r\n        <width>20</width>\r\n        <height>271</height>\r\n       </rect>\r\n      </property>\r\n      <property name=\"orientation\">\r\n       <enum>Qt::Vertical</enum>\r\n      </property>\r\n     </widget>\r\n     <widget class=\"Line\" name=\"line_7\">\r\n      <property name=\"geometry\">\r\n       <rect>\r\n        <x>210</x>\r\n        <y>290</y>\r\n        <width>421</width>\r\n        <height>20</height>\r\n       </rect>\r\n      </property>\r\n      <property name=\"orientation\">\r\n       <enum>Qt::Horizontal</enum>\r\n      </property>\r\n     </widget>\r\n     <widget class=\"Line\" name=\"line_9\">\r\n      <property name=\"geometry\">\r\n       <rect>\r\n        <x>621</x>\r\n        <y>160</y>\r\n        <width>20</width>\r\n        <height>271</height>\r\n       </rect>\r\n      </property>\r\n      <property name=\"orientation\">\r\n       <enum>Qt::Vertical</enum>\r\n      </property>\r\n     </widget>\r\n     <widget class=\"QLabel\" name=\"label_2\">\r\n      <property name=\"geometry\">\r\n       <rect>\r\n        <x>300</x>\r\n        <y>230</y>\r\n        <width>56</width>\r\n        <height>20</height>\r\n       </rect>\r\n      </property>\r\n      <property name=\"text\">\r\n       <string>이름 :</string>\r\n      </property>\r\n     </widget>\r\n     <widget class=\"QLineEdit\" name=\"hle_name\">\r\n      <property name=\"geometry\">\r\n       <rect>\r\n        <x>360</x>\r\n        <y>230</y>\r\n        <width>113</width>\r\n        <height>20</height>\r\n       </rect>\r\n      </property>\r\n      <property name=\"text\">\r\n       <string/>\r\n      </property>\r\n     </widget>\r\n     <widget class=\"Line\" name=\"line_10\">\r\n      <property name=\"geometry\">\r\n       <rect>\r\n        <x>210</x>\r\n        <y>420</y>\r\n        <width>421</width>\r\n        <height>20</height>\r\n       </rect>\r\n      </property>\r\n      <property name=\"orientation\">\r\n       <enum>Qt::Horizontal</enum>\r\n      </property>\r\n     </widget>\r\n     <widget class=\"QPushButton\" name=\"hbt_add\">\r\n      <property name=\"geometry\">\r\n       <rect>\r\n        <x>490</x>\r\n        <y>310</y>\r\n        <width>75</width>\r\n        <height>51</height>\r\n       </rect>\r\n      </property>\r\n      <property name=\"text\">\r\n       <string>등록</string>\r\n      </property>\r\n     </widget>\r\n     <widget class=\"QLineEdit\" name=\"hle_add_name\">\r\n      <property name=\"geometry\">\r\n       <rect>\r\n        <x>360</x>\r\n        <y>330</y>\r\n        <width>113</width>\r\n        <height>20</height>\r\n       </rect>\r\n      </property>\r\n      <property name=\"text\">\r\n       <string/>\r\n      </property>\r\n     </widget>\r\n     <widget class=\"QLabel\" name=\"label_3\">\r\n      <property name=\"geometry\">\r\n       <rect>\r\n        <x>300</x>\r\n        <y>330</y>\r\n        <width>56</width>\r\n        <height>20</height>\r\n       </rect>\r\n      </property>\r\n      <property name=\"text\">\r\n       <string>이름 :</string>\r\n      </property>\r\n     </widget>\r\n     <widget class=\"QRadioButton\" name=\"hrb_admin\">\r\n      <property name=\"geometry\">\r\n       <rect>\r\n        <x>340</x>\r\n        <y>390</y>\r\n        <width>90</width>\r\n        <height>16</height>\r\n       </rect>\r\n      </property>\r\n      <property name=\"text\">\r\n       <string>관리자</string>\r\n      </property>\r\n      <property name=\"checked\">\r\n       <bool>true</bool>\r\n      </property>\r\n     </widget>\r\n     <widget class=\"QRadioButton\" name=\"hrb_user\">\r\n      <property name=\"geometry\">\r\n       <rect>\r\n        <x>450</x>\r\n        <y>390</y>\r\n        <width>90</width>\r\n        <height>16</height>\r\n       </rect>\r\n      </property>\r\n      <property name=\"text\">\r\n       <string>학생</string>\r\n      </property>\r\n     </widget>\r\n    </widget>\r\n    <widget class=\"QWidget\" name=\"page_2\">\r\n     <widget class=\"QTabWidget\" name=\"stw\">\r\n      <property name=\"geometry\">\r\n       <rect>\r\n        <x>0</x>\r\n        <y>0</y>\r\n        <width>801</width>\r\n        <height>561</height>\r\n       </rect>\r\n      </property>\r\n      <property name=\"currentIndex\">\r\n       <number>0</number>\r\n      </property>\r\n      <widget class=\"QWidget\" name=\"tab\">\r\n       <attribute name=\"title\">\r\n        <string>home</string>\r\n       </attribute>\r\n       <widget class=\"QLabel\" name=\"label_4\">\r\n        <property name=\"geometry\">\r\n         <rect>\r\n          <x>130</x>\r\n          <y>30</y>\r\n          <width>56</width>\r\n          <height>30</height>\r\n         </rect>\r\n        </property>\r\n        <property name=\"font\">\r\n         <font>\r\n          <family>Arial</family>\r\n          <pointsize>12</pointsize>\r\n         </font>\r\n        </property>\r\n        <property name=\"text\">\r\n         <string>이름 :</string>\r\n        </property>\r\n       </widget>\r\n       <widget class=\"QLabel\" name=\"sl_h_name\">\r\n        <property name=\"geometry\">\r\n         <rect>\r\n          <x>180</x>\r\n          <y>30</y>\r\n          <width>56</width>\r\n          <height>30</height>\r\n         </rect>\r\n        </property>\r\n        <property name=\"font\">\r\n         <font>\r\n          <family>Arial</family>\r\n          <pointsize>12</pointsize>\r\n         </font>\r\n        </property>\r\n        <property name=\"text\">\r\n         <string>name</string>\r\n        </property>\r\n       </widget>\r\n       <widget class=\"QLCDNumber\" name=\"slcd_h_point\">\r\n        <property name=\"geometry\">\r\n         <rect>\r\n          <x>360</x>\r\n          <y>30</y>\r\n          <width>111</width>\r\n          <height>31</height>\r\n         </rect>\r\n        </property>\r\n       </widget>\r\n       <widget class=\"QLabel\" name=\"label_6\">\r\n        <property name=\"geometry\">\r\n         <rect>\r\n          <x>310</x>\r\n          <y>30</y>\r\n          <width>56</width>\r\n          <height>30</height>\r\n         </rect>\r\n        </property>\r\n        <property name=\"font\">\r\n         <font>\r\n          <family>Arial</family>\r\n          <pointsize>12</pointsize>\r\n         </font>\r\n        </property>\r\n        <property name=\"text\">\r\n         <string>point :</string>\r\n        </property>\r\n       </widget>\r\n       <widget class=\"QLabel\" name=\"label_7\">\r\n        <property name=\"geometry\">\r\n         <rect>\r\n          <x>530</x>\r\n          <y>30</y>\r\n          <width>56</width>\r\n          <height>30</height>\r\n         </rect>\r\n        </property>\r\n        <property name=\"font\">\r\n         <font>\r\n          <family>Arial</family>\r\n          <pointsize>12</pointsize>\r\n         </font>\r\n        </property>\r\n        <property name=\"text\">\r\n         <string>등급 :</string>\r\n        </property>\r\n       </widget>\r\n       <widget class=\"Line\" name=\"line_11\">\r\n        <property name=\"geometry\">\r\n         <rect>\r\n          <x>5</x>\r\n          <y>80</y>\r\n          <width>781</width>\r\n          <height>20</height>\r\n         </rect>\r\n        </property>\r\n        <property name=\"orientation\">\r\n         <enum>Qt::Horizontal</enum>\r\n        </property>\r\n       </widget>\r\n       <widget class=\"QLabel\" name=\"sl_h_rating\">\r\n        <property name=\"geometry\">\r\n         <rect>\r\n          <x>590</x>\r\n          <y>30</y>\r\n          <width>56</width>\r\n          <height>30</height>\r\n         </rect>\r\n        </property>\r\n        <property name=\"font\">\r\n         <font>\r\n          <family>Arial</family>\r\n          <pointsize>22</pointsize>\r\n         </font>\r\n        </property>\r\n        <property name=\"text\">\r\n         <string>F</string>\r\n        </property>\r\n       </widget>\r\n       <widget class=\"Line\" name=\"line_12\">\r\n        <property name=\"geometry\">\r\n         <rect>\r\n          <x>385</x>\r\n          <y>90</y>\r\n          <width>20</width>\r\n          <height>441</height>\r\n         </rect>\r\n        </property>\r\n        <property name=\"orientation\">\r\n         <enum>Qt::Vertical</enum>\r\n        </property>\r\n       </widget>\r\n       <widget class=\"QTableWidget\" name=\"stw_h_score\">\r\n        <property name=\"geometry\">\r\n         <rect>\r\n          <x>410</x>\r\n          <y>100</y>\r\n          <width>371</width>\r\n          <height>421</height>\r\n         </rect>\r\n        </property>\r\n       </widget>\r\n       <widget class=\"QTableWidget\" name=\"stw_h_progress\">\r\n        <property name=\"geometry\">\r\n         <rect>\r\n          <x>10</x>\r\n          <y>100</y>\r\n          <width>371</width>\r\n          <height>421</height>\r\n         </rect>\r\n        </property>\r\n       </widget>\r\n      </widget>\r\n      <widget class=\"QWidget\" name=\"tab_2\">\r\n       <attribute name=\"title\">\r\n        <string>학습</string>\r\n       </attribute>\r\n       <widget class=\"QTableWidget\" name=\"stw_contents\">\r\n        <property name=\"geometry\">\r\n         <rect>\r\n          <x>10</x>\r\n          <y>120</y>\r\n          <width>771</width>\r\n          <height>401</height>\r\n         </rect>\r\n        </property>\r\n       </widget>\r\n       <widget class=\"QLineEdit\" name=\"sle_l_ch\">\r\n        <property name=\"geometry\">\r\n         <rect>\r\n          <x>10</x>\r\n          <y>20</y>\r\n          <width>771</width>\r\n          <height>20</height>\r\n         </rect>\r\n        </property>\r\n       </widget>\r\n       <widget class=\"QLineEdit\" name=\"sle_l_tr\">\r\n        <property name=\"geometry\">\r\n         <rect>\r\n          <x>10</x>\r\n          <y>50</y>\r\n          <width>771</width>\r\n          <height>20</height>\r\n         </rect>\r\n        </property>\r\n       </widget>\r\n       <widget class=\"Line\" name=\"line_13\">\r\n        <property name=\"geometry\">\r\n         <rect>\r\n          <x>10</x>\r\n          <y>90</y>\r\n          <width>771</width>\r\n          <height>20</height>\r\n         </rect>\r\n        </property>\r\n        <property name=\"orientation\">\r\n         <enum>Qt::Horizontal</enum>\r\n        </property>\r\n       </widget>\r\n      </widget>\r\n      <widget class=\"QWidget\" name=\"tab_3\">\r\n       <attribute name=\"title\">\r\n        <string>문제</string>\r\n       </attribute>\r\n       <widget class=\"QTableView\" name=\"stw_test\">\r\n        <property name=\"geometry\">\r\n         <rect>\r\n          <x>10</x>\r\n          <y>10</y>\r\n          <width>256</width>\r\n          <height>511</height>\r\n         </rect>\r\n        </property>\r\n       </widget>\r\n       <widget class=\"Line\" name=\"line_14\">\r\n        <property name=\"geometry\">\r\n         <rect>\r\n          <x>270</x>\r\n          <y>10</y>\r\n          <width>20</width>\r\n          <height>511</height>\r\n         </rect>\r\n        </property>\r\n        <property name=\"orientation\">\r\n         <enum>Qt::Vertical</enum>\r\n        </property>\r\n       </widget>\r\n       <widget class=\"Line\" name=\"line_15\">\r\n        <property name=\"geometry\">\r\n         <rect>\r\n          <x>280</x>\r\n          <y>320</y>\r\n          <width>501</width>\r\n          <height>20</height>\r\n         </rect>\r\n        </property>\r\n        <property name=\"orientation\">\r\n         <enum>Qt::Horizontal</enum>\r\n        </property>\r\n       </widget>\r\n       <widget class=\"QLabel\" name=\"sl_test\">\r\n        <property name=\"geometry\">\r\n         <rect>\r\n          <x>290</x>\r\n          <y>20</y>\r\n          <width>481</width>\r\n          <height>291</height>\r\n         </rect>\r\n        </property>\r\n        <property name=\"text\">\r\n         <string>문제</string>\r\n        </property>\r\n        <property name=\"alignment\">\r\n         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>\r\n        </property>\r\n       </widget>\r\n       <widget class=\"QLineEdit\" name=\"sle_test\">\r\n        <property name=\"geometry\">\r\n         <rect>\r\n          <x>290</x>\r\n          <y>340</y>\r\n          <width>431</width>\r\n          <height>181</height>\r\n         </rect>\r\n        </property>\r\n       </widget>\r\n       <widget class=\"QPushButton\" name=\"sbr_test\">\r\n        <property name=\"geometry\">\r\n         <rect>\r\n          <x>730</x>\r\n          <y>340</y>\r\n          <width>51</width>\r\n          <height>181</height>\r\n         </rect>\r\n        </property>\r\n        <property name=\"text\">\r\n         <string>확인</string>\r\n        </property>\r\n       </widget>\r\n      </widget>\r\n      <widget class=\"QWidget\" name=\"tab_4\">\r\n       <attribute name=\"title\">\r\n        <string>상담</string>\r\n       </attribute>\r\n       <widget class=\"Line\" name=\"line_17\">\r\n        <property name=\"geometry\">\r\n         <rect>\r\n          <x>10</x>\r\n          <y>30</y>\r\n          <width>771</width>\r\n          <height>20</height>\r\n         </rect>\r\n        </property>\r\n        <property name=\"orientation\">\r\n         <enum>Qt::Horizontal</enum>\r\n        </property>\r\n       </widget>\r\n       <widget class=\"QListWidget\" name=\"slw_chat\">\r\n        <property name=\"geometry\">\r\n         <rect>\r\n          <x>10</x>\r\n          <y>50</y>\r\n          <width>771</width>\r\n          <height>471</height>\r\n         </rect>\r\n        </property>\r\n       </widget>\r\n       <widget class=\"QLineEdit\" name=\"sle_chat\">\r\n        <property name=\"geometry\">\r\n         <rect>\r\n          <x>10</x>\r\n          <y>10</y>\r\n          <width>771</width>\r\n          <height>22</height>\r\n         </rect>\r\n        </property>\r\n       </widget>\r\n      </widget>\r\n      <widget class=\"QWidget\" name=\"tab_5\">\r\n       <attribute name=\"title\">\r\n        <string>QnA</string>\r\n       </attribute>\r\n       <widget class=\"QLineEdit\" name=\"sle_qa\">\r\n        <property name=\"geometry\">\r\n         <rect>\r\n          <x>10</x>\r\n          <y>10</y>\r\n          <width>691</width>\r\n          <height>101</height>\r\n         </rect>\r\n        </property>\r\n       </widget>\r\n       <widget class=\"QTableWidget\" name=\"stw_qa\">\r\n        <property name=\"geometry\">\r\n         <rect>\r\n          <x>10</x>\r\n          <y>140</y>\r\n          <width>771</width>\r\n          <height>381</height>\r\n         </rect>\r\n        </property>\r\n       </widget>\r\n       <widget class=\"QPushButton\" name=\"sbt_qa\">\r\n        <property name=\"geometry\">\r\n         <rect>\r\n          <x>710</x>\r\n          <y>10</y>\r\n          <width>75</width>\r\n          <height>101</height>\r\n         </rect>\r\n        </property>\r\n        <property name=\"text\">\r\n         <string>등록</string>\r\n        </property>\r\n       </widget>\r\n       <widget class=\"Line\" name=\"line_16\">\r\n        <property name=\"geometry\">\r\n         <rect>\r\n          <x>10</x>\r\n          <y>120</y>\r\n          <width>771</width>\r\n          <height>20</height>\r\n         </rect>\r\n        </property>\r\n        <property name=\"orientation\">\r\n         <enum>Qt::Horizontal</enum>\r\n        </property>\r\n       </widget>\r\n      </widget>\r\n     </widget>\r\n    </widget>\r\n    <widget class=\"QWidget\" name=\"page_3\">\r\n     <widget class=\"QTabWidget\" name=\"atw\">\r\n      <property name=\"geometry\">\r\n       <rect>\r\n        <x>0</x>\r\n        <y>0</y>\r\n        <width>801</width>\r\n        <height>560</height>\r\n       </rect>\r\n      </property>\r\n      <property name=\"maximumSize\">\r\n       <size>\r\n        <width>801</width>\r\n        <height>560</height>\r\n       </size>\r\n      </property>\r\n      <property name=\"currentIndex\">\r\n       <number>1</number>\r\n      </property>\r\n      <widget class=\"QWidget\" name=\"tab_q\">\r\n       <attribute name=\"title\">\r\n        <string>문제만들기</string>\r\n       </attribute>\r\n       <widget class=\"QPushButton\" name=\"abt_finish\">\r\n        <property name=\"geometry\">\r\n         <rect>\r\n          <x>260</x>\r\n          <y>10</y>\r\n          <width>75</width>\r\n          <height>23</height>\r\n         </rect>\r\n        </property>\r\n        <property name=\"text\">\r\n         <string>등록</string>\r\n        </property>\r\n       </widget>\r\n       <widget class=\"QPushButton\" name=\"abt_del\">\r\n        <property name=\"geometry\">\r\n         <rect>\r\n          <x>180</x>\r\n          <y>10</y>\r\n          <width>75</width>\r\n          <height>23</height>\r\n         </rect>\r\n        </property>\r\n        <property name=\"text\">\r\n         <string>문제 삭제</string>\r\n        </property>\r\n       </widget>\r\n       <widget class=\"QComboBox\" name=\"acb_num\">\r\n        <property name=\"geometry\">\r\n         <rect>\r\n          <x>20</x>\r\n          <y>10</y>\r\n          <width>76</width>\r\n          <height>22</height>\r\n         </rect>\r\n        </property>\r\n        <item>\r\n         <property name=\"text\">\r\n          <string>등록번호</string>\r\n         </property>\r\n        </item>\r\n       </widget>\r\n       <widget class=\"QTableWidget\" name=\"atw_q\">\r\n        <property name=\"geometry\">\r\n         <rect>\r\n          <x>10</x>\r\n          <y>40</y>\r\n          <width>781</width>\r\n          <height>491</height>\r\n         </rect>\r\n        </property>\r\n        <attribute name=\"horizontalHeaderStretchLastSection\">\r\n         <bool>true</bool>\r\n        </attribute>\r\n        <column>\r\n         <property name=\"text\">\r\n          <string>문제</string>\r\n         </property>\r\n        </column>\r\n        <column>\r\n         <property name=\"text\">\r\n          <string>답안</string>\r\n         </property>\r\n        </column>\r\n        <column>\r\n         <property name=\"text\">\r\n          <string>배점</string>\r\n         </property>\r\n        </column>\r\n        <column>\r\n         <property name=\"text\">\r\n          <string>point</string>\r\n         </property>\r\n        </column>\r\n       </widget>\r\n       <widget class=\"QPushButton\" name=\"abt_cancel\">\r\n        <property name=\"geometry\">\r\n         <rect>\r\n          <x>340</x>\r\n          <y>10</y>\r\n          <width>75</width>\r\n          <height>23</height>\r\n         </rect>\r\n        </property>\r\n        <property name=\"text\">\r\n         <string>취소</string>\r\n        </property>\r\n       </widget>\r\n       <widget class=\"QPushButton\" name=\"abt_add\">\r\n        <property name=\"geometry\">\r\n         <rect>\r\n          <x>100</x>\r\n          <y>10</y>\r\n          <width>75</width>\r\n          <height>23</height>\r\n         </rect>\r\n        </property>\r\n        <property name=\"text\">\r\n         <string>문제 추가</string>\r\n        </property>\r\n       </widget>\r\n       <widget class=\"QLabel\" name=\"label_5\">\r\n        <property name=\"geometry\">\r\n         <rect>\r\n          <x>570</x>\r\n          <y>10</y>\r\n          <width>61</width>\r\n          <height>16</height>\r\n         </rect>\r\n        </property>\r\n        <property name=\"text\">\r\n         <string>배점 총합:</string>\r\n        </property>\r\n       </widget>\r\n       <widget class=\"QLabel\" name=\"al_score\">\r\n        <property name=\"geometry\">\r\n         <rect>\r\n          <x>640</x>\r\n          <y>10</y>\r\n          <width>61</width>\r\n          <height>16</height>\r\n         </rect>\r\n        </property>\r\n        <property name=\"font\">\r\n         <font>\r\n          <pointsize>12</pointsize>\r\n         </font>\r\n        </property>\r\n        <property name=\"text\">\r\n         <string>0</string>\r\n        </property>\r\n       </widget>\r\n      </widget>\r\n      <widget class=\"QWidget\" name=\"tab_u\">\r\n       <attribute name=\"title\">\r\n        <string>학생 관리</string>\r\n       </attribute>\r\n       <widget class=\"QListWidget\" name=\"alw_user\">\r\n        <property name=\"geometry\">\r\n         <rect>\r\n          <x>10</x>\r\n          <y>10</y>\r\n          <width>256</width>\r\n          <height>511</height>\r\n         </rect>\r\n        </property>\r\n       </widget>\r\n       <widget class=\"Line\" name=\"line\">\r\n        <property name=\"geometry\">\r\n         <rect>\r\n          <x>270</x>\r\n          <y>10</y>\r\n          <width>20</width>\r\n          <height>511</height>\r\n         </rect>\r\n        </property>\r\n        <property name=\"orientation\">\r\n         <enum>Qt::Vertical</enum>\r\n        </property>\r\n       </widget>\r\n       <widget class=\"QTreeWidget\" name=\"atw_record\">\r\n        <property name=\"geometry\">\r\n         <rect>\r\n          <x>290</x>\r\n          <y>10</y>\r\n          <width>491</width>\r\n          <height>511</height>\r\n         </rect>\r\n        </property>\r\n        <property name=\"editTriggers\">\r\n         <set>QAbstractItemView::NoEditTriggers</set>\r\n        </property>\r\n        <attribute name=\"headerCascadingSectionResizes\">\r\n         <bool>false</bool>\r\n        </attribute>\r\n        <attribute name=\"headerHighlightSections\">\r\n         <bool>true</bool>\r\n        </attribute>\r\n        <attribute name=\"headerShowSortIndicator\" stdset=\"0\">\r\n         <bool>false</bool>\r\n        </attribute>\r\n        <attribute name=\"headerStretchLastSection\">\r\n         <bool>true</bool>\r\n        </attribute>\r\n        <column>\r\n         <property name=\"text\">\r\n          <string>등록번호/ 문제</string>\r\n         </property>\r\n        </column>\r\n        <column>\r\n         <property name=\"text\">\r\n          <string>이름/ 답안</string>\r\n         </property>\r\n        </column>\r\n        <column>\r\n         <property name=\"text\">\r\n          <string>점수/ 이름</string>\r\n         </property>\r\n        </column>\r\n        <column>\r\n         <property name=\"text\">\r\n          <string>채점</string>\r\n         </property>\r\n        </column>\r\n        <column>\r\n         <property name=\"text\">\r\n          <string>소요시간</string>\r\n         </property>\r\n        </column>\r\n       </widget>\r\n      </widget>\r\n      <widget class=\"QWidget\" name=\"tab_c\">\r\n       <attribute name=\"title\">\r\n        <string>상담</string>\r\n       </attribute>\r\n       <widget class=\"QListWidget\" name=\"alw_chat_user\">\r\n        <property name=\"geometry\">\r\n         <rect>\r\n          <x>10</x>\r\n          <y>50</y>\r\n          <width>256</width>\r\n          <height>471</height>\r\n         </rect>\r\n        </property>\r\n       </widget>\r\n       <widget class=\"Line\" name=\"line_3\">\r\n        <property name=\"geometry\">\r\n         <rect>\r\n          <x>270</x>\r\n          <y>40</y>\r\n          <width>20</width>\r\n          <height>481</height>\r\n         </rect>\r\n        </property>\r\n        <property name=\"orientation\">\r\n         <enum>Qt::Vertical</enum>\r\n        </property>\r\n       </widget>\r\n       <widget class=\"Line\" name=\"line_4\">\r\n        <property name=\"geometry\">\r\n         <rect>\r\n          <x>10</x>\r\n          <y>30</y>\r\n          <width>771</width>\r\n          <height>20</height>\r\n         </rect>\r\n        </property>\r\n        <property name=\"orientation\">\r\n         <enum>Qt::Horizontal</enum>\r\n        </property>\r\n       </widget>\r\n       <widget class=\"QLineEdit\" name=\"ale_chat\">\r\n        <property name=\"geometry\">\r\n         <rect>\r\n          <x>10</x>\r\n          <y>10</y>\r\n          <width>771</width>\r\n          <height>22</height>\r\n         </rect>\r\n        </property>\r\n       </widget>\r\n       <widget class=\"QListWidget\" name=\"alw_chat\">\r\n        <property name=\"geometry\">\r\n         <rect>\r\n          <x>290</x>\r\n          <y>50</y>\r\n          <width>491</width>\r\n          <height>471</height>\r\n         </rect>\r\n        </property>\r\n       </widget>\r\n      </widget>\r\n      <widget class=\"QWidget\" name=\"tab_qa\">\r\n       <attribute name=\"title\">\r\n        <string>QnA</string>\r\n       </attribute>\r\n       <widget class=\"QLineEdit\" name=\"ale_qa\">\r\n        <property name=\"geometry\">\r\n         <rect>\r\n          <x>10</x>\r\n          <y>10</y>\r\n          <width>691</width>\r\n          <height>101</height>\r\n         </rect>\r\n        </property>\r\n       </widget>\r\n       <widget class=\"QPushButton\" name=\"abt_qa\">\r\n        <property name=\"geometry\">\r\n         <rect>\r\n          <x>710</x>\r\n          <y>10</y>\r\n          <width>75</width>\r\n          <height>101</height>\r\n         </rect>\r\n        </property>\r\n        <property name=\"text\">\r\n         <string>등록</string>\r\n        </property>\r\n       </widget>\r\n       <widget class=\"Line\" name=\"line_5\">\r\n        <property name=\"geometry\">\r\n         <rect>\r\n          <x>10</x>\r\n          <y>120</y>\r\n          <width>771</width>\r\n          <height>20</height>\r\n         </rect>\r\n        </property>\r\n        <property name=\"orientation\">\r\n         <enum>Qt::Horizontal</enum>\r\n        </property>\r\n       </widget>\r\n       <widget class=\"QTableWidget\" name=\"atw_qa\">\r\n        <property name=\"geometry\">\r\n         <rect>\r\n          <x>10</x>\r\n          <y>140</y>\r\n          <width>771</width>\r\n          <height>381</height>\r\n         </rect>\r\n        </property>\r\n       </widget>\r\n      </widget>\r\n     </widget>\r\n    </widget>\r\n   </widget>\r\n  </widget>\r\n  <widget class=\"QMenuBar\" name=\"menubar\">\r\n   <property name=\"geometry\">\r\n    <rect>\r\n     <x>0</x>\r\n     <y>0</y>\r\n     <width>800</width>\r\n     <height>21</height>\r\n    </rect>\r\n   </property>\r\n  </widget>\r\n  <widget class=\"QStatusBar\" name=\"statusbar\"/>\r\n </widget>\r\n <resources/>\r\n <connections/>\r\n</ui>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/main.ui b/main.ui
+--- a/main.ui	
++++ b/main.ui	
+@@ -224,7 +224,7 @@
+      </widget>
+     </widget>
+     <widget class="QWidget" name="page_2">
+-     <widget class="QTabWidget" name="stw">
++     <widget class="QTabWidget" name="tabWidget_2">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+@@ -612,7 +612,7 @@
+      </widget>
+     </widget>
+     <widget class="QWidget" name="page_3">
+-     <widget class="QTabWidget" name="atw">
++     <widget class="QTabWidget" name="tabWidget">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+@@ -628,7 +628,7 @@
+        </size>
+       </property>
+       <property name="currentIndex">
+-       <number>1</number>
++       <number>0</number>
+       </property>
+       <widget class="QWidget" name="tab_q">
+        <attribute name="title">
+@@ -793,55 +793,39 @@
+          <enum>Qt::Vertical</enum>
+         </property>
+        </widget>
+-       <widget class="QTreeWidget" name="atw_record">
++       <widget class="QTableWidget" name="atw_record">
+         <property name="geometry">
+          <rect>
+           <x>290</x>
+           <y>10</y>
+-          <width>491</width>
+-          <height>511</height>
++          <width>501</width>
++          <height>241</height>
+          </rect>
+         </property>
+-        <property name="editTriggers">
+-         <set>QAbstractItemView::NoEditTriggers</set>
++       </widget>
++       <widget class="Line" name="line_2">
++        <property name="geometry">
++         <rect>
++          <x>279</x>
++          <y>250</y>
++          <width>511</width>
++          <height>20</height>
++         </rect>
+         </property>
+-        <attribute name="headerCascadingSectionResizes">
+-         <bool>false</bool>
+-        </attribute>
+-        <attribute name="headerHighlightSections">
+-         <bool>true</bool>
+-        </attribute>
+-        <attribute name="headerShowSortIndicator" stdset="0">
+-         <bool>false</bool>
+-        </attribute>
+-        <attribute name="headerStretchLastSection">
+-         <bool>true</bool>
+-        </attribute>
+-        <column>
+-         <property name="text">
+-          <string>등록번호/ 문제</string>
+-         </property>
+-        </column>
+-        <column>
+-         <property name="text">
+-          <string>이름/ 답안</string>
+-         </property>
+-        </column>
+-        <column>
+-         <property name="text">
+-          <string>점수/ 이름</string>
+-         </property>
+-        </column>
+-        <column>
+-         <property name="text">
+-          <string>채점</string>
+-         </property>
+-        </column>
+-        <column>
+-         <property name="text">
+-          <string>소요시간</string>
+-         </property>
+-        </column>
++        <property name="orientation">
++         <enum>Qt::Horizontal</enum>
++        </property>
++       </widget>
++       <widget class="QWidget" name="verticalLayoutWidget_2">
++        <property name="geometry">
++         <rect>
++          <x>290</x>
++          <y>270</y>
++          <width>491</width>
++          <height>251</height>
++         </rect>
++        </property>
++        <layout class="QVBoxLayout" name="aqb_record"/>
+        </widget>
+       </widget>
+       <widget class="QWidget" name="tab_c">
+Index: .idea/inspectionProfiles/profiles_settings.xml
+===================================================================
+diff --git a/.idea/inspectionProfiles/profiles_settings.xml b/.idea/inspectionProfiles/profiles_settings.xml
+deleted file mode 100644
+--- a/.idea/inspectionProfiles/profiles_settings.xml	
++++ /dev/null	
+@@ -1,6 +0,0 @@
+-<component name="InspectionProjectProfileManager">
+-  <settings>
+-    <option name="USE_PROJECT_PROFILE" value="false" />
+-    <version value="1.0" />
+-  </settings>
+-</component>
+\ No newline at end of file
+Index: server.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import pymysql as p\r\nimport socketserver\r\nfrom datetime import datetime\r\nimport json\r\n\r\nserver_ip = 'localhost'\r\nserver_port = 9000\r\n\r\ndb_host = '10.10.21.105'\r\ndb_port = 3306\r\ndb_user = 'network'\r\ndb_pw = 'aaaa'\r\ndb = 'api'\r\n\r\n\r\n# DB에 값을 변경하거나 불러오는 함수\r\ndef db_execute(sql):\r\n    conn = p.connect(host=db_host, port=db_port, user=db_user, password=db_pw, db=db, charset='utf8')\r\n    c = conn.cursor()\r\n    c.execute(sql)\r\n    conn.commit()\r\n    conn.close()\r\n    return c.fetchall()\r\n\r\n\r\n# 소켓 연결 요청 처리\r\nclass TH(socketserver.BaseRequestHandler):\r\n    def handle(self):\r\n        c_sock = self.request\r\n        if c_sock not in server.c_socks:\r\n            server.c_socks.append(c_sock)\r\n        server.p_msg(c_sock, '연결됨')\r\n        server.receive(c_sock)\r\n\r\n\r\n# 소켓 객체 생성\r\nclass TTS(socketserver.ThreadingMixIn, socketserver.TCPServer):\r\n    pass\r\n\r\n\r\n# 메인서버\r\nclass Server:\r\n    def __init__(self):\r\n        self.c_socks = []\r\n        self.admin_socks = []\r\n        self.student_socks = []\r\n\r\n###########################################################################\r\n# 스레드 객체\r\n###########################################################################\r\n\r\n    # 수신 메서드 ,클라 연결 종료시 종료 메시지 남기고 연결 소켓 제거\r\n    def receive(self, c):\r\n        while True:\r\n            try:\r\n                rmsg = json.loads(c.recv(1024).decode())\r\n                if rmsg:\r\n                    self.p_msg(c, '받은 메시지:', rmsg)\r\n                    self.reaction(c, rmsg[0], rmsg[1])\r\n            except ConnectionResetError:\r\n                self.p_msg(c, '연결 종료')\r\n                self.c_socks.remove(c)\r\n                print('연결된 클라: ', len(self.c_socks))\r\n                if c in self.student_socks:\r\n                    self.student_socks.remove(c)\r\n                    print('연결된 학생: ', len(self.student_socks))\r\n                if c in self.admin_socks:\r\n                    self.admin_socks.remove(c)\r\n                    print('연결된 선생: ', len(self.student_socks))\r\n                c.close()\r\n                break\r\n            else:\r\n                continue\r\n\r\n    # 반응 메서드\r\n    def reaction(self, c, head, msg):\r\n        print(head, msg)\r\n        # 로그인\r\n        if head == 'login':\r\n            sql = f\"select * from login_data where member_num = '{msg[0]}' and authority = '{msg[1]}' and member_name='{msg[2]}';\"\r\n            login = db_execute(sql)\r\n            # 클라에서 받은 정보가 DB에 등록 되어 있는경우\r\n            if login:\r\n                # DB에 저장된 문제 등록 목록 및 정보 클라에 전달\r\n                # [로그인성공여부, 회원코드, 회원이름, 문제등록번호목록]\r\n                sql = f\"select distinct quiz_num from quiz;\"\r\n                quiz_num = db_execute(sql)\r\n                self.send_msg(c, 'login', ['success', msg[0], msg[2], quiz_num])\r\n                # 정보를 선생과 학생으로 구분하여 전송하기위해 list에 소켓 저장\r\n                if msg[1] == '관리자':\r\n                    self.admin_socks.append(c)\r\n                else:\r\n                    self.student_socks.append(c)\r\n            # 학생 또는 선생 프로그램에서 다른 권한의 계정으로 로그인 시도한 경우\r\n            # 로그인 정보가 틀린경우\r\n            else:\r\n                self.send_msg(c, 'login', ['failure'])\r\n        # 회원가입\r\n        elif head == 'signup':\r\n            # 관리자 권한 가입 정보 DB에 저장 및 정보 전송 [성공여부, 회원 코드]\r\n            if msg[0] == '관리자':\r\n                # 회원 코드를 생성하기위해 번호조회\r\n                sql = \"select count(*) from login_data where member_num like 'a%';\"\r\n                num = int(db_execute(sql)[0][0])+1\r\n                # DB에 회원 정보 등록[회원코드, 권한, 이름]\r\n                sql = f\"insert into login_data values('a{num}', '{msg[0]}', '{msg[1]}')\"\r\n                db_execute(sql)\r\n                self.send_msg(c, 'signup', ['success', f'a{num}'])\r\n            # 학생 권한 가입 정보 DB에 저장 및 정보 전송 [성공여부, 회원 코드]\r\n            else:\r\n                # 회원 코드를 생성하기위해 번호조회\r\n                sql = \"select count(*) from login_data where member_num like 's%';\"\r\n                num = int(db_execute(sql)[0][0])+1\r\n                # DB에 회원 정보 등록[회원코드, 권한, 이름]\r\n                sql = f\"insert into login_data values('s{num}', '{msg[0]}','{msg[1]}')\"\r\n                db_execute(sql)\r\n                # 회원관리 DB에 신규 등록\r\n                sql = f\"insert into study_progress values('F','{msg[1]}', '0', '0');\"\r\n                db_execute(sql)\r\n                self.send_msg(c, 'signup', ['success', f's{num}'])\r\n                for client in self.admin_socks:\r\n                    self.send_msg(client, 'add_alw_user', [f's{num}', f'{msg[1]}'])\r\n\r\n        # ``` 문제 만들기\r\n        # 문제 등록하기\r\n        elif head == 'register_question':\r\n            sql = \"select count(distinct quiz_num) from quiz;\"\r\n            quiz_num = db_execute(sql)[0][0]\r\n            # 신규 문제\r\n            if msg[0][0] > quiz_num:\r\n                # 문제 DB에 저장\r\n                for v in msg:\r\n                    sql = f\"insert into quiz values('{v[0]}', '{v[1]}', '{v[2]}', '{v[3]}', '{v[4]}');\"\r\n                    db_execute(sql)\r\n                # 관리자 권한을 가진 모든 클라에게 전송 [추가 등록된 문제 등록 번호]\r\n                for administrator in self.admin_socks:\r\n                    self.send_msg(administrator, 'add_acb_num', msg[0][0])\r\n            # 기존 문제 수정\r\n            else:\r\n                sql = f\"delete from quiz where quiz_num = {msg[0][0]};\"\r\n                db_execute(sql)\r\n                for v in msg:\r\n                    sql = f\"insert into quiz values('{v[0]}', '{v[1]}', '{v[2]}', '{v[3]}', '{v[4]}');\"\r\n                    db_execute(sql)\r\n        # 해당 등록 번호의 문제 목록 클라에 전송\r\n        elif head == 'load_quiz':\r\n            sql = f\"select * from quiz where quiz_num= '{msg}'\"\r\n            quiz_list = db_execute(sql)\r\n            self.send_msg(c, 'load_quiz', quiz_list)\r\n        # ```\r\n        # ``` 학생 관리\r\n        elif head == 'management':\r\n            sql = \"select member_num ,member_name from login_data where member_num like 's%';\"\r\n            user_infor = db_execute(sql)\r\n            self.send_msg(c, 'management', user_infor)\r\n        elif head == 'study':\r\n            sql = f\"select quiz_num, min(student_name), sum(quiz_point) as sum from quiz_student\" \\\r\n                  f\" where student_name = '{msg}' group by quiz_num;\"\r\n            user_infor = db_execute(sql)\r\n            sql = f\"select * from quiz_student where student_name = '{msg}' order by quiz_num;\"\r\n            more_infor = db_execute(sql)\r\n            if user_infor:\r\n                self.send_msg(c, 'study', [user_infor, more_infor])\r\n            else:\r\n                self.send_msg(c, 'study', 'False')\r\n\r\n###########################################################################\r\n# 도구 메서드\r\n###########################################################################\r\n\r\n    # 클라소켓, 주제, 내용으로 클라에 데이터 전송\r\n    def send_msg(self, c, head, value):\r\n        msg = json.dumps([head, value])\r\n        print('서버 전송 바이트: ', len(msg))\r\n        # 전송 데인터의 처음 10바이트를 전송 길이정보를 넣어 전송\r\n        msg = f\"{len(msg):<10}\"+msg\r\n        c.sendall(msg.encode())\r\n        self.p_msg(c, '보낸 메시지:', value)\r\n\r\n    # 클라소켓, 메시지 종류, 내용을 매개 변수로 콘솔에 확인 내용 출력\r\n    def p_msg(self, sock, head, *msg):\r\n        # 단순히 보기 편하게 할려고 만든 조건\r\n        if msg:\r\n            print(f'{datetime.now()} / {sock.getpeername()} / {head} {msg}')\r\n        else:\r\n            print(f'{datetime.now()} / {sock.getpeername()} / {head}')\r\n\r\n\r\nif __name__ == '__main__':\r\n    server = Server()\r\n    with TTS((server_ip, server_port), TH) as TS:\r\n        TS.serve_forever()\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/server.py b/server.py
+--- a/server.py	
++++ b/server.py	
+@@ -60,13 +60,10 @@
+             except ConnectionResetError:
+                 self.p_msg(c, '연결 종료')
+                 self.c_socks.remove(c)
+-                print('연결된 클라: ', len(self.c_socks))
+                 if c in self.student_socks:
+                     self.student_socks.remove(c)
+-                    print('연결된 학생: ', len(self.student_socks))
+                 if c in self.admin_socks:
+                     self.admin_socks.remove(c)
+-                    print('연결된 선생: ', len(self.student_socks))
+                 c.close()
+                 break
+             else:
+@@ -118,8 +115,6 @@
+                 sql = f"insert into study_progress values('F','{msg[1]}', '0', '0');"
+                 db_execute(sql)
+                 self.send_msg(c, 'signup', ['success', f's{num}'])
+-                for client in self.admin_socks:
+-                    self.send_msg(client, 'add_alw_user', [f's{num}', f'{msg[1]}'])
+ 
+         # ``` 문제 만들기
+         # 문제 등록하기
+@@ -148,21 +143,6 @@
+             quiz_list = db_execute(sql)
+             self.send_msg(c, 'load_quiz', quiz_list)
+         # ```
+-        # ``` 학생 관리
+-        elif head == 'management':
+-            sql = "select member_num ,member_name from login_data where member_num like 's%';"
+-            user_infor = db_execute(sql)
+-            self.send_msg(c, 'management', user_infor)
+-        elif head == 'study':
+-            sql = f"select quiz_num, min(student_name), sum(quiz_point) as sum from quiz_student" \
+-                  f" where student_name = '{msg}' group by quiz_num;"
+-            user_infor = db_execute(sql)
+-            sql = f"select * from quiz_student where student_name = '{msg}' order by quiz_num;"
+-            more_infor = db_execute(sql)
+-            if user_infor:
+-                self.send_msg(c, 'study', [user_infor, more_infor])
+-            else:
+-                self.send_msg(c, 'study', 'False')
+ 
+ ###########################################################################
+ # 도구 메서드
+@@ -171,9 +151,6 @@
+     # 클라소켓, 주제, 내용으로 클라에 데이터 전송
+     def send_msg(self, c, head, value):
+         msg = json.dumps([head, value])
+-        print('서버 전송 바이트: ', len(msg))
+-        # 전송 데인터의 처음 10바이트를 전송 길이정보를 넣어 전송
+-        msg = f"{len(msg):<10}"+msg
+         c.sendall(msg.encode())
+         self.p_msg(c, '보낸 메시지:', value)
+ 
+Index: .idea/APIproject.iml
+===================================================================
+diff --git a/.idea/APIproject.iml b/.idea/APIproject.iml
+deleted file mode 100644
+--- a/.idea/APIproject.iml	
++++ /dev/null	
+@@ -1,8 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<module type="PYTHON_MODULE" version="4">
+-  <component name="NewModuleRootManager">
+-    <content url="file://$MODULE_DIR$" />
+-    <orderEntry type="jdk" jdkName="Python 3.9 (2)" jdkType="Python SDK" />
+-    <orderEntry type="sourceFolder" forTests="false" />
+-  </component>
+-</module>
+\ No newline at end of file
+Index: teacher1.py
+===================================================================
+diff --git a/teacher1.py b/teacher1.py
+deleted file mode 100644
+--- a/teacher1.py	
++++ /dev/null	
+@@ -1,205 +0,0 @@
+-import json
+-import sys
+-from tkinter import messagebox, Tk
+-from PyQt5.QtWidgets import *
+-from PyQt5 import uic
+-import socket
+-import threading
+-from datetime import datetime
+-
+-
+-form_class = uic.loadUiType("main.ui")[0]
+-svrip = 'localhost'
+-port = 9000
+-
+-
+-class WindowClass(QMainWindow, form_class):
+-    def __init__(self):
+-        super().__init__()
+-        self.setupUi(self)
+-        self.stackedWidget.setCurrentIndex(0)
+-
+-        # 시그널 - 메서드
+-        # 로그인, 회원가입
+-        self.hbt_add.clicked.connect(self.signup)
+-        self.hbt_login.clicked.connect(self.login)
+-        # 문제 만들기
+-        self.abt_add.clicked.connect(self.add_space)
+-        self.abt_del.clicked.connect(self.del_space)
+-        self.abt_finish.clicked.connect(self.register_question)
+-        self.abt_cancel.clicked.connect(self.del_atw_q)
+-        self.atw_q.currentCellChanged.connect(self.total_score)
+-        self.acb_num.currentIndexChanged.connect(self.send_quiz_num)
+-
+-        # 서버 연결
+-        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+-        self.sock.connect((svrip, port))
+-        self.p_msg('연결된 서버: ', svrip)
+-        th = threading.Thread(target=self.receive, args=(self.sock,), daemon=True)
+-        th.start()
+-
+-    # 수신 메서드
+-    def receive(self, c):
+-        while True:
+-            rmsg = json.loads(c.recv(1024).decode())
+-            if rmsg:
+-                self.p_msg('받은 메시지:', rmsg)
+-                self.reaction(rmsg[0], rmsg[1])
+-
+-    # 반응 메서드
+-    def reaction(self, head, msg):
+-        print(head, msg)
+-        if head == 'login':
+-            if msg[0] == 'success':
+-                self.code = msg[1]
+-                self.name = msg[2]
+-                self.stackedWidget.setCurrentIndex(2)
+-                for i in msg[3]:
+-                    self.acb_num.addItem(str(i[0]))
+-                self.messagebox('로그인 성공')
+-            else:
+-                self.messagebox('로그인 실패')
+-        elif head == 'signup':
+-            if msg[0] == 'success':
+-                code = msg[1]
+-                self.messagebox(f'가입 성공, 발급 코드: {code} 입니다.')
+-            else:
+-                self.messagebox('가입 실패')
+-        elif head == 'load_quiz':
+-            self.atw_q.setRowCount(0)
+-            self.atw_q.setRowCount(len(msg))
+-            for row, quiz_list in enumerate(msg):
+-                for col, value in enumerate(quiz_list):
+-                    if col != 0:
+-                        self.atw_q.setItem(row, col-1, QTableWidgetItem(value))
+-        elif head == 'add_acb_num':
+-            self.acb_num.addItem(str(msg))
+-
+-###########################################################################
+-# 송신
+-###########################################################################
+-
+-    # 로그인 (선생 프로그램으로 서버에 [선생 코드, 권한, 이름] 전송)
+-    def login(self):
+-        code = self.hle_code.text()
+-        name = self.hle_name.text()
+-        if code and name:
+-            self.send_msg('login', [code, '관리자', name])
+-        else:
+-            self.messagebox('로그인 실패')
+-        self.hle_code.clear()
+-        self.hle_name.clear()
+-
+-    # 회원 가입 (선생, 학생 프로그램 상관없이 서버에 [권한, 이름] 전송)
+-    def signup(self):
+-        name = self.hle_add_name.text()
+-        admin = self.hrb_admin.isChecked()
+-        user = self.hrb_user.isChecked()
+-        if admin:
+-            self.send_msg('signup', ['관리자', name])
+-        elif user:
+-            self.send_msg('signup', ['학생', name])
+-        self.hle_add_name.clear()
+-
+-    # 문제 등록 (서버에 [문제 목록] 전송)
+-    def register_question(self):
+-        try:
+-            box = int(self.acb_num.currentText())
+-        except ValueError:
+-            box = self.acb_num.count()
+-        t_list = []
+-        row = self.atw_q.rowCount()
+-        col = self.atw_q.columnCount()
+-        try:
+-            for i in range(row):
+-                q_list = [box]
+-                for j in range(col):
+-                    if j < 2:
+-                        q_list.append(self.atw_q.item(i, j).text())
+-                    else:
+-                        q_list.append(int(self.atw_q.item(i, j).text()))
+-                t_list.append(q_list)
+-            score = int(self.al_score.text())
+-            if score == 100:
+-                self.send_msg('register_question', t_list)
+-                self.atw_q.clearContents()
+-                self.atw_q.setRowCount(0)
+-                self.al_score.setNum(0)
+-            else:
+-                self.messagebox('만점은 100 입니다.')
+-        except ValueError:
+-            self.messagebox('배점 또는 point란에 문자가 있습니다.')
+-        except AttributeError:
+-            self.messagebox('빈칸이 있습니다.')
+-
+-    # 문제 등록 넘버를 서버로 송신
+-    def send_quiz_num(self):
+-        num = self.acb_num.currentText()
+-        self.send_msg('load_quiz', num)
+-
+-
+-###########################################################################
+-# 송신 기능이 없는 시그널 - 메서드
+-###########################################################################
+-
+-    # 문제목록에 문제 추가 하기
+-    def add_space(self):
+-        num = self.atw_q.rowCount()
+-        self.atw_q.setRowCount(num+1)
+-
+-    # 문제목록에 문제 삭제 하기
+-    def del_space(self):
+-        max_num = self.atw_q.rowCount()
+-        num = self.atw_q.currentRow()
+-        if num < 0:
+-            num = max_num-1
+-        self.atw_q.removeRow(num)
+-
+-    # 선택셀 변경시 배점 총합을 라벨에 출력
+-    def total_score(self):
+-        row = self.atw_q.rowCount()
+-        score = 0
+-        try:
+-            for i in range(row):
+-                score += int(self.atw_q.item(i, 2).text())
+-        except AttributeError:
+-            pass
+-        except ValueError:
+-            pass
+-        self.al_score.setNum(score)
+-
+-    # 문제목록의 내용 전부 삭제
+-    def del_atw_q(self):
+-        self.atw_q.clearContents()
+-        self.atw_q.setRowCount(0)
+-
+-###########################################################################
+-# 도구 메서드
+-###########################################################################
+-
+-    # tkinter 를 이용한 messagbox 송출
+-    def messagebox(self, value):
+-        tk_window = Tk()
+-        tk_window.geometry("0x0+3000+6000")
+-        messagebox.showinfo('안내창', f'{value}')
+-        tk_window.destroy()
+-
+-    # 주제, 내용으로 서버에 데이터 전송
+-    def send_msg(self, head, value):
+-        msg = json.dumps([head, value])
+-        self.sock.sendall(msg.encode())
+-        self.p_msg('보낸 메시지:', msg)
+-
+-    # 메시지 종류, 내용을 매개 변수로 콘솔에 확인 내용 출력
+-    def p_msg(self, head, *msg):
+-        if msg:
+-            print(f'{datetime.now()} / {head} {msg}')
+-        else:
+-            print(f'{datetime.now()} / {head}')
+-
+-
+-if __name__ == "__main__":
+-    app = QApplication(sys.argv)
+-    myWindow = WindowClass()
+-    myWindow.show()
+-    app.exec_()
+\ No newline at end of file
+Index: .idea/inspectionProfiles/Project_Default.xml
+===================================================================
+diff --git a/.idea/inspectionProfiles/Project_Default.xml b/.idea/inspectionProfiles/Project_Default.xml
+deleted file mode 100644
+--- a/.idea/inspectionProfiles/Project_Default.xml	
++++ /dev/null	
+@@ -1,12 +0,0 @@
+-<component name="InspectionProjectProfileManager">
+-  <profile version="1.0">
+-    <option name="myName" value="Project Default" />
+-    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+-      <option name="ignoredIdentifiers">
+-        <list>
+-          <option value="main.*" />
+-        </list>
+-      </option>
+-    </inspection_tool>
+-  </profile>
+-</component>
+\ No newline at end of file
+Index: .idea/modules.xml
+===================================================================
+diff --git a/.idea/modules.xml b/.idea/modules.xml
+deleted file mode 100644
+--- a/.idea/modules.xml	
++++ /dev/null	
+@@ -1,8 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="ProjectModuleManager">
+-    <modules>
+-      <module fileurl="file://$PROJECT_DIR$/.idea/APIproject.iml" filepath="$PROJECT_DIR$/.idea/APIproject.iml" />
+-    </modules>
+-  </component>
+-</project>
+\ No newline at end of file
+Index: API_test.py
+===================================================================
+diff --git a/API_test.py b/API_test.py
+deleted file mode 100644
+--- a/API_test.py	
++++ /dev/null	
+@@ -1,31 +0,0 @@
+-import requests
+-import xmltodict as xmltodict
+-import math
+-import time
+-
+-content = []
+-
+-stat_time = time.time()
+-key = 'cbbbb410eb3d4bfa88e79a9172862f'
+-url = f'http://www.incheon.go.kr/dp/openapi/data?apicode=10&page=1&key={key}'
+-data_total = int(xmltodict.parse(requests.get(url).content)['data']['totalCount'])
+-total_page = math.ceil(data_total/10)
+-for page in range(1, total_page+1):
+-    url = f'http://www.incheon.go.kr/dp/openapi/data?apicode=10&page={page}&key={key}'
+-    content = requests.get(url).content
+-    dict = xmltodict.parse(content)
+-    data = dict['data']
+-    data_page = data['page']
+-    date_item = data['list']['item']
+-    for i in date_item:
+-        data_listnum = i['listNum']
+-        data_year = i['histYear']
+-        data_month = i['histDate'][0]+i['histDate'][1]
+-        data_day=i['histDate'][2]+i['histDate'][3]
+-        date_summary = i['summary']
+-        print(f'등록 NO: {data_listnum}, '
+-              f'일자: {data_year}년 {data_month}월 {data_day}일, '
+-              f'내용: {date_summary}')
+-end_time = time.time()
+-
+-print('실행 시간: ', end_time-stat_time, '초')
+\ No newline at end of file
+Index: .idea/.gitignore
+===================================================================
+diff --git a/.idea/.gitignore b/.idea/.gitignore
+deleted file mode 100644
+--- a/.idea/.gitignore	
++++ /dev/null	
+@@ -1,3 +0,0 @@
+-# 디폴트 무시된 파일
+-/shelf/
+-/workspace.xml
+Index: teacher.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import json\r\nimport sys\r\nfrom tkinter import messagebox, Tk\r\nfrom PyQt5.QtWidgets import *\r\nfrom PyQt5 import uic\r\nimport socket\r\nimport threading\r\nfrom datetime import datetime\r\n\r\nform_class = uic.loadUiType(\"main.ui\")[0]\r\nsvrip = 'localhost'\r\nport = 9000\r\n\r\n\r\nclass WindowClass(QMainWindow, form_class):\r\n    def __init__(self):\r\n        super().__init__()\r\n        self.setupUi(self)\r\n        self.stackedWidget.setCurrentIndex(0)\r\n        self.user_management = False\r\n\r\n        # 시그널 - 메서드\r\n        # 로그인, 회원가입\r\n        self.hbt_add.clicked.connect(self.signup)\r\n        self.hbt_login.clicked.connect(self.login)\r\n        # 문제 만들기\r\n        self.abt_add.clicked.connect(self.add_space)\r\n        self.abt_del.clicked.connect(self.del_space)\r\n        self.abt_finish.clicked.connect(self.register_question)\r\n        self.abt_cancel.clicked.connect(self.del_atw_q)\r\n        self.atw_q.currentCellChanged.connect(self.total_score)\r\n        self.acb_num.currentIndexChanged.connect(self.send_quiz_num)\r\n        # 학생관리\r\n        self.atw.currentChanged.connect(self.atw_move)\r\n        self.alw_user.itemDoubleClicked.connect(self.study_progress)\r\n\r\n        # 서버 연결\r\n        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\r\n        self.sock.connect((svrip, port))\r\n        self.p_msg('연결된 서버: ', svrip)\r\n        th = threading.Thread(target=self.receive, args=(self.sock,), daemon=True)\r\n        th.start()\r\n\r\n    # 수신 메서드\r\n    def receive(self, c):\r\n        while True:\r\n            new_msg = True\r\n            tmsg = ''\r\n            while True:\r\n                # 전송된 데이터를 20바이트씩 받기\r\n                msg = c.recv(20)\r\n                tmsg += msg.decode()\r\n\r\n                print(tmsg)\r\n                # 전송된 데이터의 길이 정보를 추출\r\n                if new_msg:\r\n                    size = int(msg[:10])\r\n                    # json.loads할 데이터에 길이 정보를 제거\r\n                    tmsg = tmsg[10:]\r\n                    new_msg = False\r\n\r\n                # 전송된 데이터의 길이 정보와 json.loads할 데이터의 길이가 같으면 반복문 종료\r\n                if len(tmsg) == size:\r\n                    break\r\n            rmsg = json.loads(tmsg)\r\n            if rmsg:\r\n                self.p_msg('받은 메시지:', rmsg)\r\n                self.reaction(rmsg[0], rmsg[1])\r\n\r\n    # 반응 메서드\r\n    def reaction(self, head, msg):\r\n        print(head, msg)\r\n        # 로그인\r\n        if head == 'login':\r\n            # 로그인 성공\r\n            if msg[0] == 'success':\r\n                # 나중에 쓸수도 있기에 만든 변수\r\n                self.code = msg[1]\r\n                self.name = msg[2]\r\n                # 관리자 페이지 이동\r\n                self.stackedWidget.setCurrentIndex(2)\r\n                self.atw.setCurrentIndex(0)\r\n                # 문제 등록 번호 콤보박스에 등록\r\n                for i in msg[3]:\r\n                    self.acb_num.addItem(str(i[0]))\r\n                self.messagebox('로그인 성공')\r\n            # 로그인 실패\r\n            else:\r\n                self.messagebox('로그인 실패')\r\n        # 회원가입\r\n        elif head == 'signup':\r\n            # 가입 성공 및 회원 코드 띄우기\r\n            if msg[0] == 'success':\r\n                code = msg[1]\r\n                self.messagebox(f'가입 성공, 발급 코드: {code} 입니다.')\r\n            # 가입 실패 코드 띄우기\r\n            else:\r\n                self.messagebox('가입 실패')\r\n        # ``` 문제 만들기\r\n        # 테이블 위젯에 문제 띄우기\r\n        elif head == 'load_quiz':\r\n            # 테이블 위젯 셋팅\r\n            self.atw_q.setRowCount(0)\r\n            self.atw_q.setRowCount(len(msg))\r\n            # 테이블 위젯 셀에 내용 저장\r\n            for row, quiz_list in enumerate(msg):\r\n                for col, value in enumerate(quiz_list):\r\n                    if col != 0:\r\n                        self.atw_q.setItem(row, col-1, QTableWidgetItem(value))\r\n        # 추가된 문제 등록번호 콤보박스에 저장\r\n        elif head == 'add_acb_num':\r\n            self.acb_num.addItem(str(msg))\r\n        # ```\r\n        # ``` 학생 관리\r\n        # 처음 학생 관리창 들어가면 전체 학생 리스트 불러오기\r\n        elif head == 'management':\r\n            self.alw_user.clear()\r\n            for value in msg:\r\n                self.alw_user.addItem(f'[{value[0]}]{value[1]}')\r\n        # 학생 회원가입시 코드및 이름 받아오기\r\n        elif head == 'add_alw_user':\r\n            self.alw_user.addItem(f'[{msg[0]}]{msg[1]}')\r\n        elif head == 'study':\r\n            self.atw_record.clear()\r\n            if msg != 'False':\r\n                for m in msg[0]:\r\n                    self.add_top_tree(str(m[0]), str(m[1]), str(m[2]), msg[1])\r\n\r\n    # tree 위젯에 item 추가하기\r\n    def add_top_tree(self, num, name, score, value):\r\n        item = QTreeWidgetItem(self.atw_record)\r\n        item.setText(0, num)\r\n        item.setText(1, name)\r\n        item.setText(2, score)\r\n        for i in value:\r\n            if str(i[0]) == num:\r\n                sub_item = QTreeWidgetItem(item)\r\n                sub_item.setText(0, str(i[1]))\r\n                sub_item.setText(1, str(i[2]))\r\n                sub_item.setText(2, str(i[3]))\r\n                sub_item.setText(3, str(i[4]))\r\n                sub_item.setText(4, str(i[5]))\r\n\r\n###########################################################################\r\n# 송신\r\n###########################################################################\r\n\r\n    # 로그인 (선생 프로그램으로 서버에 [선생 코드, 권한, 이름] 전송)\r\n    def login(self):\r\n        code = self.hle_code.text()\r\n        name = self.hle_name.text()\r\n        if code and name:\r\n            self.send_msg('login', [code, '관리자', name])\r\n        else:\r\n            self.messagebox('로그인 실패')\r\n        self.hle_code.clear()\r\n        self.hle_name.clear()\r\n\r\n    # 회원 가입 (선생, 학생 프로그램 상관없이 서버에 [권한, 이름] 전송)\r\n    def signup(self):\r\n        name = self.hle_add_name.text().split()[0]\r\n        admin = self.hrb_admin.isChecked()\r\n        user = self.hrb_user.isChecked()\r\n        if name:\r\n            if admin:\r\n                self.send_msg('signup', ['관리자', name])\r\n            elif user:\r\n                self.send_msg('signup', ['학생', name])\r\n            self.hle_add_name.clear()\r\n\r\n    # 문제 등록 (서버에 [문제 목록] 전송)\r\n    def register_question(self):\r\n        # 콤보 박스 내용이 숫자가 아닌경우 신규 문제 등록\r\n        try:\r\n            box = int(self.acb_num.currentText())\r\n        except ValueError:\r\n            box = self.acb_num.count()\r\n        # 초기 셋팅\r\n        t_list = []\r\n        row = self.atw_q.rowCount()\r\n        col = self.atw_q.columnCount()\r\n        # 테이블 위젯의 셀 내용 list에 저장하기\r\n        try:\r\n            for i in range(row):\r\n                q_list = [box]\r\n                for j in range(col):\r\n                    if j < 2:\r\n                        q_list.append(self.atw_q.item(i, j).text())\r\n                    else:\r\n                        q_list.append(int(self.atw_q.item(i, j).text()))\r\n                t_list.append(q_list)\r\n            # 등록할 문제 목록의 배점 합계가 100점인지 여부 확인\r\n            score = int(self.al_score.text())\r\n            if score == 100:\r\n                self.send_msg('register_question', t_list)\r\n                self.atw_q.clearContents()\r\n                self.atw_q.setRowCount(0)\r\n                self.al_score.setNum(0)\r\n            else:\r\n                self.messagebox('만점은 100 입니다.')\r\n        # 작성된 문제 목록에 문제가 있는경우\r\n        except ValueError:\r\n            self.messagebox('배점 또는 point란에 문자가 있습니다.')\r\n        except AttributeError:\r\n            self.messagebox('빈칸이 있습니다.')\r\n\r\n    # 문제 등록 넘버를 서버로 송신\r\n    def send_quiz_num(self):\r\n        num = self.acb_num.currentText()\r\n        self.send_msg('load_quiz', num)\r\n\r\n    # tab위젯 tab이동시 index 받기\r\n    def atw_move(self):\r\n        tab = self.atw.currentIndex()\r\n        if tab == 1 and not self.user_management:\r\n            self.user_management = True\r\n            self.send_msg('management', '')\r\n\r\n    # 학생관리창에서 학생이름을 더블 클릭하면 서버에 신호 전송\r\n    def study_progress(self):\r\n        name = self.alw_user.currentItem().text().split(']')[1]\r\n        self.send_msg('study', name)\r\n\r\n\r\n###########################################################################\r\n# 송신 기능이 없는 시그널 - 메서드\r\n###########################################################################\r\n\r\n    # 문제목록에 문제 추가 하기\r\n    def add_space(self):\r\n        num = self.atw_q.rowCount()\r\n        self.atw_q.setRowCount(num+1)\r\n\r\n    # 문제목록에 문제 삭제 하기\r\n    def del_space(self):\r\n        max_num = self.atw_q.rowCount()\r\n        num = self.atw_q.currentRow()\r\n        # 테이블 위젯의 선택한 셀이 없는 경우\r\n        if num < 0:\r\n            num = max_num-1\r\n        # 테이블 위젯의 특정 셀의 행 지우기\r\n        self.atw_q.removeRow(num)\r\n\r\n    # 선택셀 변경시 배점 총합을 라벨에 출력\r\n    def total_score(self):\r\n        row = self.atw_q.rowCount()\r\n        score = 0\r\n        # 작성중 계속 시그널이 들어오는 함수로 애러 발생을 pass 처리\r\n        try:\r\n            for i in range(row):\r\n                score += int(self.atw_q.item(i, 2).text())\r\n            self.al_score.setNum(score)\r\n        except AttributeError:\r\n            pass\r\n        except ValueError:\r\n            pass\r\n\r\n    # 문제목록의 내용 전부 삭제\r\n    def del_atw_q(self):\r\n        self.atw_q.clearContents()\r\n        self.atw_q.setRowCount(0)\r\n\r\n###########################################################################\r\n# 도구 메서드\r\n###########################################################################\r\n\r\n    # tkinter 를 이용한 messagbox 송출\r\n    def messagebox(self, value):\r\n        tk_window = Tk()\r\n        tk_window.geometry(\"0x0+3000+6000\")\r\n        messagebox.showinfo('안내창', f'{value}')\r\n        tk_window.destroy()\r\n\r\n    # 주제, 내용으로 서버에 데이터 전송\r\n    def send_msg(self, head, value):\r\n        msg = json.dumps([head, value])\r\n        self.sock.sendall(msg.encode())\r\n        self.p_msg('보낸 메시지:', msg)\r\n\r\n    # 메시지 종류, 내용을 매개 변수로 콘솔에 확인 내용 출력\r\n    def p_msg(self, head, *msg):\r\n        # 단순히 보기 편하게 할려고 만든 조건\r\n        if msg:\r\n            print(f'{datetime.now()} / {head} {msg}')\r\n        else:\r\n            print(f'{datetime.now()} / {head}')\r\n\r\n\r\nif __name__ == \"__main__\":\r\n    app = QApplication(sys.argv)\r\n    myWindow = WindowClass()\r\n    myWindow.show()\r\n    app.exec_()
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/teacher.py b/teacher.py
+--- a/teacher.py	
++++ b/teacher.py	
+@@ -17,7 +17,6 @@
+         super().__init__()
+         self.setupUi(self)
+         self.stackedWidget.setCurrentIndex(0)
+-        self.user_management = False
+ 
+         # 시그널 - 메서드
+         # 로그인, 회원가입
+@@ -30,9 +29,6 @@
+         self.abt_cancel.clicked.connect(self.del_atw_q)
+         self.atw_q.currentCellChanged.connect(self.total_score)
+         self.acb_num.currentIndexChanged.connect(self.send_quiz_num)
+-        # 학생관리
+-        self.atw.currentChanged.connect(self.atw_move)
+-        self.alw_user.itemDoubleClicked.connect(self.study_progress)
+ 
+         # 서버 연결
+         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+@@ -44,25 +40,7 @@
+     # 수신 메서드
+     def receive(self, c):
+         while True:
+-            new_msg = True
+-            tmsg = ''
+-            while True:
+-                # 전송된 데이터를 20바이트씩 받기
+-                msg = c.recv(20)
+-                tmsg += msg.decode()
+-
+-                print(tmsg)
+-                # 전송된 데이터의 길이 정보를 추출
+-                if new_msg:
+-                    size = int(msg[:10])
+-                    # json.loads할 데이터에 길이 정보를 제거
+-                    tmsg = tmsg[10:]
+-                    new_msg = False
+-
+-                # 전송된 데이터의 길이 정보와 json.loads할 데이터의 길이가 같으면 반복문 종료
+-                if len(tmsg) == size:
+-                    break
+-            rmsg = json.loads(tmsg)
++            rmsg = json.loads(c.recv(1024).decode())
+             if rmsg:
+                 self.p_msg('받은 메시지:', rmsg)
+                 self.reaction(rmsg[0], rmsg[1])
+@@ -79,7 +57,6 @@
+                 self.name = msg[2]
+                 # 관리자 페이지 이동
+                 self.stackedWidget.setCurrentIndex(2)
+-                self.atw.setCurrentIndex(0)
+                 # 문제 등록 번호 콤보박스에 등록
+                 for i in msg[3]:
+                     self.acb_num.addItem(str(i[0]))
+@@ -111,35 +88,6 @@
+         elif head == 'add_acb_num':
+             self.acb_num.addItem(str(msg))
+         # ```
+-        # ``` 학생 관리
+-        # 처음 학생 관리창 들어가면 전체 학생 리스트 불러오기
+-        elif head == 'management':
+-            self.alw_user.clear()
+-            for value in msg:
+-                self.alw_user.addItem(f'[{value[0]}]{value[1]}')
+-        # 학생 회원가입시 코드및 이름 받아오기
+-        elif head == 'add_alw_user':
+-            self.alw_user.addItem(f'[{msg[0]}]{msg[1]}')
+-        elif head == 'study':
+-            self.atw_record.clear()
+-            if msg != 'False':
+-                for m in msg[0]:
+-                    self.add_top_tree(str(m[0]), str(m[1]), str(m[2]), msg[1])
+-
+-    # tree 위젯에 item 추가하기
+-    def add_top_tree(self, num, name, score, value):
+-        item = QTreeWidgetItem(self.atw_record)
+-        item.setText(0, num)
+-        item.setText(1, name)
+-        item.setText(2, score)
+-        for i in value:
+-            if str(i[0]) == num:
+-                sub_item = QTreeWidgetItem(item)
+-                sub_item.setText(0, str(i[1]))
+-                sub_item.setText(1, str(i[2]))
+-                sub_item.setText(2, str(i[3]))
+-                sub_item.setText(3, str(i[4]))
+-                sub_item.setText(4, str(i[5]))
+ 
+ ###########################################################################
+ # 송신
+@@ -158,15 +106,14 @@
+ 
+     # 회원 가입 (선생, 학생 프로그램 상관없이 서버에 [권한, 이름] 전송)
+     def signup(self):
+-        name = self.hle_add_name.text().split()[0]
++        name = self.hle_add_name.text()
+         admin = self.hrb_admin.isChecked()
+         user = self.hrb_user.isChecked()
+-        if name:
+-            if admin:
+-                self.send_msg('signup', ['관리자', name])
+-            elif user:
+-                self.send_msg('signup', ['학생', name])
+-            self.hle_add_name.clear()
++        if admin:
++            self.send_msg('signup', ['관리자', name])
++        elif user:
++            self.send_msg('signup', ['학생', name])
++        self.hle_add_name.clear()
+ 
+     # 문제 등록 (서버에 [문제 목록] 전송)
+     def register_question(self):
+@@ -209,18 +156,6 @@
+         num = self.acb_num.currentText()
+         self.send_msg('load_quiz', num)
+ 
+-    # tab위젯 tab이동시 index 받기
+-    def atw_move(self):
+-        tab = self.atw.currentIndex()
+-        if tab == 1 and not self.user_management:
+-            self.user_management = True
+-            self.send_msg('management', '')
+-
+-    # 학생관리창에서 학생이름을 더블 클릭하면 서버에 신호 전송
+-    def study_progress(self):
+-        name = self.alw_user.currentItem().text().split(']')[1]
+-        self.send_msg('study', name)
+-
+ 
+ ###########################################################################
+ # 송신 기능이 없는 시그널 - 메서드
+Index: .idea/vcs.xml
+===================================================================
+diff --git a/.idea/vcs.xml b/.idea/vcs.xml
+deleted file mode 100644
+--- a/.idea/vcs.xml	
++++ /dev/null	
+@@ -1,6 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="VcsDirectoryMappings">
+-    <mapping directory="" vcs="Git" />
+-  </component>
+-</project>
+\ No newline at end of file
+Index: .idea/misc.xml
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+deleted file mode 100644
+--- a/.idea/misc.xml	
++++ /dev/null	
+@@ -1,4 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.9 (2)" project-jdk-type="Python SDK" />
+-</project>
+\ No newline at end of file

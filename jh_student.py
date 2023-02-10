@@ -175,8 +175,9 @@ class WindowClass(QMainWindow, form_class):
                     self.stw_contents.setItem(i, j, QTableWidgetItem(str(msg[i][j])))
         #학생이 풀기 풀기
         elif head == "loading_quiz":
-            self.stw_test.setRowcount(0)
+            self.stw_test.setRowCount(0)
             self.stw_test.setRowCount(len(msg))
+            self.stw_test.setColumnCount(3)
             for i in range(len(msg)):
                 for j in range(3):
                     self.stw_test.setItem(i, j, QTableWidgetItem(str(msg[i][j])))

@@ -1,4 +1,5 @@
 # 23.02.06 ~ 02.11
+#10:43 복구
 import pymysql as p
 import socketserver
 from datetime import datetime

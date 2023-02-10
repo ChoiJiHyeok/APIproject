@@ -1,0 +1,634 @@
+Index: jh_server.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import pymysql as p\r\nimport socketserver\r\nfrom datetime import datetime\r\nimport json\r\n\r\nserver_ip = 'localhost'\r\nserver_port = 9000\r\n\r\ndb_host = '10.10.21.105'\r\ndb_port = 3306\r\ndb_user = 'network'\r\ndb_pw = 'aaaa'\r\ndb = 'api'\r\n\r\n\r\n# DB에 값을 변경하거나 불러오는 함수\r\ndef db_execute(sql):\r\n    conn = p.connect(host=db_host, port=db_port, user=db_user, password=db_pw, db=db, charset='utf8')\r\n    c = conn.cursor()\r\n    c.execute(sql)\r\n    conn.commit()\r\n    conn.close()\r\n    return c.fetchall()\r\n\r\n\r\n# 소켓 연결 요청 처리\r\nclass TH(socketserver.BaseRequestHandler):\r\n    def handle(self):\r\n        c_sock = self.request\r\n        if c_sock not in server.c_socks:\r\n            server.c_socks.append(c_sock)\r\n        server.p_msg(c_sock, '연결됨')\r\n        server.receive(c_sock)\r\n\r\n\r\n# 소켓 객체 생성\r\nclass TTS(socketserver.ThreadingMixIn, socketserver.TCPServer):\r\n    pass\r\n\r\n\r\n# 메인서버\r\nclass Server:\r\n    def __init__(self):\r\n        self.c_socks = []\r\n        self.admin_socks = []\r\n        self.student_socks = []\r\n\r\n###########################################################################\r\n# 스레드 객체\r\n###########################################################################\r\n\r\n    # 수신 메서드 ,클라 연결 종료시 종료 메시지 남기고 연결 소켓 제거\r\n    def receive(self, c):\r\n        while True:\r\n            try:\r\n                rmsg = json.loads(c.recv(4096).decode())\r\n                if rmsg:\r\n                    self.p_msg(c, '받은 메시지:', rmsg)\r\n                    self.reaction(c, rmsg[0], rmsg[1])\r\n            except ConnectionResetError:\r\n                self.p_msg(c, '연결 종료')\r\n                self.c_socks.remove(c)\r\n                if c in self.student_socks:\r\n                    self.student_socks.remove(c)\r\n                if c in self.admin_socks:\r\n                    self.admin_socks.remove(c)\r\n                c.close()\r\n                break\r\n            else:\r\n                continue\r\n\r\n    # 반응 메서드\r\n    def reaction(self, c, head, msg):\r\n        print(head, msg)\r\n        # 로그인\r\n        if head == 'login':\r\n            sql = f\"select * from login_data where member_num = '{msg[0]}' and authority = '{msg[1]}' and member_name='{msg[2]}';\"\r\n            login = db_execute(sql)\r\n            # 클라에서 받은 정보가 DB에 등록 되어 있는경우\r\n            if login:\r\n                # DB에 저장된 문제 등록 목록 및 정보 클라에 전달\r\n                # [로그인성공여부, 회원코드, 회원이름, 문제등록번호목록]\r\n                sql = f\"select distinct quiz_num from quiz;\"\r\n                quiz_num = db_execute(sql)\r\n                self.send_msg(c, 'login', ['success', msg[0], msg[2], quiz_num])\r\n                # 정보를 선생과 학생으로 구분하여 전송하기위해 list에 소켓 저장\r\n                if msg[1] == '관리자':\r\n                    self.admin_socks.append(c)\r\n                else:\r\n                    self.student_socks.append(c)\r\n            # 학생 또는 선생 프로그램에서 다른 권한의 계정으로 로그인 시도한 경우\r\n            # 로그인 정보가 틀린경우\r\n            else:\r\n                self.send_msg(c, 'login', ['failure'])\r\n        # 회원가입\r\n        elif head == 'signup':\r\n            # 관리자 권한 가입 정보 DB에 저장 및 정보 전송 [성공여부, 회원 코드]\r\n            if msg[0] == '관리자':\r\n                # 회원 코드를 생성하기위해 번호조회\r\n                sql = \"select count(*) from login_data where member_num like 'a%';\"\r\n                num = int(db_execute(sql)[0][0])+1\r\n                # DB에 회원 정보 등록[회원코드, 권한, 이름]\r\n                sql = f\"insert into login_data values('a{num}', '{msg[0]}', '{msg[1]}')\"\r\n                db_execute(sql)\r\n                self.send_msg(c, 'signup', ['success', f'a{num}'])\r\n            # 학생 권한 가입 정보 DB에 저장 및 정보 전송 [성공여부, 회원 코드]\r\n            else:\r\n                # 회원 코드를 생성하기위해 번호조회\r\n                sql = \"select count(*) from login_data where member_num like 's%';\"\r\n                num = int(db_execute(sql)[0][0])+1\r\n                # DB에 회원 정보 등록[회원코드, 권한, 이름]\r\n                sql = f\"insert into login_data values('s{num}', '{msg[0]}','{msg[1]}')\"\r\n                db_execute(sql)\r\n                # 회원관리 DB에 신규 등록\r\n                sql = f\"insert into study_progress values('F','{msg[1]}', '0', '0');\"\r\n                db_execute(sql)\r\n                self.send_msg(c, 'signup', ['success', f's{num}'])\r\n\r\n        # ``` 문제 만들기\r\n        # 문제 등록하기\r\n        elif head == 'register_question':\r\n            sql = \"select count(distinct quiz_num) from quiz;\"\r\n            quiz_num = db_execute(sql)[0][0]\r\n            # 신규 문제\r\n            if msg[0][0] > quiz_num:\r\n                # 문제 DB에 저장\r\n                for v in msg:\r\n                    sql = f\"insert into quiz values('{v[0]}', '{v[1]}', '{v[2]}', '{v[3]}', '{v[4]}');\"\r\n                    db_execute(sql)\r\n                # 관리자 권한을 가진 모든 클라에게 전송 [추가 등록된 문제 등록 번호]\r\n                for administrator in self.admin_socks:\r\n                    self.send_msg(administrator, 'add_acb_num', msg[0][0])\r\n            # 기존 문제 수정\r\n            else:\r\n                sql = f\"delete from quiz where quiz_num = {msg[0][0]};\"\r\n                db_execute(sql)\r\n                for v in msg:\r\n                    sql = f\"insert into quiz values('{v[0]}', '{v[1]}', '{v[2]}', '{v[3]}', '{v[4]}');\"\r\n                    db_execute(sql)\r\n        # 해당 등록 번호의 문제 목록 클라에 전송\r\n        elif head == 'load_quiz':\r\n            sql = f\"select * from quiz where quiz_num= '{msg}'\"\r\n            quiz_list = db_execute(sql)\r\n            self.send_msg(c, 'load_quiz', quiz_list)\r\n        # ```\r\n        ##학생용\r\n        # 학생이 학습내용 풀러오기\r\n\r\n        elif head == 'call_contents':\r\n            if msg[1] != '연도선택':\r\n                try:\r\n                    year=msg[1].split(\"~\")\r\n                    print(year)\r\n                    sql=f'SELECT *FROM learning_data WHERE date BETWEEN \"{year[0]}\" AND \"{year[1]}\"'\r\n                    study_contents=db_execute(sql)\r\n                    print(study_contents)\r\n                    self.send_msg(c,'load_history',study_contents)\r\n                except IndexError:\r\n                    print('study')\r\n            else:\r\n                print('gg')\r\n        elif head == \"save_contents\": # 학습내용 저장 하기\r\n            sql=f'UPDATE study_progress SET study_progress = \"{msg[0]}:{msg[1]}~{msg[2]}\" WHERE student_name = \"{msg[0]}\"'\r\n            update_progress=db_execute(sql)\r\n            print(update_progress)\r\n\r\n        elif head == 'loading_studying': #저장된 학습내용 불러오기\r\n            sql=f'SELECT *FROM learning_data WHERE date BETWEEN \"{msg[1]}\" AND \"{msg[2]}\"'\r\n            find_contents=db_execute(sql)\r\n            self.send_msg(c,'loading_studying',find_contents)\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n###########################################################################\r\n# 도구 메서드\r\n###########################################################################\r\n\r\n    # 클라소켓, 주제, 내용으로 클라에 데이터 전송\r\n    # def send_msg(self, c, head, value):\r\n    #     msg = json.dumps([head, value])\r\n    #     print(len(msg))\r\n    #     c.sendall(msg.encode())\r\n    #     self.p_msg(c, '보낸 메시지:', value)\r\n\r\n    def send_msg(self, c, head, value):\r\n        msg = json.dumps([head, value])\r\n        msg = f\"{len(msg):<10}\"+msg\r\n        print(len(msg))\r\n        c.sendall(msg.encode())\r\n        self.p_msg(c, '보낸 메시지:', value)\r\n\r\n    # 클라소켓, 메시지 종류, 내용을 매개 변수로 콘솔에 확인 내용 출력\r\n    def p_msg(self, sock, head, *msg):\r\n        # 단순히 보기 편하게 할려고 만든 조건\r\n        if msg:\r\n            print(f'{datetime.now()} / {sock.getpeername()} / {head} {msg}')\r\n        else:\r\n            print(f'{datetime.now()} / {sock.getpeername()} / {head}')\r\n\r\n\r\nif __name__ == '__main__':\r\n    server = Server()\r\n    with TTS((server_ip, server_port), TH) as TS:\r\n        TS.serve_forever()\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/jh_server.py b/jh_server.py
+--- a/jh_server.py	(revision 910e2d11d1e7a611f8bd0b2d9354dc657ac906da)
++++ b/jh_server.py	(date 1675999690698)
+@@ -143,7 +143,7 @@
+             quiz_list = db_execute(sql)
+             self.send_msg(c, 'load_quiz', quiz_list)
+         # ```
+-        ##학생용
++        # 학생용
+         # 학생이 학습내용 풀러오기
+ 
+         elif head == 'call_contents':
+@@ -154,7 +154,7 @@
+                     sql=f'SELECT *FROM learning_data WHERE date BETWEEN "{year[0]}" AND "{year[1]}"'
+                     study_contents=db_execute(sql)
+                     print(study_contents)
+-                    self.send_msg(c,'load_history',study_contents)
++                    self.send_msg(c, 'load_history', study_contents)
+                 except IndexError:
+                     print('study')
+             else:
+@@ -167,31 +167,12 @@
+         elif head == 'loading_studying': #저장된 학습내용 불러오기
+             sql=f'SELECT *FROM learning_data WHERE date BETWEEN "{msg[1]}" AND "{msg[2]}"'
+             find_contents=db_execute(sql)
+-            self.send_msg(c,'loading_studying',find_contents)
++            self.send_msg(c, 'loading_studying', find_contents)
+ 
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+ ###########################################################################
+ # 도구 메서드
+ ###########################################################################
+ 
+-    # 클라소켓, 주제, 내용으로 클라에 데이터 전송
+-    # def send_msg(self, c, head, value):
+-    #     msg = json.dumps([head, value])
+-    #     print(len(msg))
+-    #     c.sendall(msg.encode())
+-    #     self.p_msg(c, '보낸 메시지:', value)
+-
+     def send_msg(self, c, head, value):
+         msg = json.dumps([head, value])
+         msg = f"{len(msg):<10}"+msg
+Index: eh_student.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import pymysql as p\r\nimport sys\r\nfrom PyQt5.QtWidgets import *\r\nfrom PyQt5 import uic\r\nimport socket\r\nimport threading\r\nfrom datetime import datetime\r\nimport requests\r\nimport xmltodict as xmltodict\r\nimport math\r\nfrom tkinter import messagebox, Tk\r\nimport json\r\n\r\n\r\nform_class = uic.loadUiType(\"main.ui\")[0]\r\nsvrip = 'localhost'\r\nport = 9000\r\n\r\ndb_host = '10.10.21.105'\r\ndb_port = 3306\r\ndb_user = 'network'\r\ndb_pw = 'aaaa'\r\ndb = 'api'\r\n\r\n\r\ndef db_execute(sql):\r\n    conn = p.connect(host=db_host, port=db_port, user=db_user, password=db_pw, db=db, charset='utf8')\r\n    c = conn.cursor()\r\n    c.execute(sql)\r\n    conn.commit()\r\n    conn.close()\r\n    return c.fetchall()\r\n\r\n\r\nclass WindowClass(QMainWindow, form_class):\r\n    def __init__(self):\r\n        super().__init__()\r\n        self.setupUi(self)\r\n        self.stackedWidget.setCurrentIndex(0)\r\n        self.read_api()\r\n        self.action = True\r\n\r\n        #장은희테스트\r\n        self.stw.setCurrentIndex(3)\r\n\r\n        # 시그널 - 메서드\r\n\r\n        self.hbt_add.clicked.connect(self.signup)\r\n        self.hbt_login.clicked.connect(self.login)\r\n        ##장은희##\r\n        self.sle_chat.returnPressed.connect(self.st_chat) # 실시간 상담채팅\r\n\r\n        # 서버 연결\r\n        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\r\n        self.sock.connect((svrip, port))\r\n        self.p_msg('연결된 서버: ', svrip)\r\n        th = threading.Thread(target=self.receive, args=(self.sock,), daemon=True)\r\n        th.start()\r\n\r\n    # API 자료가 업데이트 돼면 DB자료 변경\r\n    def read_api(self):\r\n        key = 'cbbbb410eb3d4bfa88e79a9172862f'\r\n        url = f'http://www.incheon.go.kr/dp/openapi/data?apicode=10&page=1&key={key}'\r\n        data_total = int(xmltodict.parse(requests.get(url).content)['data']['totalCount'])\r\n        total_page = math.ceil(data_total / 10)\r\n        sql = f'select count(*) from learning_data;'\r\n        api = db_execute(sql)[0][0]\r\n        if api < data_total:\r\n            sql = 'delete from learning_data;'\r\n            db_execute(sql)\r\n            for page in range(1, total_page + 1):\r\n                url = f'http://www.incheon.go.kr/dp/openapi/data?apicode=10&page={page}&key={key}'\r\n                content = requests.get(url).content\r\n                dict = xmltodict.parse(content)\r\n                data = dict['data']\r\n                date_item = data['list']['item']\r\n                for i in date_item:\r\n                    data_listnum = i['listNum']\r\n                    data_year = i['histYear']\r\n                    data_month = i['histDate'][0] + i['histDate'][1]\r\n                    data_day = i['histDate'][2] + i['histDate'][3]\r\n                    date_summary = i['summary']\r\n                    spl = f'insert into learning_data values ({data_listnum},\"{data_year}년 {data_month}월 {data_day}일\",\"{date_summary}\")'\r\n                    db_execute(spl)\r\n\r\n    # 수신 메서드\r\n    def receive(self, c):\r\n        while True:\r\n            rmsg = json.loads(c.recv(1024).decode())\r\n            if rmsg:\r\n                self.p_msg('받은 메시지:', rmsg)\r\n                self.reaction(rmsg[0], rmsg[1])\r\n\r\n    # 반응 메서드\r\n    def reaction(self, head, msg):\r\n        print(head, msg)\r\n        if head == 'login':\r\n            if msg[0] == 'success':\r\n                self.stackedWidget.setCurrentIndex(1)\r\n                self.code = msg[1]\r\n                self.name = msg[2]\r\n                self.messagebox('로그인 성공')\r\n            else:\r\n                self.messagebox('로그인 실패')\r\n        elif head == 'signup':\r\n            if msg[0] == 'success':\r\n                code = msg[1]\r\n                self.messagebox(f'가입 성공, 발급 코드: {code} 입니다.')\r\n            else:\r\n                self.messagebox('가입 실패')\r\n        #####장은희\r\n        # 실시간 상담 (자기자신)\r\n        elif head == 'st_chat':\r\n            self.slw_chat.addItem(f\"{msg[1]}({msg[2]}) : {msg[3]}\")\r\n        # 실시간 상담 (선생님->학생)\r\n        elif head == 'at_chat':\r\n            if self.hle_code.text() == msg[0]:\r\n                self.slw_chat.addItem(f\"{msg[1]}({msg[2]}) : {msg[3]}\")\r\n                self.slw_chat.scrollToBottom()\r\n\r\n\r\n###########################################################################\r\n# 시그널 - 메서드\r\n###########################################################################\r\n    # 로그인 (학생 프로그램으로 서버에 [학생 코드, 권한, 이름] 전송)\r\n    def login(self):\r\n        code = self.hle_code.text()\r\n        name = self.hle_name.text()\r\n        if code and name:\r\n            self.send_msg('login', [code, '학생', name])\r\n        else:\r\n            self.messagebox('로그인 실패')\r\n        self.hle_code.clear()\r\n        self.hle_name.clear()\r\n\r\n    # 회원 가입 (선생, 학생 프로그램 상관없이 서버에 [권한, 이름] 전송)\r\n    def signup(self):\r\n        name = self.hle_add_name.text().split()[0]\r\n        admin = self.hrb_admin.isChecked()\r\n        user = self.hrb_user.isChecked()\r\n        if name:\r\n            if admin:\r\n                self.send_msg('signup', ['관리자', name])\r\n            elif user:\r\n                self.send_msg('signup', ['학생', name])\r\n            self.hle_add_name.clear()\r\n\r\n    #####장은희\r\n    # 상담 (학생 프로그램으로 서버에 [학생코드, 학생이름, 채팅시간, 채팅내용] 전송)\r\n    def st_chat(self):\r\n        chat_time = str(datetime.now()) #strftime(\"%Y-%m-%d %H:%M:%S\")\r\n        time = datetime.now().strftime(\"%H:%M\")\r\n        chat_msg = self.sle_chat.text()\r\n        # self.slw_chat.addItem(f\"{self.name}({time}) : {chat_msg}\")\r\n        if chat_msg and chat_time:\r\n            self.send_msg('st_chat', [self.code, self.name, chat_time, chat_msg, time])\r\n        self.slw_chat.scrollToBottom()\r\n        self.sle_chat.clear()\r\n\r\n\r\n\r\n###########################################################################\r\n# 도구 메서드\r\n###########################################################################\r\n\r\n    # tkinter 를 이용한 messagbox 송출\r\n    def messagebox(self, value):\r\n        tk_window = Tk()\r\n        tk_window.geometry(\"0x0+3000+6000\")\r\n        messagebox.showinfo('안내창', f'{value}')\r\n        tk_window.destroy()\r\n\r\n    # 주제, 내용으로 서버에 데이터 전송\r\n    def send_msg(self, head, value):\r\n        msg = json.dumps([head, value])\r\n        self.sock.sendall(msg.encode())\r\n        self.p_msg('보낸 메시지:', msg)\r\n\r\n    # 메시지 종류, 내용을 매개 변수로 콘솔에 확인 내용 출력\r\n    def p_msg(self, head, *msg):\r\n        if msg:\r\n            print(f'{datetime.now()} / {head} {msg}')\r\n        else:\r\n            print(f'{datetime.now()} / {head}')\r\n\r\n\r\n\r\n\r\nif __name__ == \"__main__\":\r\n    app = QApplication(sys.argv)\r\n    myWindow = WindowClass()\r\n    myWindow.show()\r\n    app.exec_()
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/eh_student.py b/eh_student.py
+--- a/eh_student.py	(revision 910e2d11d1e7a611f8bd0b2d9354dc657ac906da)
++++ b/eh_student.py	(date 1675999690697)
+@@ -83,10 +83,28 @@
+                     spl = f'insert into learning_data values ({data_listnum},"{data_year}년 {data_month}월 {data_day}일","{date_summary}")'
+                     db_execute(spl)
+ 
+-    # 수신 메서드
++        # 수신 메서드
++
+     def receive(self, c):
+         while True:
+-            rmsg = json.loads(c.recv(1024).decode())
++            new_msg = True
++            tmsg = ''
++            while True:
++                msg = c.recv(1024)
++                tmsg += msg.decode()
++
++                print(tmsg)
++                # 전송된 데이터의 길이 정보를 추출
++                if new_msg:
++                    size = int(msg[:10])
++                    # json.loads할 데이터에 길이 정보를 제거
++                    tmsg = tmsg[10:]
++                    new_msg = False
++
++                # 전송된 데이터의 길이 정보와 json.loads할 데이터의 길이가 같으면 반복문 종료
++                if len(tmsg) == size:
++                    break
++            rmsg = json.loads(tmsg)
+             if rmsg:
+                 self.p_msg('받은 메시지:', rmsg)
+                 self.reaction(rmsg[0], rmsg[1])
+Index: mainserver.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import pymysql as p\r\nimport socketserver\r\nfrom datetime import datetime\r\nimport json\r\n\r\nserver_ip = 'localhost'\r\nserver_port = 9000\r\n\r\ndb_host = '10.10.21.105'\r\ndb_port = 3306\r\ndb_user = 'network'\r\ndb_pw = 'aaaa'\r\ndb = 'api'\r\n\r\n\r\n# DB에 값을 변경하거나 불러오는 함수\r\ndef db_execute(sql):\r\n    conn = p.connect(host=db_host, port=db_port, user=db_user, password=db_pw, db=db, charset='utf8')\r\n    c = conn.cursor()\r\n    c.execute(sql)\r\n    conn.commit()\r\n    conn.close()\r\n    return c.fetchall()\r\n\r\n\r\n# 소켓 연결 요청 처리\r\nclass TH(socketserver.BaseRequestHandler):\r\n    def handle(self):\r\n        c_sock = self.request\r\n        if c_sock not in server.c_socks:\r\n            server.c_socks.append(c_sock)\r\n        server.p_msg(c_sock, '연결됨')\r\n        server.receive(c_sock)\r\n\r\n\r\n# 소켓 객체 생성\r\nclass TTS(socketserver.ThreadingMixIn, socketserver.TCPServer):\r\n    pass\r\n\r\n\r\n# 메인서버\r\nclass Server:\r\n    def __init__(self):\r\n        self.c_socks = []\r\n        self.admin_socks = []\r\n        self.student_socks = []\r\n\r\n    ###########################################################################\r\n    # 스레드 객체\r\n    ###########################################################################\r\n\r\n    # 수신 메서드 ,클라 연결 종료시 종료 메시지 남기고 연결 소켓 제거\r\n    def receive(self, c):\r\n        while True:\r\n            try:\r\n                rmsg = json.loads(c.recv(4096).decode())\r\n                if rmsg:\r\n                    self.p_msg(c, '받은 메시지:', rmsg)\r\n                    self.reaction(c, rmsg[0], rmsg[1])\r\n            except ConnectionResetError:\r\n                self.p_msg(c, '연결 종료')\r\n                self.c_socks.remove(c)\r\n                if c in self.student_socks:\r\n                    self.student_socks.remove(c)\r\n                if c in self.admin_socks:\r\n                    self.admin_socks.remove(c)\r\n                c.close()\r\n                break\r\n            else:\r\n                continue\r\n\r\n    # 반응 메서드\r\n    def reaction(self, c, head, msg):\r\n        print(head, msg)\r\n        # 로그인\r\n        if head == 'login':\r\n            sql = f\"select * from login_data where member_num = '{msg[0]}' and authority = '{msg[1]}' and member_name='{msg[2]}';\"\r\n            login = db_execute(sql)\r\n            # 클라에서 받은 정보가 DB에 등록 되어 있는경우\r\n            if login:\r\n                # DB에 저장된 문제 등록 목록 및 정보 클라에 전달\r\n                # [로그인성공여부, 회원코드, 회원이름, 문제등록번호목록]\r\n                sql = f\"select distinct quiz_num from quiz;\"\r\n                quiz_num = db_execute(sql)\r\n                self.send_msg(c, 'login', ['success', msg[0], msg[2], quiz_num])\r\n                # 정보를 선생과 학생으로 구분하여 전송하기위해 list에 소켓 저장\r\n                if msg[1] == '관리자':\r\n                    self.admin_socks.append(c)\r\n                else:\r\n                    self.student_socks.append(c)\r\n            # 학생 또는 선생 프로그램에서 다른 권한의 계정으로 로그인 시도한 경우\r\n            # 로그인 정보가 틀린경우\r\n            else:\r\n                self.send_msg(c, 'login', ['failure'])\r\n        # 회원가입\r\n        elif head == 'signup':\r\n            # 관리자 권한 가입 정보 DB에 저장 및 정보 전송 [성공여부, 회원 코드]\r\n            if msg[0] == '관리자':\r\n                # 회원 코드를 생성하기위해 번호조회\r\n                sql = \"select count(*) from login_data where member_num like 'a%';\"\r\n                num = int(db_execute(sql)[0][0]) + 1\r\n                # DB에 회원 정보 등록[회원코드, 권한, 이름]\r\n                sql = f\"insert into login_data values('a{num}', '{msg[0]}', '{msg[1]}')\"\r\n                db_execute(sql)\r\n                self.send_msg(c, 'signup', ['success', f'a{num}'])\r\n            # 학생 권한 가입 정보 DB에 저장 및 정보 전송 [성공여부, 회원 코드]\r\n            else:\r\n                # 회원 코드를 생성하기위해 번호조회\r\n                sql = \"select count(*) from login_data where member_num like 's%';\"\r\n                num = int(db_execute(sql)[0][0]) + 1\r\n                # DB에 회원 정보 등록[회원코드, 권한, 이름]\r\n                sql = f\"insert into login_data values('s{num}', '{msg[0]}','{msg[1]}')\"\r\n                db_execute(sql)\r\n                # 회원관리 DB에 신규 등록\r\n                sql = f\"insert into study_progress values('F','{msg[1]}', '0', '0');\"\r\n                db_execute(sql)\r\n                self.send_msg(c, 'signup', ['success', f's{num}'])\r\n\r\n        # ``` 문제 만들기\r\n        # 문제 등록하기\r\n        elif head == 'register_question':\r\n            sql = \"select count(distinct quiz_num) from quiz;\"\r\n            quiz_num = db_execute(sql)[0][0]\r\n            # 신규 문제\r\n            if msg[0][0] > quiz_num:\r\n                # 문제 DB에 저장\r\n                for v in msg:\r\n                    sql = f\"insert into quiz values('{v[0]}', '{v[1]}', '{v[2]}', '{v[3]}', '{v[4]}');\"\r\n                    db_execute(sql)\r\n                # 관리자 권한을 가진 모든 클라에게 전송 [추가 등록된 문제 등록 번호]\r\n                for administrator in self.admin_socks:\r\n                    self.send_msg(administrator, 'add_acb_num', msg[0][0])\r\n            # 기존 문제 수정\r\n            else:\r\n                sql = f\"delete from quiz where quiz_num = {msg[0][0]};\"\r\n                db_execute(sql)\r\n                for v in msg:\r\n                    sql = f\"insert into quiz values('{v[0]}', '{v[1]}', '{v[2]}', '{v[3]}', '{v[4]}');\"\r\n                    db_execute(sql)\r\n        # 해당 등록 번호의 문제 목록 클라에 전송\r\n        elif head == 'load_quiz':\r\n            sql = f\"select * from quiz where quiz_num= '{msg}'\"\r\n            quiz_list = db_execute(sql)\r\n            self.send_msg(c, 'load_quiz', quiz_list)\r\n        # ```\r\n        ##학생용\r\n        # ```\r\n        # 학생이 학습내용 풀러오기\r\n\r\n        elif head == 'call_contents':\r\n            if msg[1] != '연도선택':\r\n                try:\r\n                    year = msg[1].split(\"~\")\r\n                    print(year)\r\n                    sql = f'SELECT *FROM learning_data WHERE date BETWEEN \"{year[0]}\" AND \"{year[1]}\"'\r\n                    study_contents = db_execute(sql)\r\n                    print(study_contents)\r\n                    self.send_msg(c, 'load_history', study_contents)\r\n                except IndexError:\r\n                    print('study')\r\n            else:\r\n                print('gg')\r\n        elif head == \"save_contents\":  # 학습내용 저장 하기\r\n            sql = f'UPDATE study_progress SET study_progress = \"{msg[0]}:{msg[1]}~{msg[2]}\" WHERE student_name = \"{msg[0]}\"'\r\n            update_progress = db_execute(sql)\r\n            print(update_progress)\r\n\r\n        elif head == 'loading_studying':  # 저장된 학습내용 불러오기\r\n            sql = f'SELECT *FROM learning_data WHERE date BETWEEN \"{msg[1]}\" AND \"{msg[2]}\"'\r\n            find_contents = db_execute(sql)\r\n            self.send_msg(c, 'loading_studying', find_contents)\r\n\r\n        # ```\r\n\r\n    ###########################################################################\r\n    # 도구 메서드\r\n    ###########################################################################\r\n\r\n    # 클라소켓, 주제, 내용으로 클라에 데이터 전송\r\n    def send_msg(self, c, head, value):\r\n        msg = json.dumps([head, value])\r\n        msg = f\"{len(msg):<10}\" + msg\r\n        print(len(msg))\r\n        c.sendall(msg.encode())\r\n        self.p_msg(c, '보낸 메시지:', value)\r\n\r\n    # 클라소켓, 메시지 종류, 내용을 매개 변수로 콘솔에 확인 내용 출력\r\n    def p_msg(self, sock, head, *msg):\r\n        # 단순히 보기 편하게 할려고 만든 조건\r\n        if msg:\r\n            print(f'{datetime.now()} / {sock.getpeername()} / {head} {msg}')\r\n        else:\r\n            print(f'{datetime.now()} / {sock.getpeername()} / {head}')\r\n\r\n\r\nif __name__ == '__main__':\r\n    server = Server()\r\n    with TTS((server_ip, server_port), TH) as TS:\r\n        TS.serve_forever()\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/mainserver.py b/mainserver.py
+--- a/mainserver.py	(revision 910e2d11d1e7a611f8bd0b2d9354dc657ac906da)
++++ b/mainserver.py	(date 1675999690700)
+@@ -45,25 +45,28 @@
+         self.admin_socks = []
+         self.student_socks = []
+ 
+-    ###########################################################################
+-    # 스레드 객체
+-    ###########################################################################
++###########################################################################
++# 스레드 객체
++###########################################################################
+ 
+     # 수신 메서드 ,클라 연결 종료시 종료 메시지 남기고 연결 소켓 제거
+     def receive(self, c):
+         while True:
+             try:
+-                rmsg = json.loads(c.recv(4096).decode())
++                rmsg = json.loads(c.recv(1024).decode())
+                 if rmsg:
+                     self.p_msg(c, '받은 메시지:', rmsg)
+                     self.reaction(c, rmsg[0], rmsg[1])
+             except ConnectionResetError:
+                 self.p_msg(c, '연결 종료')
+                 self.c_socks.remove(c)
++                print('연결된 클라: ', len(self.c_socks))
+                 if c in self.student_socks:
+                     self.student_socks.remove(c)
++                    print('연결된 학생: ', len(self.student_socks))
+                 if c in self.admin_socks:
+                     self.admin_socks.remove(c)
++                    print('연결된 선생: ', len(self.student_socks))
+                 c.close()
+                 break
+             else:
+@@ -86,8 +89,10 @@
+                 # 정보를 선생과 학생으로 구분하여 전송하기위해 list에 소켓 저장
+                 if msg[1] == '관리자':
+                     self.admin_socks.append(c)
+-                else:
++                    print('현재연결된선생소켓', self.admin_socks)
++                elif msg[1] == '학생':
+                     self.student_socks.append(c)
++                    print('현재연결된학생소켓',self.student_socks)
+             # 학생 또는 선생 프로그램에서 다른 권한의 계정으로 로그인 시도한 경우
+             # 로그인 정보가 틀린경우
+             else:
+@@ -98,7 +103,7 @@
+             if msg[0] == '관리자':
+                 # 회원 코드를 생성하기위해 번호조회
+                 sql = "select count(*) from login_data where member_num like 'a%';"
+-                num = int(db_execute(sql)[0][0]) + 1
++                num = int(db_execute(sql)[0][0])+1
+                 # DB에 회원 정보 등록[회원코드, 권한, 이름]
+                 sql = f"insert into login_data values('a{num}', '{msg[0]}', '{msg[1]}')"
+                 db_execute(sql)
+@@ -107,7 +112,7 @@
+             else:
+                 # 회원 코드를 생성하기위해 번호조회
+                 sql = "select count(*) from login_data where member_num like 's%';"
+-                num = int(db_execute(sql)[0][0]) + 1
++                num = int(db_execute(sql)[0][0])+1
+                 # DB에 회원 정보 등록[회원코드, 권한, 이름]
+                 sql = f"insert into login_data values('s{num}', '{msg[0]}','{msg[1]}')"
+                 db_execute(sql)
+@@ -115,6 +120,8 @@
+                 sql = f"insert into study_progress values('F','{msg[1]}', '0', '0');"
+                 db_execute(sql)
+                 self.send_msg(c, 'signup', ['success', f's{num}'])
++                for client in self.admin_socks:
++                    self.send_msg(client, 'add_alw_user', [f's{num}', f'{msg[1]}'])
+ 
+         # ``` 문제 만들기
+         # 문제 등록하기
+@@ -143,44 +150,67 @@
+             quiz_list = db_execute(sql)
+             self.send_msg(c, 'load_quiz', quiz_list)
+         # ```
+-        ##학생용
+-        # ```
+-        # 학생이 학습내용 풀러오기
+-
+-        elif head == 'call_contents':
+-            if msg[1] != '연도선택':
+-                try:
+-                    year = msg[1].split("~")
+-                    print(year)
+-                    sql = f'SELECT *FROM learning_data WHERE date BETWEEN "{year[0]}" AND "{year[1]}"'
+-                    study_contents = db_execute(sql)
+-                    print(study_contents)
+-                    self.send_msg(c, 'load_history', study_contents)
+-                except IndexError:
+-                    print('study')
++        # ``` 학생 관리
++        elif head == 'management':
++            sql = "select member_num ,member_name from login_data where member_num like 's%';"
++            user_infor = db_execute(sql)
++            self.send_msg(c, 'management', user_infor)
++        elif head == 'study':
++            sql = f"select quiz_num, min(student_name), sum(quiz_point) as sum from quiz_student" \
++                  f" where student_name = '{msg}' group by quiz_num;"
++            user_infor = db_execute(sql)
++            sql = f"select * from quiz_student where student_name = '{msg}' order by quiz_num;"
++            more_infor = db_execute(sql)
++            if user_infor:
++                self.send_msg(c, 'study', [user_infor, more_infor])
+             else:
+-                print('gg')
+-        elif head == "save_contents":  # 학습내용 저장 하기
+-            sql = f'UPDATE study_progress SET study_progress = "{msg[0]}:{msg[1]}~{msg[2]}" WHERE student_name = "{msg[0]}"'
+-            update_progress = db_execute(sql)
+-            print(update_progress)
++                self.send_msg(c, 'study', 'False')
++
++        #####장은희
++        # 실시간 상담 (학생프로그램)
++        elif head == 'st_chat':
++            member_num = msg[0]
++            member_name = msg[1]
++            chat_time = msg[2]
++            chat_msg = msg[3]
++            sql = f"insert into chatlog values \
++                  ('{member_num}','{member_name}','{chat_time}','{chat_msg}')"
++            db_execute(sql)
++            st_chat_list = [member_num, member_name, msg[4], chat_msg]
++            self.send_msg(c, 'st_chat', st_chat_list)
++            # 관리자 권한을 가진 모든 클라에게 전송
++            for admin in self.admin_socks:
++                self.send_msg(admin, 'st_chat', st_chat_list)
+ 
+-        elif head == 'loading_studying':  # 저장된 학습내용 불러오기
+-            sql = f'SELECT *FROM learning_data WHERE date BETWEEN "{msg[1]}" AND "{msg[2]}"'
+-            find_contents = db_execute(sql)
+-            self.send_msg(c, 'loading_studying', find_contents)
++            # sql = f"select disticnt * from chatlog "
+ 
+-        # ```
++        # 실시간 상담 (관리자프로그램)
++        elif head == 'at_chat':
++            member_num = msg[0]
++            member_name = msg[1]
++            chat_time = msg[2]
++            chat_msg = msg[3]
++            sql = f"insert into chatlog values \
++                  ('{member_num}','{member_name}','{chat_time}','{chat_msg}')"
++            db_execute(sql)
++            at_chat_list = [member_num, member_name, msg[4], chat_msg]
++            self.send_msg(c, 'at_chat', at_chat_list)
++            # 학생 클라에게 전송
++            for student in self.student_socks:
++                self.send_msg(student, 'at_chat', at_chat_list)
++
++
+ 
+-    ###########################################################################
+-    # 도구 메서드
+-    ###########################################################################
++###########################################################################
++# 도구 메서드
++###########################################################################
+ 
+     # 클라소켓, 주제, 내용으로 클라에 데이터 전송
+     def send_msg(self, c, head, value):
+         msg = json.dumps([head, value])
+-        msg = f"{len(msg):<10}" + msg
+-        print(len(msg))
++        print('서버 전송 바이트: ', len(msg))
++        # 전송 데인터의 처음 10바이트를 전송 길이정보를 넣어 전송
++        msg = f"{len(msg):<10}"+msg
+         c.sendall(msg.encode())
+         self.p_msg(c, '보낸 메시지:', value)
+ 
+Index: eh_server.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import pymysql as p\r\nimport socketserver\r\nfrom datetime import datetime\r\nimport json\r\n\r\nserver_ip = 'localhost'\r\nserver_port = 9000\r\n\r\ndb_host = '10.10.21.105'\r\ndb_port = 3306\r\ndb_user = 'network'\r\ndb_pw = 'aaaa'\r\ndb = 'api'\r\n\r\n\r\n# DB에 값을 변경하거나 불러오는 함수\r\ndef db_execute(sql):\r\n    conn = p.connect(host=db_host, port=db_port, user=db_user, password=db_pw, db=db, charset='utf8')\r\n    c = conn.cursor()\r\n    c.execute(sql)\r\n    conn.commit()\r\n    conn.close()\r\n    return c.fetchall()\r\n\r\n\r\n# 소켓 연결 요청 처리\r\nclass TH(socketserver.BaseRequestHandler):\r\n    def handle(self):\r\n        c_sock = self.request\r\n        if c_sock not in server.c_socks:\r\n            server.c_socks.append(c_sock)\r\n        server.p_msg(c_sock, '연결됨')\r\n        server.receive(c_sock)\r\n\r\n\r\n# 소켓 객체 생성\r\nclass TTS(socketserver.ThreadingMixIn, socketserver.TCPServer):\r\n    pass\r\n\r\n\r\n# 메인서버\r\nclass Server:\r\n    def __init__(self):\r\n        self.c_socks = []\r\n        self.admin_socks = []\r\n        self.student_socks = []\r\n\r\n###########################################################################\r\n# 스레드 객체\r\n###########################################################################\r\n\r\n    # 수신 메서드 ,클라 연결 종료시 종료 메시지 남기고 연결 소켓 제거\r\n    def receive(self, c):\r\n        while True:\r\n            try:\r\n                rmsg = json.loads(c.recv(1024).decode())\r\n                if rmsg:\r\n                    self.p_msg(c, '받은 메시지:', rmsg)\r\n                    self.reaction(c, rmsg[0], rmsg[1])\r\n            except ConnectionResetError:\r\n                self.p_msg(c, '연결 종료')\r\n                self.c_socks.remove(c)\r\n                print('연결된 클라: ', len(self.c_socks))\r\n                if c in self.student_socks:\r\n                    self.student_socks.remove(c)\r\n                    print('연결된 학생: ', len(self.student_socks))\r\n                if c in self.admin_socks:\r\n                    self.admin_socks.remove(c)\r\n                    print('연결된 선생: ', len(self.student_socks))\r\n                c.close()\r\n                break\r\n            else:\r\n                continue\r\n\r\n    # 반응 메서드\r\n    def reaction(self, c, head, msg):\r\n        print(head, msg)\r\n        # 로그인\r\n        if head == 'login':\r\n            sql = f\"select * from login_data where member_num = '{msg[0]}' and authority = '{msg[1]}' and member_name='{msg[2]}';\"\r\n            login = db_execute(sql)\r\n            # 클라에서 받은 정보가 DB에 등록 되어 있는경우\r\n            if login:\r\n                # DB에 저장된 문제 등록 목록 및 정보 클라에 전달\r\n                # [로그인성공여부, 회원코드, 회원이름, 문제등록번호목록]\r\n                sql = f\"select distinct quiz_num from quiz;\"\r\n                quiz_num = db_execute(sql)\r\n                self.send_msg(c, 'login', ['success', msg[0], msg[2], quiz_num])\r\n                # 정보를 선생과 학생으로 구분하여 전송하기위해 list에 소켓 저장\r\n                if msg[1] == '관리자':\r\n                    self.admin_socks.append(c)\r\n                    print('현재연결된선생소켓', self.admin_socks)\r\n                elif msg[1] == '학생':\r\n                    self.student_socks.append(c)\r\n                    print('현재연결된학생소켓',self.student_socks)\r\n            # 학생 또는 선생 프로그램에서 다른 권한의 계정으로 로그인 시도한 경우\r\n            # 로그인 정보가 틀린경우\r\n            else:\r\n                self.send_msg(c, 'login', ['failure'])\r\n        # 회원가입\r\n        elif head == 'signup':\r\n            # 관리자 권한 가입 정보 DB에 저장 및 정보 전송 [성공여부, 회원 코드]\r\n            if msg[0] == '관리자':\r\n                # 회원 코드를 생성하기위해 번호조회\r\n                sql = \"select count(*) from login_data where member_num like 'a%';\"\r\n                num = int(db_execute(sql)[0][0])+1\r\n                # DB에 회원 정보 등록[회원코드, 권한, 이름]\r\n                sql = f\"insert into login_data values('a{num}', '{msg[0]}', '{msg[1]}')\"\r\n                db_execute(sql)\r\n                self.send_msg(c, 'signup', ['success', f'a{num}'])\r\n            # 학생 권한 가입 정보 DB에 저장 및 정보 전송 [성공여부, 회원 코드]\r\n            else:\r\n                # 회원 코드를 생성하기위해 번호조회\r\n                sql = \"select count(*) from login_data where member_num like 's%';\"\r\n                num = int(db_execute(sql)[0][0])+1\r\n                # DB에 회원 정보 등록[회원코드, 권한, 이름]\r\n                sql = f\"insert into login_data values('s{num}', '{msg[0]}','{msg[1]}')\"\r\n                db_execute(sql)\r\n                # 회원관리 DB에 신규 등록\r\n                sql = f\"insert into study_progress values('F','{msg[1]}', '0', '0');\"\r\n                db_execute(sql)\r\n                self.send_msg(c, 'signup', ['success', f's{num}'])\r\n                for client in self.admin_socks:\r\n                    self.send_msg(client, 'add_alw_user', [f's{num}', f'{msg[1]}'])\r\n\r\n        # ``` 문제 만들기\r\n        # 문제 등록하기\r\n        elif head == 'register_question':\r\n            sql = \"select count(distinct quiz_num) from quiz;\"\r\n            quiz_num = db_execute(sql)[0][0]\r\n            # 신규 문제\r\n            if msg[0][0] > quiz_num:\r\n                # 문제 DB에 저장\r\n                for v in msg:\r\n                    sql = f\"insert into quiz values('{v[0]}', '{v[1]}', '{v[2]}', '{v[3]}', '{v[4]}');\"\r\n                    db_execute(sql)\r\n                # 관리자 권한을 가진 모든 클라에게 전송 [추가 등록된 문제 등록 번호]\r\n                for administrator in self.admin_socks:\r\n                    self.send_msg(administrator, 'add_acb_num', msg[0][0])\r\n            # 기존 문제 수정\r\n            else:\r\n                sql = f\"delete from quiz where quiz_num = {msg[0][0]};\"\r\n                db_execute(sql)\r\n                for v in msg:\r\n                    sql = f\"insert into quiz values('{v[0]}', '{v[1]}', '{v[2]}', '{v[3]}', '{v[4]}');\"\r\n                    db_execute(sql)\r\n        # 해당 등록 번호의 문제 목록 클라에 전송\r\n        elif head == 'load_quiz':\r\n            sql = f\"select * from quiz where quiz_num= '{msg}'\"\r\n            quiz_list = db_execute(sql)\r\n            self.send_msg(c, 'load_quiz', quiz_list)\r\n        # ```\r\n        # ``` 학생 관리\r\n        elif head == 'management':\r\n            sql = \"select member_num ,member_name from login_data where member_num like 's%';\"\r\n            user_infor = db_execute(sql)\r\n            self.send_msg(c, 'management', user_infor)\r\n        elif head == 'study':\r\n            sql = f\"select quiz_num, min(student_name), sum(quiz_point) as sum from quiz_student\" \\\r\n                  f\" where student_name = '{msg}' group by quiz_num;\"\r\n            user_infor = db_execute(sql)\r\n            sql = f\"select * from quiz_student where student_name = '{msg}' order by quiz_num;\"\r\n            more_infor = db_execute(sql)\r\n            if user_infor:\r\n                self.send_msg(c, 'study', [user_infor, more_infor])\r\n            else:\r\n                self.send_msg(c, 'study', 'False')\r\n\r\n        #####장은희\r\n        # 실시간 상담 (학생프로그램)\r\n        elif head == 'st_chat':\r\n            member_num = msg[0]\r\n            member_name = msg[1]\r\n            chat_time = msg[2]\r\n            chat_msg = msg[3]\r\n            sql = f\"insert into chatlog values \\\r\n                  ('{member_num}','{member_name}','{chat_time}','{chat_msg}')\"\r\n            db_execute(sql)\r\n            st_chat_list = [member_num, member_name, msg[4], chat_msg]\r\n            self.send_msg(c, 'st_chat', st_chat_list)\r\n            # 관리자 권한을 가진 모든 클라에게 전송\r\n            for admin in self.admin_socks:\r\n                self.send_msg(admin, 'st_chat', st_chat_list)\r\n\r\n            sql = f\"select disticnt * from chatlog \"\r\n\r\n        # 실시간 상담 (관리자프로그램)\r\n        elif head == 'at_chat':\r\n            member_num = msg[0]\r\n            member_name = msg[1]\r\n            chat_time = msg[2]\r\n            chat_msg = msg[3]\r\n            sql = f\"insert into chatlog values \\\r\n                  ('{member_num}','{member_name}','{chat_time}','{chat_msg}')\"\r\n            db_execute(sql)\r\n            at_chat_list = [member_num, member_name, msg[4], chat_msg]\r\n            self.send_msg(c, 'at_chat', at_chat_list)\r\n            # 학생 클라에게 전송\r\n            for student in self.student_socks:\r\n                self.send_msg(student, 'at_chat', at_chat_list)\r\n\r\n\r\n\r\n###########################################################################\r\n# 도구 메서드\r\n###########################################################################\r\n\r\n    # 클라소켓, 주제, 내용으로 클라에 데이터 전송\r\n    def send_msg(self, c, head, value):\r\n        msg = json.dumps([head, value])\r\n        print('서버 전송 바이트: ', len(msg))\r\n        # 전송 데인터의 처음 10바이트를 전송 길이정보를 넣어 전송\r\n        msg = f\"{len(msg):<10}\"+msg\r\n        c.sendall(msg.encode())\r\n        self.p_msg(c, '보낸 메시지:', value)\r\n\r\n    # 클라소켓, 메시지 종류, 내용을 매개 변수로 콘솔에 확인 내용 출력\r\n    def p_msg(self, sock, head, *msg):\r\n        # 단순히 보기 편하게 할려고 만든 조건\r\n        if msg:\r\n            print(f'{datetime.now()} / {sock.getpeername()} / {head} {msg}')\r\n        else:\r\n            print(f'{datetime.now()} / {sock.getpeername()} / {head}')\r\n\r\n\r\nif __name__ == '__main__':\r\n    server = Server()\r\n    with TTS((server_ip, server_port), TH) as TS:\r\n        TS.serve_forever()\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/eh_server.py b/eh_server.py
+--- a/eh_server.py	(revision 910e2d11d1e7a611f8bd0b2d9354dc657ac906da)
++++ b/eh_server.py	(date 1675999690696)
+@@ -182,7 +182,7 @@
+             for admin in self.admin_socks:
+                 self.send_msg(admin, 'st_chat', st_chat_list)
+ 
+-            sql = f"select disticnt * from chatlog "
++            # sql = f"select disticnt * from chatlog "
+ 
+         # 실시간 상담 (관리자프로그램)
+         elif head == 'at_chat':
+Index: mainteacher.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/mainteacher.py b/mainteacher.py
+new file mode 100644
+--- /dev/null	(date 1675999690702)
++++ b/mainteacher.py	(date 1675999690702)
+@@ -0,0 +1,280 @@
++import json
++import sys
++from tkinter import messagebox, Tk
++from PyQt5.QtWidgets import *
++from PyQt5 import uic
++import socket
++import threading
++from datetime import datetime
++#
++form_class = uic.loadUiType("main.ui")[0]
++svrip = 'localhost'
++port = 9000
++
++
++class WindowClass(QMainWindow, form_class):
++    def __init__(self):
++        super().__init__()
++        self.setupUi(self)
++        self.stackedWidget.setCurrentIndex(0)
++
++        #장은희테스트
++        self.atw.setCurrentIndex(2)
++        self.ale_chat.returnPressed.connect(self.at_chat) # 실시간상담채팅
++
++        # 시그널 - 메서드
++        # 로그인, 회원가입
++        self.hbt_add.clicked.connect(self.signup)
++        self.hbt_login.clicked.connect(self.login)
++        # 문제 만들기
++        self.abt_add.clicked.connect(self.add_space)
++        self.abt_del.clicked.connect(self.del_space)
++        self.abt_finish.clicked.connect(self.register_question)
++        self.abt_cancel.clicked.connect(self.del_atw_q)
++        self.atw_q.currentCellChanged.connect(self.total_score)
++        self.acb_num.currentIndexChanged.connect(self.send_quiz_num)
++        # 학생관리
++        self.atw.currentChanged.connect(self.atw_move)
++
++        # 서버 연결
++        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
++        self.sock.connect((svrip, port))
++        self.p_msg('연결된 서버: ', svrip)
++        th = threading.Thread(target=self.receive, args=(self.sock,), daemon=True)
++        th.start()
++
++        # 수신 메서드
++
++    def receive(self, c):
++        while True:
++            new_msg = True
++            tmsg = ''
++            while True:
++                # 전송된 데이터를 20바이트씩 받기
++                msg = c.recv(1024)
++                tmsg += msg.decode()
++
++                print(tmsg)
++                # 전송된 데이터의 길이 정보를 추출
++                if new_msg:
++                    size = int(msg[:10])
++                    # json.loads할 데이터에 길이 정보를 제거
++                    tmsg = tmsg[10:]
++                    new_msg = False
++
++                # 전송된 데이터의 길이 정보와 json.loads할 데이터의 길이가 같으면 반복문 종료
++                if len(tmsg) == size:
++                    break
++            rmsg = json.loads(tmsg)
++            if rmsg:
++                self.p_msg('받은 메시지:', rmsg)
++                self.reaction(rmsg[0], rmsg[1])
++
++    # 반응 메서드
++    def reaction(self, head, msg):
++        print(head, msg)
++        # 로그인
++        if head == 'login':
++            # 로그인 성공
++            if msg[0] == 'success':
++                # 나중에 쓸수도 있기에 만든 변수
++                self.code = msg[1]
++                self.name = msg[2]
++                # 관리자 페이지 이동
++                self.stackedWidget.setCurrentIndex(2)
++                # 문제 등록 번호 콤보박스에 등록
++                for i in msg[3]:
++                    self.acb_num.addItem(str(i[0]))
++                self.messagebox('로그인 성공')
++            # 로그인 실패
++            else:
++                self.messagebox('로그인 실패')
++        # 회원가입
++        elif head == 'signup':
++            # 가입 성공 및 회원 코드 띄우기
++            if msg[0] == 'success':
++                code = msg[1]
++                self.messagebox(f'가입 성공, 발급 코드: {code} 입니다.')
++            # 가입 실패 코드 띄우기
++            else:
++                self.messagebox('가입 실패')
++        # ``` 문제 만들기
++        # 테이블 위젯에 문제 띄우기
++        elif head == 'load_quiz':
++            # 테이블 위젯 셋팅
++            self.atw_q.setRowCount(0)
++            self.atw_q.setRowCount(len(msg))
++            # 테이블 위젯 셀에 내용 저장
++            for row, quiz_list in enumerate(msg):
++                for col, value in enumerate(quiz_list):
++                    if col != 0:
++                        self.atw_q.setItem(row, col-1, QTableWidgetItem(value))
++        # 추가된 문제 등록번호 콤보박스에 저장
++        elif head == 'add_acb_num':
++            self.acb_num.addItem(str(msg))
++        # ```
++        #####장은희
++        # 실시간 상담 (학생->선생님)
++        elif head == 'st_chat':
++            if self.hle_code.text() == msg[0]:
++                self.alw_chat.addItem(f"{msg[1]}({msg[2]}) : {msg[3]}")
++                self.alw_chat.scrollToBottom()
++        # 실시간 상담 (자기자신)
++        elif head == 'at_chat':
++            self.alw_chat.addItem(f"{msg[1]}({msg[2]}) : {msg[3]}")
++
++###########################################################################
++# 송신
++###########################################################################
++
++    # 로그인 (선생 프로그램으로 서버에 [선생 코드, 권한, 이름] 전송)
++    def login(self):
++        code = self.hle_code.text()
++        name = self.hle_name.text()
++        if code and name:
++            self.send_msg('login', [code, '관리자', name])
++        else:
++            self.messagebox('로그인 실패')
++        self.hle_code.clear()
++        self.hle_name.clear()
++
++    # 회원 가입 (선생, 학생 프로그램 상관없이 서버에 [권한, 이름] 전송)
++    def signup(self):
++        name = self.hle_add_name.text().split()[0]
++        admin = self.hrb_admin.isChecked()
++        user = self.hrb_user.isChecked()
++        if name:
++            if admin:
++                self.send_msg('signup', ['관리자', name])
++            elif user:
++                self.send_msg('signup', ['학생', name])
++            self.hle_add_name.clear()
++
++    # 문제 등록 (서버에 [문제 목록] 전송)
++    def register_question(self):
++        # 콤보 박스 내용이 숫자가 아닌경우 신규 문제 등록
++        try:
++            box = int(self.acb_num.currentText())
++        except ValueError:
++            box = self.acb_num.count()
++        # 초기 셋팅
++        t_list = []
++        row = self.atw_q.rowCount()
++        col = self.atw_q.columnCount()
++        # 테이블 위젯의 셀 내용 list에 저장하기
++        try:
++            for i in range(row):
++                q_list = [box]
++                for j in range(col):
++                    if j < 2:
++                        q_list.append(self.atw_q.item(i, j).text())
++                    else:
++                        q_list.append(int(self.atw_q.item(i, j).text()))
++                t_list.append(q_list)
++            # 등록할 문제 목록의 배점 합계가 100점인지 여부 확인
++            score = int(self.al_score.text())
++            if score == 100:
++                self.send_msg('register_question', t_list)
++                self.atw_q.clearContents()
++                self.atw_q.setRowCount(0)
++                self.al_score.setNum(0)
++            else:
++                self.messagebox('만점은 100 입니다.')
++        # 작성된 문제 목록에 문제가 있는경우
++        except ValueError:
++            self.messagebox('배점 또는 point란에 문자가 있습니다.')
++        except AttributeError:
++            self.messagebox('빈칸이 있습니다.')
++
++    # 문제 등록 넘버를 서버로 송신
++    def send_quiz_num(self):
++        num = self.acb_num.currentText()
++        self.send_msg('load_quiz', num)
++
++    def atw_move(self):
++        tab = self.atw.currentIndex()
++        if tab == 1:
++            self.send_msg('management', '')
++
++    #####장은희
++    # 상담 (관리자 프로그램으로 서버에 [관리자코드, 관리자이름, 채팅시간, 채팅내용] 전송)
++    def at_chat(self):
++        chat_time = str(datetime.now()) #strftime("%Y-%m-%d %H:%M:%S")
++        time = datetime.now().strftime("%H:%M")
++        chat_msg = self.ale_chat.text()
++        # self.alw_chat.addItem(f"{self.name}({time}) : {chat_msg}")
++        if chat_msg and chat_time:
++            self.send_msg('at_chat', [self.code, self.name, chat_time, chat_msg, time])
++        self.alw_chat.scrollToBottom()
++        self.ale_chat.clear()
++
++
++###########################################################################
++# 송신 기능이 없는 시그널 - 메서드
++###########################################################################
++
++    # 문제목록에 문제 추가 하기
++    def add_space(self):
++        num = self.atw_q.rowCount()
++        self.atw_q.setRowCount(num+1)
++
++    # 문제목록에 문제 삭제 하기
++    def del_space(self):
++        max_num = self.atw_q.rowCount()
++        num = self.atw_q.currentRow()
++        # 테이블 위젯의 선택한 셀이 없는 경우
++        if num < 0:
++            num = max_num-1
++        # 테이블 위젯의 특정 셀의 행 지우기
++        self.atw_q.removeRow(num)
++
++    # 선택셀 변경시 배점 총합을 라벨에 출력
++    def total_score(self):
++        row = self.atw_q.rowCount()
++        score = 0
++        # 작성중 계속 시그널이 들어오는 함수로 애러 발생을 pass 처리
++        try:
++            for i in range(row):
++                score += int(self.atw_q.item(i, 2).text())
++            self.al_score.setNum(score)
++        except AttributeError:
++            pass
++        except ValueError:
++            pass
++
++    # 문제목록의 내용 전부 삭제
++    def del_atw_q(self):
++        self.atw_q.clearContents()
++        self.atw_q.setRowCount(0)
++
++###########################################################################
++# 도구 메서드
++###########################################################################
++
++    # tkinter 를 이용한 messagbox 송출
++    def messagebox(self, value):
++        tk_window = Tk()
++        tk_window.geometry("0x0+3000+6000")
++        messagebox.showinfo('안내창', f'{value}')
++        tk_window.destroy()
++
++    # 주제, 내용으로 서버에 데이터 전송
++    def send_msg(self, head, value):
++        msg = json.dumps([head, value])
++        self.sock.sendall(msg.encode())
++        self.p_msg('보낸 메시지:', msg)
++
++    # 메시지 종류, 내용을 매개 변수로 콘솔에 확인 내용 출력
++    def p_msg(self, head, *msg):
++        # 단순히 보기 편하게 할려고 만든 조건
++        if msg:
++            print(f'{datetime.now()} / {head} {msg}')
++        else:
++            print(f'{datetime.now()} / {head}')
++
++
++if __name__ == "__main__":
++    app = QApplication(sys.argv)
++    myWindow = WindowClass()
++    myWindow.show()
++    app.exec_()
+\ No newline at end of file
+Index: eh_teacher.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import json\r\nimport sys\r\nfrom tkinter import messagebox, Tk\r\nfrom PyQt5.QtWidgets import *\r\nfrom PyQt5 import uic\r\nimport socket\r\nimport threading\r\nfrom datetime import datetime\r\n\r\nform_class = uic.loadUiType(\"main.ui\")[0]\r\nsvrip = 'localhost'\r\nport = 9000\r\n\r\n\r\nclass WindowClass(QMainWindow, form_class):\r\n    def __init__(self):\r\n        super().__init__()\r\n        self.setupUi(self)\r\n        self.stackedWidget.setCurrentIndex(0)\r\n\r\n        #장은희테스트\r\n        self.atw.setCurrentIndex(2)\r\n        self.ale_chat.returnPressed.connect(self.at_chat) # 실시간상담채팅\r\n\r\n        # 시그널 - 메서드\r\n        # 로그인, 회원가입\r\n        self.hbt_add.clicked.connect(self.signup)\r\n        self.hbt_login.clicked.connect(self.login)\r\n        # 문제 만들기\r\n        self.abt_add.clicked.connect(self.add_space)\r\n        self.abt_del.clicked.connect(self.del_space)\r\n        self.abt_finish.clicked.connect(self.register_question)\r\n        self.abt_cancel.clicked.connect(self.del_atw_q)\r\n        self.atw_q.currentCellChanged.connect(self.total_score)\r\n        self.acb_num.currentIndexChanged.connect(self.send_quiz_num)\r\n        # 학생관리\r\n        self.atw.currentChanged.connect(self.atw_move)\r\n\r\n        # 서버 연결\r\n        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\r\n        self.sock.connect((svrip, port))\r\n        self.p_msg('연결된 서버: ', svrip)\r\n        th = threading.Thread(target=self.receive, args=(self.sock,), daemon=True)\r\n        th.start()\r\n\r\n    # 수신 메서드\r\n    def receive(self, c):\r\n        while True:\r\n            rmsg = json.loads(c.recv(1024).decode())\r\n            if rmsg:\r\n                self.p_msg('받은 메시지:', rmsg)\r\n                self.reaction(rmsg[0], rmsg[1])\r\n\r\n    # 반응 메서드\r\n    def reaction(self, head, msg):\r\n        print(head, msg)\r\n        # 로그인\r\n        if head == 'login':\r\n            # 로그인 성공\r\n            if msg[0] == 'success':\r\n                # 나중에 쓸수도 있기에 만든 변수\r\n                self.code = msg[1]\r\n                self.name = msg[2]\r\n                # 관리자 페이지 이동\r\n                self.stackedWidget.setCurrentIndex(2)\r\n                # 문제 등록 번호 콤보박스에 등록\r\n                for i in msg[3]:\r\n                    self.acb_num.addItem(str(i[0]))\r\n                self.messagebox('로그인 성공')\r\n            # 로그인 실패\r\n            else:\r\n                self.messagebox('로그인 실패')\r\n        # 회원가입\r\n        elif head == 'signup':\r\n            # 가입 성공 및 회원 코드 띄우기\r\n            if msg[0] == 'success':\r\n                code = msg[1]\r\n                self.messagebox(f'가입 성공, 발급 코드: {code} 입니다.')\r\n            # 가입 실패 코드 띄우기\r\n            else:\r\n                self.messagebox('가입 실패')\r\n        # ``` 문제 만들기\r\n        # 테이블 위젯에 문제 띄우기\r\n        elif head == 'load_quiz':\r\n            # 테이블 위젯 셋팅\r\n            self.atw_q.setRowCount(0)\r\n            self.atw_q.setRowCount(len(msg))\r\n            # 테이블 위젯 셀에 내용 저장\r\n            for row, quiz_list in enumerate(msg):\r\n                for col, value in enumerate(quiz_list):\r\n                    if col != 0:\r\n                        self.atw_q.setItem(row, col-1, QTableWidgetItem(value))\r\n        # 추가된 문제 등록번호 콤보박스에 저장\r\n        elif head == 'add_acb_num':\r\n            self.acb_num.addItem(str(msg))\r\n        # ```\r\n        #####장은희\r\n        # 실시간 상담 (학생->선생님)\r\n        elif head == 'st_chat':\r\n            if self.hle_code.text() == msg[0]:\r\n                self.alw_chat.addItem(f\"{msg[1]}({msg[2]}) : {msg[3]}\")\r\n                self.alw_chat.scrollToBottom()\r\n        # 실시간 상담 (자기자신)\r\n        elif head == 'at_chat':\r\n            self.alw_chat.addItem(f\"{msg[1]}({msg[2]}) : {msg[3]}\")\r\n\r\n###########################################################################\r\n# 송신\r\n###########################################################################\r\n\r\n    # 로그인 (선생 프로그램으로 서버에 [선생 코드, 권한, 이름] 전송)\r\n    def login(self):\r\n        code = self.hle_code.text()\r\n        name = self.hle_name.text()\r\n        if code and name:\r\n            self.send_msg('login', [code, '관리자', name])\r\n        else:\r\n            self.messagebox('로그인 실패')\r\n        self.hle_code.clear()\r\n        self.hle_name.clear()\r\n\r\n    # 회원 가입 (선생, 학생 프로그램 상관없이 서버에 [권한, 이름] 전송)\r\n    def signup(self):\r\n        name = self.hle_add_name.text().split()[0]\r\n        admin = self.hrb_admin.isChecked()\r\n        user = self.hrb_user.isChecked()\r\n        if name:\r\n            if admin:\r\n                self.send_msg('signup', ['관리자', name])\r\n            elif user:\r\n                self.send_msg('signup', ['학생', name])\r\n            self.hle_add_name.clear()\r\n\r\n    # 문제 등록 (서버에 [문제 목록] 전송)\r\n    def register_question(self):\r\n        # 콤보 박스 내용이 숫자가 아닌경우 신규 문제 등록\r\n        try:\r\n            box = int(self.acb_num.currentText())\r\n        except ValueError:\r\n            box = self.acb_num.count()\r\n        # 초기 셋팅\r\n        t_list = []\r\n        row = self.atw_q.rowCount()\r\n        col = self.atw_q.columnCount()\r\n        # 테이블 위젯의 셀 내용 list에 저장하기\r\n        try:\r\n            for i in range(row):\r\n                q_list = [box]\r\n                for j in range(col):\r\n                    if j < 2:\r\n                        q_list.append(self.atw_q.item(i, j).text())\r\n                    else:\r\n                        q_list.append(int(self.atw_q.item(i, j).text()))\r\n                t_list.append(q_list)\r\n            # 등록할 문제 목록의 배점 합계가 100점인지 여부 확인\r\n            score = int(self.al_score.text())\r\n            if score == 100:\r\n                self.send_msg('register_question', t_list)\r\n                self.atw_q.clearContents()\r\n                self.atw_q.setRowCount(0)\r\n                self.al_score.setNum(0)\r\n            else:\r\n                self.messagebox('만점은 100 입니다.')\r\n        # 작성된 문제 목록에 문제가 있는경우\r\n        except ValueError:\r\n            self.messagebox('배점 또는 point란에 문자가 있습니다.')\r\n        except AttributeError:\r\n            self.messagebox('빈칸이 있습니다.')\r\n\r\n    # 문제 등록 넘버를 서버로 송신\r\n    def send_quiz_num(self):\r\n        num = self.acb_num.currentText()\r\n        self.send_msg('load_quiz', num)\r\n\r\n    def atw_move(self):\r\n        tab = self.atw.currentIndex()\r\n        if tab == 1:\r\n            self.send_msg('management', '')\r\n\r\n    #####장은희\r\n    # 상담 (관리자 프로그램으로 서버에 [관리자코드, 관리자이름, 채팅시간, 채팅내용] 전송)\r\n    def at_chat(self):\r\n        chat_time = str(datetime.now()) #strftime(\"%Y-%m-%d %H:%M:%S\")\r\n        time = datetime.now().strftime(\"%H:%M\")\r\n        chat_msg = self.ale_chat.text()\r\n        # self.alw_chat.addItem(f\"{self.name}({time}) : {chat_msg}\")\r\n        if chat_msg and chat_time:\r\n            self.send_msg('at_chat', [self.code, self.name, chat_time, chat_msg, time])\r\n        self.alw_chat.scrollToBottom()\r\n        self.ale_chat.clear()\r\n\r\n\r\n###########################################################################\r\n# 송신 기능이 없는 시그널 - 메서드\r\n###########################################################################\r\n\r\n    # 문제목록에 문제 추가 하기\r\n    def add_space(self):\r\n        num = self.atw_q.rowCount()\r\n        self.atw_q.setRowCount(num+1)\r\n\r\n    # 문제목록에 문제 삭제 하기\r\n    def del_space(self):\r\n        max_num = self.atw_q.rowCount()\r\n        num = self.atw_q.currentRow()\r\n        # 테이블 위젯의 선택한 셀이 없는 경우\r\n        if num < 0:\r\n            num = max_num-1\r\n        # 테이블 위젯의 특정 셀의 행 지우기\r\n        self.atw_q.removeRow(num)\r\n\r\n    # 선택셀 변경시 배점 총합을 라벨에 출력\r\n    def total_score(self):\r\n        row = self.atw_q.rowCount()\r\n        score = 0\r\n        # 작성중 계속 시그널이 들어오는 함수로 애러 발생을 pass 처리\r\n        try:\r\n            for i in range(row):\r\n                score += int(self.atw_q.item(i, 2).text())\r\n            self.al_score.setNum(score)\r\n        except AttributeError:\r\n            pass\r\n        except ValueError:\r\n            pass\r\n\r\n    # 문제목록의 내용 전부 삭제\r\n    def del_atw_q(self):\r\n        self.atw_q.clearContents()\r\n        self.atw_q.setRowCount(0)\r\n\r\n###########################################################################\r\n# 도구 메서드\r\n###########################################################################\r\n\r\n    # tkinter 를 이용한 messagbox 송출\r\n    def messagebox(self, value):\r\n        tk_window = Tk()\r\n        tk_window.geometry(\"0x0+3000+6000\")\r\n        messagebox.showinfo('안내창', f'{value}')\r\n        tk_window.destroy()\r\n\r\n    # 주제, 내용으로 서버에 데이터 전송\r\n    def send_msg(self, head, value):\r\n        msg = json.dumps([head, value])\r\n        self.sock.sendall(msg.encode())\r\n        self.p_msg('보낸 메시지:', msg)\r\n\r\n    # 메시지 종류, 내용을 매개 변수로 콘솔에 확인 내용 출력\r\n    def p_msg(self, head, *msg):\r\n        # 단순히 보기 편하게 할려고 만든 조건\r\n        if msg:\r\n            print(f'{datetime.now()} / {head} {msg}')\r\n        else:\r\n            print(f'{datetime.now()} / {head}')\r\n\r\n\r\nif __name__ == \"__main__\":\r\n    app = QApplication(sys.argv)\r\n    myWindow = WindowClass()\r\n    myWindow.show()\r\n    app.exec_()
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/eh_teacher.py b/eh_teacher.py
+--- a/eh_teacher.py	(revision 910e2d11d1e7a611f8bd0b2d9354dc657ac906da)
++++ b/eh_teacher.py	(date 1675999690698)
+@@ -43,10 +43,29 @@
+         th = threading.Thread(target=self.receive, args=(self.sock,), daemon=True)
+         th.start()
+ 
+-    # 수신 메서드
++        # 수신 메서드
++
+     def receive(self, c):
+         while True:
+-            rmsg = json.loads(c.recv(1024).decode())
++            new_msg = True
++            tmsg = ''
++            while True:
++                # 전송된 데이터를 20바이트씩 받기
++                msg = c.recv(1024)
++                tmsg += msg.decode()
++
++                print(tmsg)
++                # 전송된 데이터의 길이 정보를 추출
++                if new_msg:
++                    size = int(msg[:10])
++                    # json.loads할 데이터에 길이 정보를 제거
++                    tmsg = tmsg[10:]
++                    new_msg = False
++
++                # 전송된 데이터의 길이 정보와 json.loads할 데이터의 길이가 같으면 반복문 종료
++                if len(tmsg) == size:
++                    break
++            rmsg = json.loads(tmsg)
+             if rmsg:
+                 self.p_msg('받은 메시지:', rmsg)
+                 self.reaction(rmsg[0], rmsg[1])

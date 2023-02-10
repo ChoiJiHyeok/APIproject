@@ -89,7 +89,7 @@ class WindowClass(QMainWindow, form_class):
 
 
 
-    def input_answer(self, row, column): # 정답 입력하면 시간 제기 및 그 정답 입력 받는 해당 테이블에 추가
+    def input_answer(self, row, column): # 정답 입력하면 시간 제서 서버로
         print('hihi')
         cell_answer=self.answer_table.item(row,column).text()
         get_num=self.row_list[row]

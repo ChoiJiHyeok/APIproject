@@ -20,7 +20,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RESET_MODE" value="MIXED" />
-    <option name="UPDATE_TYPE" value="REBASE" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="bebb8c7f-d5b5-46d3-a3a5-2ec2a320a039" />
+        <option name="url" value="https://github.com/ChoiJiHyeok/APIproject.git" />
+      </UrlAndAccount>
+    </option>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -300,7 +311,56 @@
       <option name="project" value="LOCAL" />
       <updated>1675991020710</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="Revert &quot;230209 큰 데이터 받기&quot;&#10;&#10;This reverts commit aead9543">
+      <created>1675992307704</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1675992307704</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Revert &quot;230209 학생관리&quot;&#10;&#10;This reverts commit f1b5dae4">
+      <created>1675992414056</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1675992414056</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Revert &quot;230209 학생관리&quot;&#10;&#10;This reverts commit f1b5dae4">
+      <created>1675992542961</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1675992542961</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Revert &quot;230209 학생관리&quot;&#10;&#10;This reverts commit f1b5dae4">
+      <created>1675992811334</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1675992811334</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Revert &quot;230209 학생관리&quot;&#10;&#10;This reverts commit f1b5dae4">
+      <created>1675992877645</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1675992877645</updated>
+    </task>
+    <task id="LOCAL-00024" summary="230210 - 복원중">
+      <created>1675993062691</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1675993062691</updated>
+    </task>
+    <task id="LOCAL-00025" summary="230210 - 복원">
+      <created>1675993642503</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1675993642503</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -331,7 +391,11 @@
     <MESSAGE value="230209 학생 회원가입시 이름없이 가입 수정" />
     <MESSAGE value="230209 학생관리" />
     <MESSAGE value="230209 큰 데이터 받기" />
-    <option name="LAST_COMMIT_MESSAGE" value="230209 큰 데이터 받기" />
+    <MESSAGE value="Revert &quot;230209 큰 데이터 받기&quot;&#10;&#10;This reverts commit aead9543" />
+    <MESSAGE value="Revert &quot;230209 학생관리&quot;&#10;&#10;This reverts commit f1b5dae4" />
+    <MESSAGE value="230210 - 복원중" />
+    <MESSAGE value="230210 - 복원" />
+    <option name="LAST_COMMIT_MESSAGE" value="230210 - 복원" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -143,7 +143,7 @@ class Server:
             quiz_list = db_execute(sql)
             self.send_msg(c, 'load_quiz', quiz_list)
         # ```
-        ##학생용
+        # 학생용
         # ```
         # 학생이 학습내용 풀러오기
 

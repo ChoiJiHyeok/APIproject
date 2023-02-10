@@ -18,6 +18,10 @@ class WindowClass(QMainWindow, form_class):
         self.setupUi(self)
         self.stackedWidget.setCurrentIndex(0)
 
+        #장은희테스트
+        self.atw.setCurrentIndex(2)
+        self.ale_chat.returnPressed.connect(self.at_chat) # 실시간상담채팅
+
         # 시그널 - 메서드
         # 로그인, 회원가입
         self.hbt_add.clicked.connect(self.signup)
@@ -90,6 +94,15 @@ class WindowClass(QMainWindow, form_class):
         elif head == 'add_acb_num':
             self.acb_num.addItem(str(msg))
         # ```
+        #####장은희
+        # 실시간 상담 (학생->선생님)
+        elif head == 'st_chat':
+            if self.hle_code.text() == msg[0]:
+                self.alw_chat.addItem(f"{msg[1]}({msg[2]}) : {msg[3]}")
+                self.alw_chat.scrollToBottom()
+        # 실시간 상담 (자기자신)
+        elif head == 'at_chat':
+            self.alw_chat.addItem(f"{msg[1]}({msg[2]}) : {msg[3]}")
 
 ###########################################################################
 # 송신
@@ -163,6 +176,18 @@ class WindowClass(QMainWindow, form_class):
         tab = self.atw.currentIndex()
         if tab == 1:
             self.send_msg('management', '')
+
+    #####장은희
+    # 상담 (관리자 프로그램으로 서버에 [관리자코드, 관리자이름, 채팅시간, 채팅내용] 전송)
+    def at_chat(self):
+        chat_time = str(datetime.now()) #strftime("%Y-%m-%d %H:%M:%S")
+        time = datetime.now().strftime("%H:%M")
+        chat_msg = self.ale_chat.text()
+        # self.alw_chat.addItem(f"{self.name}({time}) : {chat_msg}")
+        if chat_msg and chat_time:
+            self.send_msg('at_chat', [self.code, self.name, chat_time, chat_msg, time])
+        self.alw_chat.scrollToBottom()
+        self.ale_chat.clear()
 
 
 ###########################################################################

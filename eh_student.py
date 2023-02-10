@@ -11,6 +11,7 @@ import math
 from tkinter import messagebox, Tk
 import json
 
+
 form_class = uic.loadUiType("main.ui")[0]
 svrip = 'localhost'
 port = 9000
@@ -39,9 +40,15 @@ class WindowClass(QMainWindow, form_class):
         self.read_api()
         self.action = True
 
+        #장은희테스트
+        self.stw.setCurrentIndex(3)
+
         # 시그널 - 메서드
+
         self.hbt_add.clicked.connect(self.signup)
         self.hbt_login.clicked.connect(self.login)
+        ##장은희##
+        self.sle_chat.returnPressed.connect(self.st_chat) # 실시간 상담채팅
 
         # 서버 연결
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -101,6 +108,16 @@ class WindowClass(QMainWindow, form_class):
                 self.messagebox(f'가입 성공, 발급 코드: {code} 입니다.')
             else:
                 self.messagebox('가입 실패')
+        #####장은희
+        # 실시간 상담 (자기자신)
+        elif head == 'st_chat':
+            self.slw_chat.addItem(f"{msg[1]}({msg[2]}) : {msg[3]}")
+        # 실시간 상담 (선생님->학생)
+        elif head == 'at_chat':
+            if self.hle_code.text() == msg[0]:
+                self.slw_chat.addItem(f"{msg[1]}({msg[2]}) : {msg[3]}")
+                self.slw_chat.scrollToBottom()
+
 
 ###########################################################################
 # 시그널 - 메서드
@@ -128,6 +145,20 @@ class WindowClass(QMainWindow, form_class):
                 self.send_msg('signup', ['학생', name])
             self.hle_add_name.clear()
 
+    #####장은희
+    # 상담 (학생 프로그램으로 서버에 [학생코드, 학생이름, 채팅시간, 채팅내용] 전송)
+    def st_chat(self):
+        chat_time = str(datetime.now()) #strftime("%Y-%m-%d %H:%M:%S")
+        time = datetime.now().strftime("%H:%M")
+        chat_msg = self.sle_chat.text()
+        # self.slw_chat.addItem(f"{self.name}({time}) : {chat_msg}")
+        if chat_msg and chat_time:
+            self.send_msg('st_chat', [self.code, self.name, chat_time, chat_msg, time])
+        self.slw_chat.scrollToBottom()
+        self.sle_chat.clear()
+
+
+
 ###########################################################################
 # 도구 메서드
 ###########################################################################
@@ -151,6 +182,8 @@ class WindowClass(QMainWindow, form_class):
             print(f'{datetime.now()} / {head} {msg}')
         else:
             print(f'{datetime.now()} / {head}')
+
+
 
 
 if __name__ == "__main__":

@@ -86,8 +86,10 @@ class Server:
                 # 정보를 선생과 학생으로 구분하여 전송하기위해 list에 소켓 저장
                 if msg[1] == '관리자':
                     self.admin_socks.append(c)
-                else:
+                    print('현재연결된선생소켓', self.admin_socks)
+                elif msg[1] == '학생':
                     self.student_socks.append(c)
+                    print('현재연결된학생소켓',self.student_socks)
             # 학생 또는 선생 프로그램에서 다른 권한의 계정으로 로그인 시도한 경우
             # 로그인 정보가 틀린경우
             else:
@@ -145,6 +147,41 @@ class Server:
         # ``` 학생 관리
         # elif head == 'management':
         #     sql = ''
+
+        #####장은희
+        # 실시간 상담 (학생프로그램)
+        elif head == 'st_chat':
+            member_num = msg[0]
+            member_name = msg[1]
+            chat_time = msg[2]
+            chat_msg = msg[3]
+            sql = f"insert into chatlog values \
+                  ('{member_num}','{member_name}','{chat_time}','{chat_msg}')"
+            db_execute(sql)
+            st_chat_list = [member_num, member_name, msg[4], chat_msg]
+            self.send_msg(c, 'st_chat', st_chat_list)
+            # 관리자 권한을 가진 모든 클라에게 전송
+            for admin in self.admin_socks:
+                self.send_msg(admin, 'st_chat', st_chat_list)
+
+            sql = f"select disticnt * from chatlog "
+
+        # 실시간 상담 (관리자프로그램)
+        elif head == 'at_chat':
+            member_num = msg[0]
+            member_name = msg[1]
+            chat_time = msg[2]
+            chat_msg = msg[3]
+            sql = f"insert into chatlog values \
+                  ('{member_num}','{member_name}','{chat_time}','{chat_msg}')"
+            db_execute(sql)
+            at_chat_list = [member_num, member_name, msg[4], chat_msg]
+            self.send_msg(c, 'at_chat', at_chat_list)
+            # 학생 클라에게 전송
+            for student in self.student_socks:
+                self.send_msg(student, 'at_chat', at_chat_list)
+
+
 
 ###########################################################################
 # 도구 메서드

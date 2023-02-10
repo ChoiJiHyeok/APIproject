@@ -24,7 +24,8 @@ db_user = 'network'
 db_pw = 'aaaa'
 db = 'api'
 
-#
+
+
 def db_execute(sql):
     conn = p.connect(host=db_host, port=db_port, user=db_user, password=db_pw, db=db, charset='utf8')
     c = conn.cursor()
@@ -33,7 +34,7 @@ def db_execute(sql):
     conn.close()
     return c.fetchall()
 
-#
+
 class WindowClass(QMainWindow, form_class):
     def __init__(self):
         super().__init__()

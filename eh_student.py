@@ -1,6 +1,4 @@
-#프로젝트 시작import pymysql as p
-# 23.02.06 ~ 02.11
-#10:43 복구
+import pymysql as p
 import sys
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
@@ -12,6 +10,7 @@ import xmltodict as xmltodict
 import math
 from tkinter import messagebox, Tk
 import json
+
 
 form_class = uic.loadUiType("main.ui")[0]
 svrip = 'localhost'
@@ -41,14 +40,16 @@ class WindowClass(QMainWindow, form_class):
         self.read_api()
         self.action = True
 
+        #장은희테스트
+        self.stw.setCurrentIndex(3)
+
         # 시그널 - 메서드
+
         self.hbt_add.clicked.connect(self.signup)
         self.hbt_login.clicked.connect(self.login)
-        self.hle_name.returnPressed.connect(self.login)
-        self.tabWidget_2.tabBarClicked.connect(self.show_contents)
-        self.comboBox.currentTextChanged.connect(self.select_year)
-        self.study_save_btn.clicked.connect(self.save_contents)
-        self.load_study_btn.clicked.connect(self.load_save)
+        ##장은희##
+        self.sle_chat.returnPressed.connect(self.st_chat) # 실시간 상담채팅
+
         # 서버 연결
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.sock.connect((svrip, port))
@@ -82,49 +83,10 @@ class WindowClass(QMainWindow, form_class):
                     spl = f'insert into learning_data values ({data_listnum},"{data_year}년 {data_month}월 {data_day}일","{date_summary}")'
                     db_execute(spl)
 
-    def show_contents(self, index): # Qtablewidget에 보여줄 학습내용 연도 선택
-        self.comboBox.clear()
-        if index==1:
-            for i in range(1000,2001,100):
-                if i == 2000:
-                    self.comboBox.addItem(str(i) + '년' + '~' + str(i + 23)+'년')
-                    # self.send_msg('call_contents', [index, self.comboBox.currentText()])
-                else:
-                    self.comboBox.addItem(str(i)+'년'+'~'+str(i+100)+'년')
-                    # self.send_msg('call_contents', [index, self.comboBox.currentText()])
-        else:
-            print(index)
-        # if index == 2:
-
-    def select_year(self):
-        self.send_msg("call_contents",['연도',self.comboBox.currentText()])
-
-    def save_contents(self):# 학습내용 저장하기
-        self.save1=self.stw_contents.item(0,1).text()
-        print(self.msg)
-        self.save2=self.stw_contents.item(self.msg-1,1).text()
-        print(self.save1, self.save2)
-        self.send_msg('save_contents',[self.name,self.save1,self.save2])
-
-    def load_save(self):
-        self.send_msg('loading_studying',[self.name,self.save1,self.save2])
-
+    # 수신 메서드
     def receive(self, c):
         while True:
-            new_msg = True
-            tmsg = ''
-            while True:
-                msg = c.recv(4096)
-                tmsg += msg.decode()
-
-                print(tmsg)
-                if new_msg:
-                    size = int(msg[:10])
-                    tmsg = tmsg[10:]
-                    new_msg = False
-                if len(tmsg) == size:
-                    break
-            rmsg = json.loads(tmsg)
+            rmsg = json.loads(c.recv(1024).decode())
             if rmsg:
                 self.p_msg('받은 메시지:', rmsg)
                 self.reaction(rmsg[0], rmsg[1])
@@ -146,20 +108,16 @@ class WindowClass(QMainWindow, form_class):
                 self.messagebox(f'가입 성공, 발급 코드: {code} 입니다.')
             else:
                 self.messagebox('가입 실패')
-        elif head == 'load_history': ## db learning_data  Qtablewidget에 표시
-            self.msg=len(msg)
-            self.stw_contents.setRowCount(len(msg))
-            self.stw_contents.setColumnCount(3)
-            for i in range(len(msg)):
-                for j in range(3):
-                    self.stw_contents.setItem(i, j, QTableWidgetItem(str(msg[i][j])))
-            # self.stw_contents.resizeColumnsToContents() # 내용에 따라서 크리 자동으로 조절
-        elif head == 'loading_studying':  # 저장된 학습내용 불러옴
-            self.stw_contents.setRowCount(len(msg))
-            self.stw_contents.setColumnCount(3)
-            for i in range(len(msg)):
-                for j in range(3):
-                    self.stw_contents.setItem(i, j, QTableWidgetItem(str(msg[i][j])))
+        #####장은희
+        # 실시간 상담 (자기자신)
+        elif head == 'st_chat':
+            self.slw_chat.addItem(f"{msg[1]}({msg[2]}) : {msg[3]}")
+        # 실시간 상담 (선생님->학생)
+        elif head == 'at_chat':
+            if self.hle_code.text() == msg[0]:
+                self.slw_chat.addItem(f"{msg[1]}({msg[2]}) : {msg[3]}")
+                self.slw_chat.scrollToBottom()
+
 
 ###########################################################################
 # 시그널 - 메서드
@@ -167,9 +125,9 @@ class WindowClass(QMainWindow, form_class):
     # 로그인 (학생 프로그램으로 서버에 [학생 코드, 권한, 이름] 전송)
     def login(self):
         code = self.hle_code.text()
-        self.name = self.hle_name.text()
-        if code and self.name:
-            self.send_msg('login', [code, '학생', self.name])
+        name = self.hle_name.text()
+        if code and name:
+            self.send_msg('login', [code, '학생', name])
         else:
             self.messagebox('로그인 실패')
         self.hle_code.clear()
@@ -177,14 +135,29 @@ class WindowClass(QMainWindow, form_class):
 
     # 회원 가입 (선생, 학생 프로그램 상관없이 서버에 [권한, 이름] 전송)
     def signup(self):
-        name = self.hle_add_name.text()
+        name = self.hle_add_name.text().split()[0]
         admin = self.hrb_admin.isChecked()
         user = self.hrb_user.isChecked()
-        if admin:
-            self.send_msg('signup', ['관리자', name])
-        elif user:
-            self.send_msg('signup', ['학생', name])
-        self.hle_add_name.clear()
+        if name:
+            if admin:
+                self.send_msg('signup', ['관리자', name])
+            elif user:
+                self.send_msg('signup', ['학생', name])
+            self.hle_add_name.clear()
+
+    #####장은희
+    # 상담 (학생 프로그램으로 서버에 [학생코드, 학생이름, 채팅시간, 채팅내용] 전송)
+    def st_chat(self):
+        chat_time = str(datetime.now()) #strftime("%Y-%m-%d %H:%M:%S")
+        time = datetime.now().strftime("%H:%M")
+        chat_msg = self.sle_chat.text()
+        # self.slw_chat.addItem(f"{self.name}({time}) : {chat_msg}")
+        if chat_msg and chat_time:
+            self.send_msg('st_chat', [self.code, self.name, chat_time, chat_msg, time])
+        self.slw_chat.scrollToBottom()
+        self.sle_chat.clear()
+
+
 
 ###########################################################################
 # 도구 메서드
@@ -209,6 +182,8 @@ class WindowClass(QMainWindow, form_class):
             print(f'{datetime.now()} / {head} {msg}')
         else:
             print(f'{datetime.now()} / {head}')
+
+
 
 
 if __name__ == "__main__":

@@ -171,30 +171,12 @@ class Server:
             find_contents=db_execute(sql)
             self.send_msg(c,'loading_studying',find_contents)
 
-
-
-
-
-
-
-
-
-
-
-
-
 ###########################################################################
 # 도구 메서드
 ###########################################################################
 
     # 클라소켓, 주제, 내용으로 클라에 데이터 전송
-    # def send_msg(self, c, head, value):
-    #     msg = json.dumps([head, value])
-    #     print(len(msg))
-    #     c.sendall(msg.encode())
-    #     self.p_msg(c, '보낸 메시지:', value)
-
-    def send_msg(self, c, head, value):
+     def send_msg(self, c, head, value):
         msg = json.dumps([head, value])
         msg = f"{len(msg):<10}"+msg
         print(len(msg))

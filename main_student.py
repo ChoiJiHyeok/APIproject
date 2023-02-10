@@ -1,4 +1,6 @@
 #프로젝트 시작import pymysql as p
+# 23.02.06 ~ 02.11
+#10:43 복구
 import sys
 from PyQt5.QtWidgets import *
 from PyQt5 import uic

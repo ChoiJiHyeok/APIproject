@@ -1,5 +1,3 @@
-# 23.02.06 ~ 02.11
-#10:43 복구
 import pymysql as p
 import socketserver
 from datetime import datetime
@@ -47,9 +45,9 @@ class Server:
         self.admin_socks = []
         self.student_socks = []
 
-###########################################################################
-# 스레드 객체
-###########################################################################
+    ###########################################################################
+    # 스레드 객체
+    ###########################################################################
 
     # 수신 메서드 ,클라 연결 종료시 종료 메시지 남기고 연결 소켓 제거
     def receive(self, c):
@@ -100,7 +98,7 @@ class Server:
             if msg[0] == '관리자':
                 # 회원 코드를 생성하기위해 번호조회
                 sql = "select count(*) from login_data where member_num like 'a%';"
-                num = int(db_execute(sql)[0][0])+1
+                num = int(db_execute(sql)[0][0]) + 1
                 # DB에 회원 정보 등록[회원코드, 권한, 이름]
                 sql = f"insert into login_data values('a{num}', '{msg[0]}', '{msg[1]}')"
                 db_execute(sql)
@@ -109,7 +107,7 @@ class Server:
             else:
                 # 회원 코드를 생성하기위해 번호조회
                 sql = "select count(*) from login_data where member_num like 's%';"
-                num = int(db_execute(sql)[0][0])+1
+                num = int(db_execute(sql)[0][0]) + 1
                 # DB에 회원 정보 등록[회원코드, 권한, 이름]
                 sql = f"insert into login_data values('s{num}', '{msg[0]}','{msg[1]}')"
                 db_execute(sql)
@@ -146,39 +144,42 @@ class Server:
             self.send_msg(c, 'load_quiz', quiz_list)
         # ```
         ##학생용
+        # ```
         # 학생이 학습내용 풀러오기
 
         elif head == 'call_contents':
             if msg[1] != '연도선택':
                 try:
-                    year=msg[1].split("~")
+                    year = msg[1].split("~")
                     print(year)
-                    sql=f'SELECT *FROM learning_data WHERE date BETWEEN "{year[0]}" AND "{year[1]}"'
-                    study_contents=db_execute(sql)
+                    sql = f'SELECT *FROM learning_data WHERE date BETWEEN "{year[0]}" AND "{year[1]}"'
+                    study_contents = db_execute(sql)
                     print(study_contents)
-                    self.send_msg(c,'load_history',study_contents)
+                    self.send_msg(c, 'load_history', study_contents)
                 except IndexError:
                     print('study')
             else:
                 print('gg')
-        elif head == "save_contents": # 학습내용 저장 하기
-            sql=f'UPDATE study_progress SET study_progress = "{msg[0]}:{msg[1]}~{msg[2]}" WHERE student_name = "{msg[0]}"'
-            update_progress=db_execute(sql)
+        elif head == "save_contents":  # 학습내용 저장 하기
+            sql = f'UPDATE study_progress SET study_progress = "{msg[0]}:{msg[1]}~{msg[2]}" WHERE student_name = "{msg[0]}"'
+            update_progress = db_execute(sql)
             print(update_progress)
 
-        elif head == 'loading_studying': #저장된 학습내용 불러오기
-            sql=f'SELECT *FROM learning_data WHERE date BETWEEN "{msg[1]}" AND "{msg[2]}"'
-            find_contents=db_execute(sql)
-            self.send_msg(c,'loading_studying',find_contents)
+        elif head == 'loading_studying':  # 저장된 학습내용 불러오기
+            sql = f'SELECT *FROM learning_data WHERE date BETWEEN "{msg[1]}" AND "{msg[2]}"'
+            find_contents = db_execute(sql)
+            self.send_msg(c, 'loading_studying', find_contents)
 
-###########################################################################
-# 도구 메서드
-###########################################################################
+        # ```
 
-# 클라소켓, 주제, 내용으로 클라에 데이터 전송
+    ###########################################################################
+    # 도구 메서드
+    ###########################################################################
+
+    # 클라소켓, 주제, 내용으로 클라에 데이터 전송
     def send_msg(self, c, head, value):
         msg = json.dumps([head, value])
-        msg = f"{len(msg):<10}"+msg
+        msg = f"{len(msg):<10}" + msg
         print(len(msg))
         c.sendall(msg.encode())
         self.p_msg(c, '보낸 메시지:', value)

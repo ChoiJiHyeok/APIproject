@@ -23,7 +23,7 @@ db_user = 'network'
 db_pw = 'aaaa'
 db = 'api'
 
-#
+
 def db_execute(sql):
     conn = p.connect(host=db_host, port=db_port, user=db_user, password=db_pw, db=db, charset='utf8')
     c = conn.cursor()
@@ -32,7 +32,7 @@ def db_execute(sql):
     conn.close()
     return c.fetchall()
 
-#
+
 class WindowClass(QMainWindow, form_class):
     def __init__(self):
         super().__init__()
@@ -95,6 +95,7 @@ class WindowClass(QMainWindow, form_class):
         else:
             print(index)
         # if index == 2:
+
     def select_year(self):
         self.send_msg("call_contents",['연도',self.comboBox.currentText()])
 
@@ -105,12 +106,8 @@ class WindowClass(QMainWindow, form_class):
         print(self.save1, self.save2)
         self.send_msg('save_contents',[self.name,self.save1,self.save2])
 
-
     def load_save(self):
         self.send_msg('loading_studying',[self.name,self.save1,self.save2])
-
-
-
 
     def receive(self, c):
         while True:
@@ -131,21 +128,6 @@ class WindowClass(QMainWindow, form_class):
             if rmsg:
                 self.p_msg('받은 메시지:', rmsg)
                 self.reaction(rmsg[0], rmsg[1])
-
-
-
-
-    # # 수신 메서드
-    # def receive(self, c):
-    #     while True:
-    #         c_msg=c.recv(210000000).decode()
-    #         print(c_msg,'gdgdgd')
-    #         rmsg = json.loads(c_msg)
-    #         if rmsg:
-    #
-    #             self.p_msg('받은 메시지:', rmsg)
-    #             self.reaction(rmsg[0], rmsg[1])
-
 
     # 반응 메서드
     def reaction(self, head, msg):
@@ -178,7 +160,8 @@ class WindowClass(QMainWindow, form_class):
             for i in range(len(msg)):
                 for j in range(3):
                     self.stw_contents.setItem(i, j, QTableWidgetItem(str(msg[i][j])))
-    ###########################################################################
+
+###########################################################################
 # 시그널 - 메서드
 ###########################################################################
     # 로그인 (학생 프로그램으로 서버에 [학생 코드, 권한, 이름] 전송)

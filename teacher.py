@@ -126,6 +126,8 @@ class WindowClass(QMainWindow, form_class):
                 for m in msg[0]:
                     self.add_top_tree(str(m[0]), str(m[1]), str(m[2]), msg[1])
 
+        # ```
+
     # tree 위젯에 item 추가하기
     def add_top_tree(self, num, name, score, value):
         item = QTreeWidgetItem(self.atw_record)

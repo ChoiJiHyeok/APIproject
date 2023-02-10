@@ -71,7 +71,7 @@
       <recent name="C:\Users\Kiot\PycharmProjects\APIproject" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.mainteacher">
+  <component name="RunManager" selected="Python.mainstudent">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -260,8 +260,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.mainteacher" />
         <item itemvalue="Python.mainstudent" />
+        <item itemvalue="Python.mainteacher" />
         <item itemvalue="Python.mainserver" />
         <item itemvalue="Python.eh_student" />
         <item itemvalue="Python.eh_server" />
@@ -501,7 +501,14 @@
       <option name="project" value="LOCAL" />
       <updated>1675998799567</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="230210 파일 추가">
+      <created>1676000684571</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1676000684571</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

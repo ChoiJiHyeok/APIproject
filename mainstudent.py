@@ -177,9 +177,8 @@ class WindowClass(QMainWindow, form_class):
             self.slw_chat.addItem(f"{msg[1]}({msg[2]}) : {msg[3]}")
         # 실시간 상담 (선생님->학생)
         elif head == 'at_chat':
-            if self.hle_code.text() == msg[0]:
-                self.slw_chat.addItem(f"{msg[1]}({msg[2]}) : {msg[3]}")
-                self.slw_chat.scrollToBottom()
+            self.slw_chat.addItem(f"{msg[1]}({msg[2]}) : {msg[3]}")
+            self.slw_chat.scrollToBottom()
 
 
 ###########################################################################

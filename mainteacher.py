@@ -129,9 +129,8 @@ class WindowClass(QMainWindow, form_class):
         #####장은희
         # 실시간 상담 (학생->선생님)
         elif head == 'st_chat':
-            if self.hle_code.text() == msg[0]:
-                self.alw_chat.addItem(f"{msg[1]}({msg[2]}) : {msg[3]}")
-                self.alw_chat.scrollToBottom()
+            self.alw_chat.addItem(f"{msg[1]}({msg[2]}) : {msg[3]}")
+            self.alw_chat.scrollToBottom()
         # 실시간 상담 (자기자신)
         elif head == 'at_chat':
             self.alw_chat.addItem(f"{msg[1]}({msg[2]}) : {msg[3]}")

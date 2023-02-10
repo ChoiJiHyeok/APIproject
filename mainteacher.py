@@ -121,11 +121,13 @@ class WindowClass(QMainWindow, form_class):
         # 학생 회원가입시 코드및 이름 받아오기
         elif head == 'add_alw_user':
             self.alw_user.addItem(f'[{msg[0]}]{msg[1]}')
+
         elif head == 'study':
             self.atw_record.clear()
             if msg != 'False':
                 for m in msg[0]:
                     self.add_top_tree(str(m[0]), str(m[1]), str(m[2]), msg[1])
+        # ```
         # ###장은희
         # 실시간 상담 (학생->선생님)
         elif head == 'st_chat':

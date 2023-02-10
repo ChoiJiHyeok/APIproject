@@ -117,7 +117,7 @@ class Server:
                 sql = f"insert into login_data values('s{num}', '{msg[0]}','{msg[1]}')"
                 db_execute(sql)
                 # 회원관리 DB에 신규 등록
-                sql = f"insert into study_progress values('F','{msg[1]}', '0', '0');"
+                sql = f"insert into study_progress values('F','s{num}','{msg[1]}', '0', '0');"
                 db_execute(sql)
                 self.send_msg(c, 'signup', ['success', f's{num}'])
                 for client in self.admin_socks:

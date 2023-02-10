@@ -508,7 +508,21 @@
       <option name="project" value="LOCAL" />
       <updated>1676000684571</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="230210 취합 완료 이제부터 작업은 main에서 커밋 하기전에 본인 pyton 파일에 저장하고 커밋 할것">
+      <created>1676001006628</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1676001006628</updated>
+    </task>
+    <task id="LOCAL-00035" summary="230210 취합 완료 이제부터 작업은 main에서 커밋 하기전에 본인 pyton 파일에 저장하고 커밋 할것">
+      <created>1676001270444</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1676001270444</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -523,7 +537,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="230206 API_test.py 추가" />
     <MESSAGE value="230206 API_test.py 신간 측정 추가" />
     <MESSAGE value="230206 UI 생성" />
     <MESSAGE value="230206 select 모듈 예제" />
@@ -548,7 +561,8 @@
     <MESSAGE value="230210 띄어쓰기 수정" />
     <MESSAGE value="230210 test" />
     <MESSAGE value="230210 파일 추가" />
-    <option name="LAST_COMMIT_MESSAGE" value="230210 파일 추가" />
+    <MESSAGE value="230210 취합 완료 이제부터 작업은 main에서 커밋 하기전에 본인 pyton 파일에 저장하고 커밋 할것" />
+    <option name="LAST_COMMIT_MESSAGE" value="230210 취합 완료 이제부터 작업은 main에서 커밋 하기전에 본인 pyton 파일에 저장하고 커밋 할것" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

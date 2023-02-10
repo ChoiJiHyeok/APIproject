@@ -1,3 +1,4 @@
+import time
 import sys
 from PyQt5.QtWidgets import *
 import pymysql as p
@@ -47,6 +48,9 @@ class WindowClass(QMainWindow, form_class):
         self.comboBox.currentTextChanged.connect(self.select_year)
         self.study_save_btn.clicked.connect(self.save_contents)
         self.load_study_btn.clicked.connect(self.load_save)
+        self.answer_table.cellChanged.connect(self.input_answer)
+
+
         ##장은희##
         self.sle_chat.returnPressed.connect(self.st_chat) # 실시간 상담채팅
 
@@ -83,6 +87,21 @@ class WindowClass(QMainWindow, form_class):
                     spl = f'insert into learning_data values ({data_listnum},"{data_year}년 {data_month}월 {data_day}일","{date_summary}")'
                     db_execute(spl)
 
+
+
+    def input_answer(self, row, column): # 정답 입력하면 시간 제기 및 그 정답 입력 받는 해당 테이블에 추가
+        print('hihi')
+        cell_answer=self.answer_table.item(row,column).text()
+        get_num=self.row_list[row]
+        print(get_num[-1],'문제 번호')
+        print(cell_answer)
+        self.end=time.time()
+        measure_time=(self.start-self.end)*(-1)
+        sol_time=f"{measure_time:0.2f}"
+        print(sol_time)
+        self.start=time.time()
+        self.send_msg('정답', [self.name, get_num, cell_answer])
+
     def show_contents(self, index): # Qtablewidget에 보여줄 학습내용 연도 선택
         self.comboBox.clear()
         if index==1:
@@ -93,7 +112,9 @@ class WindowClass(QMainWindow, form_class):
                     self.comboBox.addItem(str(i)+'년'+'~'+str(i+100)+'년')
 
         elif index==2:
-            self.send_msg("call_quiz", ['quiz_num' , 'quiz', 'score'])
+            self.send_msg("call_quiz", ['quiz_num' , 'score', 'quiz'])
+            self.start = time.time()
+
 
         else:
             print(index)
@@ -111,8 +132,6 @@ class WindowClass(QMainWindow, form_class):
     def load_save(self):
         self.send_msg('loading_studying', [self.name, self.save1, self.save2])
 
-    # 수신 메서드
-    # 수신 메서드
     # 수신 메서드
     def receive(self, c):
         while True:
@@ -166,10 +185,8 @@ class WindowClass(QMainWindow, form_class):
             for i in range(len(msg)):
                 for j in range(3):
                     self.stw_contents.setItem(i, j, QTableWidgetItem(str(msg[i][j])))
-            header.setSectionResizeMode(0, QHeaderView.ResizeToContents)
-            header.setSectionResizeMode(1, QHeaderView.ResizeToContents)
-            header.setSectionResizeMode(2, QHeaderView.ResizeToContents)
-            # self.stw_contents.resizeColumnsToContents() # 내용에 따라서 크리 자동으로 조절
+            self.stw_contents.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents) #셀값에 따라 자동으로 컬럼 넓이 조절
+
         # 저장된 학습내용 불러옴
         elif head == 'loading_studying':
             self.stw_contents.setRowCount(len(msg))
@@ -187,16 +204,16 @@ class WindowClass(QMainWindow, form_class):
             for i in range(len(msg)):
                 for j in range(3):
                     self.stw_test.setItem(i, j, QTableWidgetItem(str(msg[i][j])))
-
+            self.stw_test.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
 
             #정답란 제출란
-            row_list = []
+            self.row_list = []
             for l in range(len(msg)):
-                row_list.append('문제' + str(l+1))
-            print(row_list)
+                self.row_list.append('문제' + str(l+1))
+            print(self.row_list)
             self.answer_table.setRowCount(len(msg))
             self.answer_table.setColumnCount(1)
-            self.answer_table.setVerticalHeaderLabels(row_list)  # row 항목명 세팅
+            self.answer_table.setVerticalHeaderLabels(self.row_list)  # row 항목명 세팅
 
 
 

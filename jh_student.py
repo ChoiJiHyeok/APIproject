@@ -32,7 +32,7 @@ def db_execute(sql):
     conn.close()
     return c.fetchall()
 
-
+#
 class WindowClass(QMainWindow, form_class):
     def __init__(self):
         super().__init__()

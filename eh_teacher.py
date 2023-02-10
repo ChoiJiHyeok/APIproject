@@ -43,10 +43,29 @@ class WindowClass(QMainWindow, form_class):
         th = threading.Thread(target=self.receive, args=(self.sock,), daemon=True)
         th.start()
 
-    # 수신 메서드
+        # 수신 메서드
+
     def receive(self, c):
         while True:
-            rmsg = json.loads(c.recv(1024).decode())
+            new_msg = True
+            tmsg = ''
+            while True:
+                # 전송된 데이터를 20바이트씩 받기
+                msg = c.recv(1024)
+                tmsg += msg.decode()
+
+                print(tmsg)
+                # 전송된 데이터의 길이 정보를 추출
+                if new_msg:
+                    size = int(msg[:10])
+                    # json.loads할 데이터에 길이 정보를 제거
+                    tmsg = tmsg[10:]
+                    new_msg = False
+
+                # 전송된 데이터의 길이 정보와 json.loads할 데이터의 길이가 같으면 반복문 종료
+                if len(tmsg) == size:
+                    break
+            rmsg = json.loads(tmsg)
             if rmsg:
                 self.p_msg('받은 메시지:', rmsg)
                 self.reaction(rmsg[0], rmsg[1])

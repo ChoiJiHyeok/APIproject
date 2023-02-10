@@ -175,8 +175,8 @@ class Server:
 # 도구 메서드
 ###########################################################################
 
-    # 클라소켓, 주제, 내용으로 클라에 데이터 전송
-     def send_msg(self, c, head, value):
+# 클라소켓, 주제, 내용으로 클라에 데이터 전송
+    def send_msg(self, c, head, value):
         msg = json.dumps([head, value])
         msg = f"{len(msg):<10}"+msg
         print(len(msg))

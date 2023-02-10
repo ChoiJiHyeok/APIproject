@@ -235,6 +235,28 @@ class Server:
             for student in self.student_socks:
                 self.send_msg(student, 'at_chat', at_chat_list)
 
+        # ``` QnA
+        # 신규 질문을 받아 DB에 저장하고 등록자와 관리자에게 내용 전송
+        elif head == 'question':
+            sql = "select count(distinct q_num) from qna;"
+            num = db_execute(sql)[0][0]+1
+            sql = f"insert into qna values ('{num}', '{msg[0]}', '{msg[1]}', '{msg[2]}', '');"
+            db_execute(sql)
+            self.send_msg(c, 'add_stw_qa', [num, msg[0], msg[1], msg[2], ''])
+            for administrator in self.admin_socks:
+                self.send_msg(administrator, 'add_stw_qa', [num, msg[0], msg[1], msg[2], ''])
+        # 학생이 QnA창에 들어갔을때 입장한 학생의 질문내역을 전송
+        elif head == 'qna':
+            sql = f"select * from qna where member_num = '{msg[0]}' and member_name = '{msg[1]}';"
+            qna = db_execute(sql)
+            self.send_msg(c, 'set_stw_qa', qna)
+        # 선생이 QnA창에 들어갔을때 모든 학생의 질문내역을 전송
+        elif head == 'qna_adin':
+            sql = "select * from qna;"
+            qna = db_execute(sql)
+            self.send_msg(c, 'set_stw_qa', qna)
+        # ```
+
 ###########################################################################
 # 도구 메서드
 ###########################################################################
@@ -242,7 +264,6 @@ class Server:
     # 클라소켓, 주제, 내용으로 클라에 데이터 전송
     def send_msg(self, c, head, value):
         msg = json.dumps([head, value])
-        print('서버 전송 바이트: ', len(msg))
         # 전송 데인터의 처음 10바이트를 전송 길이정보를 넣어 전송
         msg = f"{len(msg):<10}"+msg
         c.sendall(msg.encode())

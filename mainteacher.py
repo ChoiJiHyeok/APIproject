@@ -17,7 +17,9 @@ class WindowClass(QMainWindow, form_class):
         super().__init__()
         self.setupUi(self)
         self.stackedWidget.setCurrentIndex(0)
+        self.atw.setCurrentIndex(0)
         self.user_management = False
+        self.qna_show = False
 
         self.ale_chat.returnPressed.connect(self.at_chat) # 실시간상담채팅
 
@@ -48,21 +50,18 @@ class WindowClass(QMainWindow, form_class):
         while True:
             new_msg = True
             tmsg = ''
+            buffer = 10
             while True:
-                # 전송된 데이터를 20바이트씩 받기
-                msg = c.recv(1024)
+                msg = c.recv(buffer)
                 tmsg += msg.decode()
 
-                print(tmsg)
-                # 전송된 데이터의 길이 정보를 추출
+                # 전송된 데이터의 길이 정보를 추출하여 buffer에 저장
                 if new_msg:
-                    size = int(msg[:10])
+                    buffer = int(msg)
+                    new_msg = False
+                else:
                     # json.loads할 데이터에 길이 정보를 제거
                     tmsg = tmsg[10:]
-                    new_msg = False
-
-                # 전송된 데이터의 길이 정보와 json.loads할 데이터의 길이가 같으면 반복문 종료
-                if len(tmsg) == size:
                     break
             rmsg = json.loads(tmsg)
             if rmsg:
@@ -136,6 +135,20 @@ class WindowClass(QMainWindow, form_class):
         # 실시간 상담 (자기자신)
         elif head == 'at_chat':
             self.alw_chat.addItem(f"{msg[1]}({msg[2]}) : {msg[3]}")
+        # ``` QnA
+        # 처음 QnA창에 들어가면 질문내역 위젯에 등록
+        elif head == 'set_stw_qa':
+            self.atw_qa.setRowCount(len(msg))
+            for row, qna in enumerate(msg):
+                for col, val in enumerate(qna):
+                    self.atw_qa.setItem(row, col, QTableWidgetItem(str(val)))
+        # 추가된 질문 받아와 위젯에 등록
+        elif head == 'add_stw_qa':
+            row = self.atw_qa.rowCount()
+            self.atw_qa.setRowCount(row+1)
+            for idx, val in enumerate(msg):
+                self.atw_qa.setItem(row, idx, QTableWidgetItem(str(val)))
+        # ```
 
     # tree 위젯에 item 추가하기
     def add_top_tree(self, num, name, score, value):
@@ -226,6 +239,9 @@ class WindowClass(QMainWindow, form_class):
         if tab == 1 and not self.user_management:
             self.user_management = True
             self.send_msg('management', '')
+        elif tab == 3 and not self.qna_show:
+            self.qna_show = True
+            self.send_msg('qna_adin', '')
 
     # 학생관리창에서 학생이름을 더블 클릭하면 서버에 신호 전송
     def study_progress(self):

@@ -53,14 +53,11 @@ class WindowClass(QMainWindow, form_class):
                 msg = c.recv(buffer)
                 tmsg += msg.decode()
 
-                # 전송된 데이터의 길이 정보를 추출
+                # 전송된 데이터의 길이 정보를 추출하여 buffer에 저장
                 if new_msg:
-                    size = int(msg[:10])
-                    buffer = size
+                    buffer = int(msg)
                     new_msg = False
-
-                # 전송된 데이터의 길이 정보와 json.loads할 데이터의 길이가 같으면 반복문 종료
-                if len(tmsg)-10 == size:
+                else:
                     # json.loads할 데이터에 길이 정보를 제거
                     tmsg = tmsg[10:]
                     break

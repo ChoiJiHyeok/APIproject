@@ -165,7 +165,7 @@ class Server:
                 self.send_msg(c, 'study', [user_infor, more_infor])
             else:
                 self.send_msg(c, 'study', 'False')
-        #```
+        # ```
         # 학생용
         # 학생이 학습내용 풀러오기
 
@@ -191,7 +191,6 @@ class Server:
             sql=f'SELECT *FROM learning_data WHERE date BETWEEN "{msg[1]}" AND "{msg[2]}"'
             find_contents=db_execute(sql)
             self.send_msg(c, 'loading_studying', find_contents)
-
 
         # ####장은희
         # 실시간 상담 (학생프로그램)
@@ -225,8 +224,6 @@ class Server:
             # 학생 클라에게 전송
             for student in self.student_socks:
                 self.send_msg(student, 'at_chat', at_chat_list)
-
-
 
 ###########################################################################
 # 도구 메서드

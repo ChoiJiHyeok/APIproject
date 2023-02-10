@@ -15,7 +15,7 @@ import json
 form_class = uic.loadUiType("main.ui")[0]
 svrip = 'localhost'
 port = 9000
-#
+
 db_host = '10.10.21.105'
 db_port = 3306
 db_user = 'network'
@@ -88,7 +88,7 @@ class WindowClass(QMainWindow, form_class):
     def show_contents(self, index): # Qtablewidget에 보여줄 학습내용 연도 선택
         self.comboBox.clear()
         if index==1:
-            for i in range(1000,2001,100):
+            for i in range(1000, 2001, 100):
                 if i == 2000:
                     self.comboBox.addItem(str(i) + '년' + '~' + str(i + 23)+'년')
                     # self.send_msg('call_contents', [index, self.comboBox.currentText()])
@@ -118,25 +118,22 @@ class WindowClass(QMainWindow, form_class):
         while True:
             new_msg = True
             tmsg = ''
+            buffer = 10
             while True:
-                msg = c.recv(1024)
+                msg = c.recv(buffer)
                 tmsg += msg.decode()
 
-                print(tmsg)
                 # 전송된 데이터의 길이 정보를 추출
                 if new_msg:
                     size = int(msg[:10])
-                    # json.loads할 데이터에 길이 정보를 제거
-                    tmsg = tmsg[10:]
+                    buffer = size
                     new_msg = False
 
                 # 전송된 데이터의 길이 정보와 json.loads할 데이터의 길이가 같으면 반복문 종료
-                if len(tmsg) == size:
+                if len(tmsg)-10 == size:
+                    # json.loads할 데이터에 길이 정보를 제거
+                    tmsg = tmsg[10:]
                     break
-            rmsg = json.loads(tmsg)
-            if rmsg:
-                self.p_msg('받은 메시지:', rmsg)
-                self.reaction(rmsg[0], rmsg[1])
 
     # 반응 메서드
     def reaction(self, head, msg):
@@ -163,7 +160,6 @@ class WindowClass(QMainWindow, form_class):
             for i in range(len(msg)):
                 for j in range(3):
                     self.stw_contents.setItem(i, j, QTableWidgetItem(str(msg[i][j])))
-            # self.stw_contents.resizeColumnsToContents() # 내용에 따라서 크리 자동으로 조절
         # 저장된 학습내용 불러옴
         elif head == 'loading_studying':
             self.stw_contents.setRowCount(len(msg))

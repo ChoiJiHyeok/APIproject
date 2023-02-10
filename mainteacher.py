@@ -64,6 +64,10 @@ class WindowClass(QMainWindow, form_class):
                     # json.loads할 데이터에 길이 정보를 제거
                     tmsg = tmsg[10:]
                     break
+            rmsg = json.loads(tmsg)
+            if rmsg:
+                self.p_msg('받은 메시지:', rmsg)
+                self.reaction(rmsg[0], rmsg[1])
 
     # 반응 메서드
     def reaction(self, head, msg):

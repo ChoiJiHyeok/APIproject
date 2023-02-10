@@ -17,10 +17,9 @@ class WindowClass(QMainWindow, form_class):
         super().__init__()
         self.setupUi(self)
         self.stackedWidget.setCurrentIndex(0)
+        self.user_management = False
 
-        #장은희테스트
-        self.atw.setCurrentIndex(2)
-        self.ale_chat.returnPressed.connect(self.at_chat) # 실시간상담채팅
+        self.ale_chat.returnPressed.connect(self.at_chat)  # 실시간상담채팅
 
         # 시그널 - 메서드
         # 로그인, 회원가입
@@ -35,6 +34,7 @@ class WindowClass(QMainWindow, form_class):
         self.acb_num.currentIndexChanged.connect(self.send_quiz_num)
         # 학생관리
         self.atw.currentChanged.connect(self.atw_move)
+        self.alw_user.itemDoubleClicked.connect(self.study_progress)
 
         # 서버 연결
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -89,24 +89,54 @@ class WindowClass(QMainWindow, form_class):
             for row, quiz_list in enumerate(msg):
                 for col, value in enumerate(quiz_list):
                     if col != 0:
-                        self.atw_q.setItem(row, col-1, QTableWidgetItem(value))
+                        self.atw_q.setItem(row, col - 1, QTableWidgetItem(value))
         # 추가된 문제 등록번호 콤보박스에 저장
         elif head == 'add_acb_num':
             self.acb_num.addItem(str(msg))
         # ```
-        #####장은희
+        # ``` 학생 관리
+        # 처음 학생 관리창 들어가면 전체 학생 리스트 불러오기
+        elif head == 'management':
+            self.alw_user.clear()
+            for value in msg:
+                self.alw_user.addItem(f'[{value[0]}]{value[1]}')
+        # 학생 회원가입시 코드및 이름 받아오기
+        elif head == 'add_alw_user':
+            self.alw_user.addItem(f'[{msg[0]}]{msg[1]}')
+
+        elif head == 'study':
+            self.atw_record.clear()
+            if msg != 'False':
+                for m in msg[0]:
+                    self.add_top_tree(str(m[0]), str(m[1]), str(m[2]), msg[1])
+        # ```
+        # ###장은희
         # 실시간 상담 (학생->선생님)
         elif head == 'st_chat':
-            if self.hle_code.text() == msg[0]:
-                self.alw_chat.addItem(f"{msg[1]}({msg[2]}) : {msg[3]}")
-                self.alw_chat.scrollToBottom()
+            self.alw_chat.addItem(f"{msg[1]}({msg[2]}) : {msg[3]}")
+            self.alw_chat.scrollToBottom()
         # 실시간 상담 (자기자신)
         elif head == 'at_chat':
             self.alw_chat.addItem(f"{msg[1]}({msg[2]}) : {msg[3]}")
 
-###########################################################################
-# 송신
-###########################################################################
+    # tree 위젯에 item 추가하기
+    def add_top_tree(self, num, name, score, value):
+        item = QTreeWidgetItem(self.atw_record)
+        item.setText(0, num)
+        item.setText(1, name)
+        item.setText(2, score)
+        for i in value:
+            if str(i[0]) == num:
+                sub_item = QTreeWidgetItem(item)
+                sub_item.setText(0, str(i[1]))
+                sub_item.setText(1, str(i[2]))
+                sub_item.setText(2, str(i[3]))
+                sub_item.setText(3, str(i[4]))
+                sub_item.setText(4, str(i[5]))
+
+    ###########################################################################
+    # 송신
+    ###########################################################################
 
     # 로그인 (선생 프로그램으로 서버에 [선생 코드, 권한, 이름] 전송)
     def login(self):
@@ -172,15 +202,22 @@ class WindowClass(QMainWindow, form_class):
         num = self.acb_num.currentText()
         self.send_msg('load_quiz', num)
 
+    # tab위젯 tab이동시 index 받기
     def atw_move(self):
         tab = self.atw.currentIndex()
-        if tab == 1:
+        if tab == 1 and not self.user_management:
+            self.user_management = True
             self.send_msg('management', '')
+
+    # 학생관리창에서 학생이름을 더블 클릭하면 서버에 신호 전송
+    def study_progress(self):
+        name = self.alw_user.currentItem().text().split(']')[1]
+        self.send_msg('study', name)
 
     #####장은희
     # 상담 (관리자 프로그램으로 서버에 [관리자코드, 관리자이름, 채팅시간, 채팅내용] 전송)
     def at_chat(self):
-        chat_time = str(datetime.now()) #strftime("%Y-%m-%d %H:%M:%S")
+        chat_time = str(datetime.now())  # strftime("%Y-%m-%d %H:%M:%S")
         time = datetime.now().strftime("%H:%M")
         chat_msg = self.ale_chat.text()
         # self.alw_chat.addItem(f"{self.name}({time}) : {chat_msg}")
@@ -189,15 +226,14 @@ class WindowClass(QMainWindow, form_class):
         self.alw_chat.scrollToBottom()
         self.ale_chat.clear()
 
-
-###########################################################################
-# 송신 기능이 없는 시그널 - 메서드
-###########################################################################
+    ###########################################################################
+    # 송신 기능이 없는 시그널 - 메서드
+    ###########################################################################
 
     # 문제목록에 문제 추가 하기
     def add_space(self):
         num = self.atw_q.rowCount()
-        self.atw_q.setRowCount(num+1)
+        self.atw_q.setRowCount(num + 1)
 
     # 문제목록에 문제 삭제 하기
     def del_space(self):
@@ -205,7 +241,7 @@ class WindowClass(QMainWindow, form_class):
         num = self.atw_q.currentRow()
         # 테이블 위젯의 선택한 셀이 없는 경우
         if num < 0:
-            num = max_num-1
+            num = max_num - 1
         # 테이블 위젯의 특정 셀의 행 지우기
         self.atw_q.removeRow(num)
 
@@ -228,9 +264,9 @@ class WindowClass(QMainWindow, form_class):
         self.atw_q.clearContents()
         self.atw_q.setRowCount(0)
 
-###########################################################################
-# 도구 메서드
-###########################################################################
+    ###########################################################################
+    # 도구 메서드
+    ###########################################################################
 
     # tkinter 를 이용한 messagbox 송출
     def messagebox(self, value):

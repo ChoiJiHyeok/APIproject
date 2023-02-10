@@ -1,6 +1,3 @@
-#프로젝트 시작import pymysql as p
-# 23.02.06 ~ 02.11
-#10:43 복구
 import sys
 from PyQt5.QtWidgets import *
 import pymysql as p
@@ -23,7 +20,6 @@ db_port = 3306
 db_user = 'network'
 db_pw = 'aaaa'
 db = 'api'
-
 
 
 def db_execute(sql):
@@ -51,6 +47,9 @@ class WindowClass(QMainWindow, form_class):
         self.comboBox.currentTextChanged.connect(self.select_year)
         self.study_save_btn.clicked.connect(self.save_contents)
         self.load_study_btn.clicked.connect(self.load_save)
+        ##장은희##
+        self.sle_chat.returnPressed.connect(self.st_chat) # 실시간 상담채팅
+
         # 서버 연결
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.sock.connect((svrip, port))
@@ -98,22 +97,20 @@ class WindowClass(QMainWindow, form_class):
             print(index)
         # if index == 2:
     def select_year(self):
-        self.send_msg("call_contents",['연도',self.comboBox.currentText()])
+        self.send_msg("call_contents", ['연도', self.comboBox.currentText()])
 
-    def save_contents(self):# 학습내용 저장하기
-        self.save1=self.stw_contents.item(0,1).text()
+    # 학습내용 저장하기
+    def save_contents(self):
+        self.save1=self.stw_contents.item(0, 1).text()
         print(self.msg)
-        self.save2=self.stw_contents.item(self.msg-1,1).text()
+        self.save2=self.stw_contents.item(self.msg-1, 1).text()
         print(self.save1, self.save2)
-        self.send_msg('save_contents',[self.name,self.save1,self.save2])
-
+        self.send_msg('save_contents', [self.name, self.save1, self.save2])
 
     def load_save(self):
-        self.send_msg('loading_studying',[self.name,self.save1,self.save2])
+        self.send_msg('loading_studying', [self.name, self.save1, self.save2])
 
-
-
-
+    # 수신 메서드
     def receive(self, c):
         while True:
             new_msg = True
@@ -123,31 +120,20 @@ class WindowClass(QMainWindow, form_class):
                 tmsg += msg.decode()
 
                 print(tmsg)
+                # 전송된 데이터의 길이 정보를 추출
                 if new_msg:
                     size = int(msg[:10])
+                    # json.loads할 데이터에 길이 정보를 제거
                     tmsg = tmsg[10:]
                     new_msg = False
+
+                # 전송된 데이터의 길이 정보와 json.loads할 데이터의 길이가 같으면 반복문 종료
                 if len(tmsg) == size:
                     break
             rmsg = json.loads(tmsg)
             if rmsg:
                 self.p_msg('받은 메시지:', rmsg)
                 self.reaction(rmsg[0], rmsg[1])
-
-
-
-
-    # # 수신 메서드
-    # def receive(self, c):
-    #     while True:
-    #         c_msg=c.recv(210000000).decode()
-    #         print(c_msg,'gdgdgd')
-    #         rmsg = json.loads(c_msg)
-    #         if rmsg:
-    #
-    #             self.p_msg('받은 메시지:', rmsg)
-    #             self.reaction(rmsg[0], rmsg[1])
-
 
     # 반응 메서드
     def reaction(self, head, msg):
@@ -166,21 +152,33 @@ class WindowClass(QMainWindow, form_class):
                 self.messagebox(f'가입 성공, 발급 코드: {code} 입니다.')
             else:
                 self.messagebox('가입 실패')
-        elif head == 'load_history': ## db learning_data  Qtablewidget에 표시
-            self.msg=len(msg)
+        # db learning_data  Qtablewidget에 표시
+        elif head == 'load_history':
+            self.msg = len(msg)
             self.stw_contents.setRowCount(len(msg))
             self.stw_contents.setColumnCount(3)
             for i in range(len(msg)):
                 for j in range(3):
                     self.stw_contents.setItem(i, j, QTableWidgetItem(str(msg[i][j])))
             # self.stw_contents.resizeColumnsToContents() # 내용에 따라서 크리 자동으로 조절
-        elif head == 'loading_studying':  # 저장된 학습내용 불러옴
+        # 저장된 학습내용 불러옴
+        elif head == 'loading_studying':
             self.stw_contents.setRowCount(len(msg))
             self.stw_contents.setColumnCount(3)
             for i in range(len(msg)):
                 for j in range(3):
                     self.stw_contents.setItem(i, j, QTableWidgetItem(str(msg[i][j])))
-    ###########################################################################
+        # ####장은희
+        # 실시간 상담 (자기자신)
+        elif head == 'st_chat':
+            self.slw_chat.addItem(f"{msg[1]}({msg[2]}) : {msg[3]}")
+        # 실시간 상담 (선생님->학생)
+        elif head == 'at_chat':
+            self.slw_chat.addItem(f"{msg[1]}({msg[2]}) : {msg[3]}")
+            self.slw_chat.scrollToBottom()
+
+
+###########################################################################
 # 시그널 - 메서드
 ###########################################################################
     # 로그인 (학생 프로그램으로 서버에 [학생 코드, 권한, 이름] 전송)
@@ -196,14 +194,29 @@ class WindowClass(QMainWindow, form_class):
 
     # 회원 가입 (선생, 학생 프로그램 상관없이 서버에 [권한, 이름] 전송)
     def signup(self):
-        name = self.hle_add_name.text()
+        name = self.hle_add_name.text().split()[0]
         admin = self.hrb_admin.isChecked()
         user = self.hrb_user.isChecked()
-        if admin:
-            self.send_msg('signup', ['관리자', name])
-        elif user:
-            self.send_msg('signup', ['학생', name])
-        self.hle_add_name.clear()
+        if name:
+            if admin:
+                self.send_msg('signup', ['관리자', name])
+            elif user:
+                self.send_msg('signup', ['학생', name])
+            self.hle_add_name.clear()
+
+    #####장은희
+    # 상담 (학생 프로그램으로 서버에 [학생코드, 학생이름, 채팅시간, 채팅내용] 전송)
+    def st_chat(self):
+        chat_time = str(datetime.now()) #strftime("%Y-%m-%d %H:%M:%S")
+        time = datetime.now().strftime("%H:%M")
+        chat_msg = self.sle_chat.text()
+        # self.slw_chat.addItem(f"{self.name}({time}) : {chat_msg}")
+        if chat_msg and chat_time:
+            self.send_msg('st_chat', [self.code, self.name, chat_time, chat_msg, time])
+        self.slw_chat.scrollToBottom()
+        self.sle_chat.clear()
+
+
 
 ###########################################################################
 # 도구 메서드

@@ -4,13 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fa1378f8-de63-4f4f-b010-13ee8a7202c8" name="변경" comment="23.02.10 11:30 수정">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/2023-02-10__11_34_______.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/2023-02-10__11_34_______.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/2023-02-10__11_39_______.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/2023-02-10__11_39_______.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/2023-02-10__11_54_______.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/2023-02-10__11_54_______.xml" afterDir="false" />
+    <list default="true" id="b67695f3-0f6c-41d6-9e8d-087e47805076" name="변경" comment="23.02.10 11:30 수정">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/eh_server.py" beforeDir="false" afterPath="$PROJECT_DIR$/eh_server.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/student.py" beforeDir="false" afterPath="$PROJECT_DIR$/student.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eh_student.py" beforeDir="false" afterPath="$PROJECT_DIR$/eh_student.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eh_teacher.py" beforeDir="false" afterPath="$PROJECT_DIR$/eh_teacher.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jh_server.py" beforeDir="false" afterPath="$PROJECT_DIR$/jh_server.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jh_student.py" beforeDir="false" afterPath="$PROJECT_DIR$/jh_student.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jyw_server.py" beforeDir="false" afterPath="$PROJECT_DIR$/jyw_server.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jyw_teacher.py" beforeDir="false" afterPath="$PROJECT_DIR$/jyw_teacher.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mainserver.py" beforeDir="false" afterPath="$PROJECT_DIR$/mainserver.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mainstudent.py" beforeDir="false" afterPath="$PROJECT_DIR$/mainstudent.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mainteacher.py" beforeDir="false" afterPath="$PROJECT_DIR$/mainteacher.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,7 +76,7 @@
       <recent name="C:\Users\Kiot\PycharmProjects\APIproject" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.eh_student">
+  <component name="RunManager" selected="Python.mainstudent">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -135,7 +140,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="eh_teacher" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="mainserver" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="APIproject" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -147,7 +152,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/eh_teacher.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/mainserver.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -156,7 +161,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="server" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="mainstudent" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="APIproject" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -168,7 +173,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/server.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/mainstudent.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -177,7 +182,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="teacher" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="mainteacher" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="APIproject" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -189,7 +194,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/teacher.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/mainteacher.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -260,11 +265,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.mainstudent" />
+        <item itemvalue="Python.mainteacher" />
+        <item itemvalue="Python.mainserver" />
         <item itemvalue="Python.eh_student" />
         <item itemvalue="Python.eh_server" />
-        <item itemvalue="Python.eh_teacher" />
-        <item itemvalue="Python.teacher" />
-        <item itemvalue="Python.server" />
       </list>
     </recent_temporary>
   </component>
@@ -480,7 +485,49 @@
       <option name="project" value="LOCAL" />
       <updated>1675997907783</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="230210 test">
+      <created>1675998508354</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1675998508354</updated>
+    </task>
+    <task id="LOCAL-00031" summary="230210 test">
+      <created>1675998653107</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1675998653107</updated>
+    </task>
+    <task id="LOCAL-00032" summary="230210 파일 추가">
+      <created>1675998799567</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1675998799567</updated>
+    </task>
+    <task id="LOCAL-00033" summary="230210 파일 추가">
+      <created>1676000684571</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1676000684571</updated>
+    </task>
+    <task id="LOCAL-00034" summary="230210 취합 완료 이제부터 작업은 main에서 커밋 하기전에 본인 pyton 파일에 저장하고 커밋 할것">
+      <created>1676001006628</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1676001006628</updated>
+    </task>
+    <task id="LOCAL-00035" summary="230210 취합 완료 이제부터 작업은 main에서 커밋 하기전에 본인 pyton 파일에 저장하고 커밋 할것">
+      <created>1676001270444</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1676001270444</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -495,7 +542,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="230206 API_test.py 추가" />
     <MESSAGE value="230206 API_test.py 신간 측정 추가" />
     <MESSAGE value="230206 UI 생성" />
     <MESSAGE value="230206 select 모듈 예제" />
@@ -518,10 +564,19 @@
     <MESSAGE value="230210 11:27 파일 이름 변경" />
     <MESSAGE value="230210 11:27 main 파일 생성" />
     <MESSAGE value="230210 띄어쓰기 수정" />
-    <option name="LAST_COMMIT_MESSAGE" value="230210 띄어쓰기 수정" />
+    <MESSAGE value="230210 test" />
+    <MESSAGE value="230210 파일 추가" />
+    <MESSAGE value="230210 취합 완료 이제부터 작업은 main에서 커밋 하기전에 본인 pyton 파일에 저장하고 커밋 할것" />
+    <option name="LAST_COMMIT_MESSAGE" value="230210 취합 완료 이제부터 작업은 main에서 커밋 하기전에 본인 pyton 파일에 저장하고 커밋 할것" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/mainstudent.py</url>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
           <properties notifyOnTerminate="true" exception="BaseException">

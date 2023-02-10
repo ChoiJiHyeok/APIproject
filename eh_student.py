@@ -15,7 +15,7 @@ import json
 form_class = uic.loadUiType("main.ui")[0]
 svrip = 'localhost'
 port = 9000
-
+#
 db_host = '10.10.21.105'
 db_port = 3306
 db_user = 'network'
@@ -47,6 +47,11 @@ class WindowClass(QMainWindow, form_class):
 
         self.hbt_add.clicked.connect(self.signup)
         self.hbt_login.clicked.connect(self.login)
+        self.hle_name.returnPressed.connect(self.login)
+        self.stw.tabBarClicked.connect(self.show_contents)
+        self.comboBox.currentTextChanged.connect(self.select_year)
+        self.study_save_btn.clicked.connect(self.save_contents)
+        self.load_study_btn.clicked.connect(self.load_save)
         ##장은희##
         self.sle_chat.returnPressed.connect(self.st_chat) # 실시간 상담채팅
 
@@ -83,10 +88,55 @@ class WindowClass(QMainWindow, form_class):
                     spl = f'insert into learning_data values ({data_listnum},"{data_year}년 {data_month}월 {data_day}일","{date_summary}")'
                     db_execute(spl)
 
+    def show_contents(self, index): # Qtablewidget에 보여줄 학습내용 연도 선택
+        self.comboBox.clear()
+        if index==1:
+            for i in range(1000,2001,100):
+                if i == 2000:
+                    self.comboBox.addItem(str(i) + '년' + '~' + str(i + 23)+'년')
+                    # self.send_msg('call_contents', [index, self.comboBox.currentText()])
+                else:
+                    self.comboBox.addItem(str(i)+'년'+'~'+str(i+100)+'년')
+                    # self.send_msg('call_contents', [index, self.comboBox.currentText()])
+        else:
+            print(index)
+        # if index == 2:
+
+    def select_year(self):
+        self.send_msg("call_contents", ['연도', self.comboBox.currentText()])
+
+    # 학습내용 저장하기
+    def save_contents(self):
+        self.save1=self.stw_contents.item(0, 1).text()
+        print(self.msg)
+        self.save2=self.stw_contents.item(self.msg-1, 1).text()
+        print(self.save1, self.save2)
+        self.send_msg('save_contents', [self.name, self.save1, self.save2])
+
+    def load_save(self):
+        self.send_msg('loading_studying', [self.name, self.save1, self.save2])
+
     # 수신 메서드
     def receive(self, c):
         while True:
-            rmsg = json.loads(c.recv(1024).decode())
+            new_msg = True
+            tmsg = ''
+            while True:
+                msg = c.recv(1024)
+                tmsg += msg.decode()
+
+                print(tmsg)
+                # 전송된 데이터의 길이 정보를 추출
+                if new_msg:
+                    size = int(msg[:10])
+                    # json.loads할 데이터에 길이 정보를 제거
+                    tmsg = tmsg[10:]
+                    new_msg = False
+
+                # 전송된 데이터의 길이 정보와 json.loads할 데이터의 길이가 같으면 반복문 종료
+                if len(tmsg) == size:
+                    break
+            rmsg = json.loads(tmsg)
             if rmsg:
                 self.p_msg('받은 메시지:', rmsg)
                 self.reaction(rmsg[0], rmsg[1])
@@ -108,7 +158,23 @@ class WindowClass(QMainWindow, form_class):
                 self.messagebox(f'가입 성공, 발급 코드: {code} 입니다.')
             else:
                 self.messagebox('가입 실패')
-        #####장은희
+        # db learning_data  Qtablewidget에 표시
+        elif head == 'load_history':
+            self.msg = len(msg)
+            self.stw_contents.setRowCount(len(msg))
+            self.stw_contents.setColumnCount(3)
+            for i in range(len(msg)):
+                for j in range(3):
+                    self.stw_contents.setItem(i, j, QTableWidgetItem(str(msg[i][j])))
+            # self.stw_contents.resizeColumnsToContents() # 내용에 따라서 크리 자동으로 조절
+        # 저장된 학습내용 불러옴
+        elif head == 'loading_studying':
+            self.stw_contents.setRowCount(len(msg))
+            self.stw_contents.setColumnCount(3)
+            for i in range(len(msg)):
+                for j in range(3):
+                    self.stw_contents.setItem(i, j, QTableWidgetItem(str(msg[i][j])))
+        # ####장은희
         # 실시간 상담 (자기자신)
         elif head == 'st_chat':
             self.slw_chat.addItem(f"{msg[1]}({msg[2]}) : {msg[3]}")

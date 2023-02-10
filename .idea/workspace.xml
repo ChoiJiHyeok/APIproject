@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fa1378f8-de63-4f4f-b010-13ee8a7202c8" name="변경" comment="23.02.10 11:30 수정">
+    <list default="true" id="fa1378f8-de63-4f4f-b010-13ee8a7202c8" name="변경" comment="23.02.10 11:32 지혁">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -86,17 +86,18 @@
       <method v="2" />
     </configuration>
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="APIproject" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="" />
+      <option name="SDK_HOME" value="C:\Users\Kiot\AppData\Local\Programs\Python\Python39\python.exe" />
+      <option name="SDK_NAME" value="Python 3.9" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
+      <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -252,10 +253,10 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.main" />
         <item itemvalue="Python.teacher" />
         <item itemvalue="Python.server" />
         <item itemvalue="Python.student" />
-        <item itemvalue="Python.main" />
         <item itemvalue="Python.teacher1" />
       </list>
     </recent_temporary>
@@ -451,7 +452,14 @@
       <option name="project" value="LOCAL" />
       <updated>1675993759912</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="23.02.10 11:32 지혁">
+      <created>1675996353642</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1675996353642</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -486,7 +494,8 @@
     <MESSAGE value="Revert &quot;230209 학생관리&quot;&#10;&#10;This reverts commit f1b5dae4" />
     <MESSAGE value="230210 - 복원중" />
     <MESSAGE value="230210 - 복원" />
-    <option name="LAST_COMMIT_MESSAGE" value="230210 - 복원" />
+    <MESSAGE value="23.02.10 11:32 지혁" />
+    <option name="LAST_COMMIT_MESSAGE" value="23.02.10 11:32 지혁" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

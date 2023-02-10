@@ -116,7 +116,7 @@ class Server:
                 db_execute(sql)
                 self.send_msg(c, 'signup', ['success', f's{num}'])
 
-        # ``` 문제 만들기
+        # ``` 문제 만들기#
         # 문제 등록하기
         elif head == 'register_question':
             sql = "select count(distinct quiz_num) from quiz;"
@@ -143,7 +143,7 @@ class Server:
             quiz_list = db_execute(sql)
             self.send_msg(c, 'load_quiz', quiz_list)
         # ```
-        ##학생용
+        # 학생용
         # ```
         # 학생이 학습내용 풀러오기
 

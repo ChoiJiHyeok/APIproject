@@ -1,5 +1,3 @@
-# 23.02.06 ~ 02.11
-#10:43 복구
 import pymysql as p
 import socketserver
 from datetime import datetime
@@ -145,7 +143,7 @@ class Server:
             quiz_list = db_execute(sql)
             self.send_msg(c, 'load_quiz', quiz_list)
         # ```
-        ##학생용
+        # 학생용
         # 학생이 학습내용 풀러오기
 
         elif head == 'call_contents':
@@ -156,7 +154,7 @@ class Server:
                     sql=f'SELECT *FROM learning_data WHERE date BETWEEN "{year[0]}" AND "{year[1]}"'
                     study_contents=db_execute(sql)
                     print(study_contents)
-                    self.send_msg(c,'load_history',study_contents)
+                    self.send_msg(c, 'load_history', study_contents)
                 except IndexError:
                     print('study')
             else:
@@ -169,30 +167,11 @@ class Server:
         elif head == 'loading_studying': #저장된 학습내용 불러오기
             sql=f'SELECT *FROM learning_data WHERE date BETWEEN "{msg[1]}" AND "{msg[2]}"'
             find_contents=db_execute(sql)
-            self.send_msg(c,'loading_studying',find_contents)
-
-
-
-
-
-
-
-
-
-
-
-
+            self.send_msg(c, 'loading_studying', find_contents)
 
 ###########################################################################
 # 도구 메서드
 ###########################################################################
-
-    # 클라소켓, 주제, 내용으로 클라에 데이터 전송
-    # def send_msg(self, c, head, value):
-    #     msg = json.dumps([head, value])
-    #     print(len(msg))
-    #     c.sendall(msg.encode())
-    #     self.p_msg(c, '보낸 메시지:', value)
 
     def send_msg(self, c, head, value):
         msg = json.dumps([head, value])

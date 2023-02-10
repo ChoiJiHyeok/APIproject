@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b67695f3-0f6c-41d6-9e8d-087e47805076" name="변경" comment="2023.02.10 15:56 지혁수정">
+    <list default="true" id="b67695f3-0f6c-41d6-9e8d-087e47805076" name="변경" comment="2023.02.10 16:03 지혁수정">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jh_student.py" beforeDir="false" afterPath="$PROJECT_DIR$/jh_student.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.ui" beforeDir="false" afterPath="$PROJECT_DIR$/main.ui" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -552,7 +554,21 @@
       <option name="project" value="LOCAL" />
       <updated>1676012240335</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00041" summary="2023.02.10 16:00 지혁수정">
+      <created>1676012435333</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1676012435333</updated>
+    </task>
+    <task id="LOCAL-00042" summary="2023.02.10 16:03 지혁수정">
+      <created>1676012626760</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1676012626760</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -567,8 +583,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="230207 서버-클라 기초틀" />
-    <MESSAGE value="230207 가입, 로그인 기능" />
     <MESSAGE value="230208 주석 추가" />
     <MESSAGE value="230208 코드 수정" />
     <MESSAGE value="230208 문제만들기 하는중" />
@@ -592,7 +606,9 @@
     <MESSAGE value="230210 수신 메서드 수정" />
     <MESSAGE value="2023.02.10 14:24 지혁수정" />
     <MESSAGE value="2023.02.10 15:56 지혁수정" />
-    <option name="LAST_COMMIT_MESSAGE" value="2023.02.10 15:56 지혁수정" />
+    <MESSAGE value="2023.02.10 16:00 지혁수정" />
+    <MESSAGE value="2023.02.10 16:03 지혁수정" />
+    <option name="LAST_COMMIT_MESSAGE" value="2023.02.10 16:03 지혁수정" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

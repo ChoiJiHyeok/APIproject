@@ -162,9 +162,13 @@ class WindowClass(QMainWindow, form_class):
             self.stw_contents.setRowCount(0)
             self.stw_contents.setRowCount(len(msg))
             self.stw_contents.setColumnCount(3)
+            header = self.stw_contents.horizontalHeader()
             for i in range(len(msg)):
                 for j in range(3):
                     self.stw_contents.setItem(i, j, QTableWidgetItem(str(msg[i][j])))
+            header.setSectionResizeMode(0, QHeaderView.ResizeToContents)
+            header.setSectionResizeMode(1, QHeaderView.ResizeToContents)
+            header.setSectionResizeMode(2, QHeaderView.ResizeToContents)
             # self.stw_contents.resizeColumnsToContents() # 내용에 따라서 크리 자동으로 조절
         # 저장된 학습내용 불러옴
         elif head == 'loading_studying':
@@ -173,14 +177,30 @@ class WindowClass(QMainWindow, form_class):
             for i in range(len(msg)):
                 for j in range(3):
                     self.stw_contents.setItem(i, j, QTableWidgetItem(str(msg[i][j])))
-        #학생이 풀기 풀기
+        #학생이 문제 풀기
         elif head == "loading_quiz":
+            #quiz load
             self.stw_test.setRowCount(0)
             self.stw_test.setRowCount(len(msg))
             self.stw_test.setColumnCount(3)
+
             for i in range(len(msg)):
                 for j in range(3):
                     self.stw_test.setItem(i, j, QTableWidgetItem(str(msg[i][j])))
+
+
+            #정답란 제출란
+            row_list = []
+            for l in range(len(msg)):
+                row_list.append('문제' + str(l+1))
+            print(row_list)
+            self.answer_table.setRowCount(len(msg))
+            self.answer_table.setColumnCount(1)
+            self.answer_table.setVerticalHeaderLabels(row_list)  # row 항목명 세팅
+
+
+
+
 
         # ####장은희
         # 실시간 상담 (자기자신)

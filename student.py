@@ -16,7 +16,7 @@ import json
 form_class = uic.loadUiType("main.ui")[0]
 svrip = 'localhost'
 port = 9000
-
+#
 db_host = '10.10.21.105'
 db_port = 3306
 db_user = 'network'

@@ -6,7 +6,7 @@ from PyQt5 import uic
 import socket
 import threading
 from datetime import datetime
-
+#
 form_class = uic.loadUiType("main.ui")[0]
 svrip = 'localhost'
 port = 9000

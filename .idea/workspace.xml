@@ -472,7 +472,14 @@
       <option name="project" value="LOCAL" />
       <updated>1675996186112</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="230210 띄어쓰기 수정">
+      <created>1675997907783</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1675997907783</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -509,7 +516,8 @@
     <MESSAGE value="230210 - 복원" />
     <MESSAGE value="230210 11:27 파일 이름 변경" />
     <MESSAGE value="230210 11:27 main 파일 생성" />
-    <option name="LAST_COMMIT_MESSAGE" value="230210 11:27 main 파일 생성" />
+    <MESSAGE value="230210 띄어쓰기 수정" />
+    <option name="LAST_COMMIT_MESSAGE" value="230210 띄어쓰기 수정" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

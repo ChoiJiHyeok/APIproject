@@ -76,7 +76,7 @@
       <recent name="C:\Users\Kiot\PycharmProjects\APIproject" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.mainstudent">
+  <component name="RunManager" selected="Python.test_student">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -90,27 +90,6 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="" />
       <option name="SCRIPT_NAME" value="" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="eh_server" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="APIproject" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/eh_server.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -203,6 +182,27 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="test_student" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="APIproject" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test_student.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration default="true" type="Tox" factoryName="Tox">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -265,11 +265,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.test_student" />
+        <item itemvalue="Python.mainserver" />
         <item itemvalue="Python.mainstudent" />
         <item itemvalue="Python.mainteacher" />
-        <item itemvalue="Python.mainserver" />
         <item itemvalue="Python.eh_student" />
-        <item itemvalue="Python.eh_server" />
       </list>
     </recent_temporary>
   </component>
@@ -527,7 +527,21 @@
       <option name="project" value="LOCAL" />
       <updated>1676001270444</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="230210 취합 완료 이제부터 작업은 main에서 커밋 하기전에 본인 pyton 파일에 저장하고 커밋 할것">
+      <created>1676004286819</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1676004286819</updated>
+    </task>
+    <task id="LOCAL-00037" summary="230210 수신 메서드 수정">
+      <created>1676006003719</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1676006003719</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -542,7 +556,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="230206 API_test.py 신간 측정 추가" />
     <MESSAGE value="230206 UI 생성" />
     <MESSAGE value="230206 select 모듈 예제" />
     <MESSAGE value="230207 서버-클라 기초틀" />
@@ -567,7 +580,8 @@
     <MESSAGE value="230210 test" />
     <MESSAGE value="230210 파일 추가" />
     <MESSAGE value="230210 취합 완료 이제부터 작업은 main에서 커밋 하기전에 본인 pyton 파일에 저장하고 커밋 할것" />
-    <option name="LAST_COMMIT_MESSAGE" value="230210 취합 완료 이제부터 작업은 main에서 커밋 하기전에 본인 pyton 파일에 저장하고 커밋 할것" />
+    <MESSAGE value="230210 수신 메서드 수정" />
+    <option name="LAST_COMMIT_MESSAGE" value="230210 수신 메서드 수정" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -3,6 +3,7 @@
 #10:43 복구
 import sys
 from PyQt5.QtWidgets import *
+import pymysql as p
 from PyQt5 import uic
 import socket
 import threading
@@ -24,6 +25,15 @@ db_pw = 'aaaa'
 db = 'api'
 
 #
+def db_execute(sql):
+    conn = p.connect(host=db_host, port=db_port, user=db_user, password=db_pw, db=db, charset='utf8')
+    c = conn.cursor()
+    c.execute(sql)
+    conn.commit()
+    conn.close()
+    return c.fetchall()
+
+#
 class WindowClass(QMainWindow, form_class):
     def __init__(self):
         super().__init__()
@@ -36,7 +46,7 @@ class WindowClass(QMainWindow, form_class):
         self.hbt_add.clicked.connect(self.signup)
         self.hbt_login.clicked.connect(self.login)
         self.hle_name.returnPressed.connect(self.login)
-        self.tabWidget_2.tabBarClicked.connect(self.show_contents)
+        self.stw.tabBarClicked.connect(self.show_contents)
         self.comboBox.currentTextChanged.connect(self.select_year)
         self.study_save_btn.clicked.connect(self.save_contents)
         self.load_study_btn.clicked.connect(self.load_save)

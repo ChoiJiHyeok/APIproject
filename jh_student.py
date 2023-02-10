@@ -89,13 +89,14 @@ class WindowClass(QMainWindow, form_class):
             for i in range(1000,2001,100):
                 if i == 2000:
                     self.comboBox.addItem(str(i) + '년' + '~' + str(i + 23)+'년')
-                    # self.send_msg('call_contents', [index, self.comboBox.currentText()])
                 else:
                     self.comboBox.addItem(str(i)+'년'+'~'+str(i+100)+'년')
-                    # self.send_msg('call_contents', [index, self.comboBox.currentText()])
+
+        elif index==2:
+            self.send_msg("call_quiz", ['quiz_num' , 'quiz', 'score'])
+
         else:
             print(index)
-        # if index == 2:
     def select_year(self):
         self.send_msg("call_contents", ['연도', self.comboBox.currentText()])
 
@@ -111,12 +112,15 @@ class WindowClass(QMainWindow, form_class):
         self.send_msg('loading_studying', [self.name, self.save1, self.save2])
 
     # 수신 메서드
+    # 수신 메서드
+    # 수신 메서드
     def receive(self, c):
         while True:
             new_msg = True
             tmsg = ''
             while True:
-                msg = c.recv(4096)
+                # 전송된 데이터를 20바이트씩 받기
+                msg = c.recv(1024)
                 tmsg += msg.decode()
 
                 print(tmsg)
@@ -155,6 +159,7 @@ class WindowClass(QMainWindow, form_class):
         # db learning_data  Qtablewidget에 표시
         elif head == 'load_history':
             self.msg = len(msg)
+            self.stw_contents.setRowCount(0)
             self.stw_contents.setRowCount(len(msg))
             self.stw_contents.setColumnCount(3)
             for i in range(len(msg)):
@@ -168,6 +173,14 @@ class WindowClass(QMainWindow, form_class):
             for i in range(len(msg)):
                 for j in range(3):
                     self.stw_contents.setItem(i, j, QTableWidgetItem(str(msg[i][j])))
+        #학생이 풀기 풀기
+        elif head == "loading_quiz":
+            self.stw_test.setRowcount(0)
+            self.stw_test.setRowCount(len(msg))
+            for i in range(len(msg)):
+                for j in range(3):
+                    self.stw_test.setItem(i, j, QTableWidgetItem(str(msg[i][j])))
+
         # ####장은희
         # 실시간 상담 (자기자신)
         elif head == 'st_chat':

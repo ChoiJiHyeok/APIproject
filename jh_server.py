@@ -192,6 +192,13 @@ class Server:
             find_contents=db_execute(sql)
             self.send_msg(c,'loading_studying',find_contents)
 
+        elif head == 'call_quiz':
+            sql=f'SELECT "{msg[0]}","{msg[1]}","{msg[2]}" FROM api.quiz'
+            find_quiz=db_execute(sql)
+            self.send_msg(c,'loading_quiz',find_quiz)
+
+
+
 
         # ####장은희
         # 실시간 상담 (학생프로그램)

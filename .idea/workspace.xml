@@ -273,13 +273,6 @@
       <option name="presentableId" value="Default" />
       <updated>1675663922632</updated>
     </task>
-    <task id="LOCAL-00002" summary="230206 API_test.py 신간 측정 추가">
-      <created>1675665227533</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1675665227533</updated>
-    </task>
     <task id="LOCAL-00003" summary="230206 UI 생성">
       <created>1675679541327</created>
       <option name="number" value="00003" />
@@ -616,7 +609,14 @@
       <option name="project" value="LOCAL" />
       <updated>1676091913582</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="230211 학생 로그인 화면 완료">
+      <created>1676095494743</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1676095494743</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -631,7 +631,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="230209 학생관리" />
     <MESSAGE value="230209 큰 데이터 받기" />
     <MESSAGE value="Revert &quot;230209 큰 데이터 받기&quot;&#10;&#10;This reverts commit aead9543" />
     <MESSAGE value="Revert &quot;230209 학생관리&quot;&#10;&#10;This reverts commit f1b5dae4" />
@@ -656,7 +655,8 @@
     <MESSAGE value="230211 QnA 수정중" />
     <MESSAGE value="230211 QnA 완료" />
     <MESSAGE value="230211 QnA 수정" />
-    <option name="LAST_COMMIT_MESSAGE" value="230211 QnA 수정" />
+    <MESSAGE value="230211 학생 로그인 화면 완료" />
+    <option name="LAST_COMMIT_MESSAGE" value="230211 학생 로그인 화면 완료" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

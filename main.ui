@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="page">
      <widget class="QLineEdit" name="hle_code">
@@ -234,7 +234,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -412,6 +412,9 @@
         <attribute name="headerCascadingSectionResizes">
          <bool>false</bool>
         </attribute>
+        <attribute name="headerDefaultSectionSize">
+         <number>150</number>
+        </attribute>
         <attribute name="headerHighlightSections">
          <bool>true</bool>
         </attribute>
@@ -471,7 +474,7 @@
          <bool>false</bool>
         </attribute>
         <attribute name="horizontalHeaderStretchLastSection">
-         <bool>false</bool>
+         <bool>true</bool>
         </attribute>
         <attribute name="verticalHeaderCascadingSectionResizes">
          <bool>false</bool>
@@ -689,6 +692,42 @@
           <height>381</height>
          </rect>
         </property>
+        <property name="editTriggers">
+         <set>QAbstractItemView::NoEditTriggers</set>
+        </property>
+        <attribute name="horizontalHeaderStretchLastSection">
+         <bool>true</bool>
+        </attribute>
+        <column>
+         <property name="text">
+          <string>문의번호</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>학생코드</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>QnA 학생</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>QnA 선생</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>문의</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>답변</string>
+         </property>
+        </column>
        </widget>
        <widget class="QPushButton" name="sbt_qa">
         <property name="geometry">
@@ -736,7 +775,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="tab_q">
        <attribute name="title">
@@ -792,6 +831,9 @@
           <height>491</height>
          </rect>
         </property>
+        <attribute name="horizontalHeaderDefaultSectionSize">
+         <number>200</number>
+        </attribute>
         <attribute name="horizontalHeaderStretchLastSection">
          <bool>true</bool>
         </attribute>
@@ -1062,6 +1104,42 @@
           <height>381</height>
          </rect>
         </property>
+        <property name="editTriggers">
+         <set>QAbstractItemView::NoEditTriggers</set>
+        </property>
+        <attribute name="horizontalHeaderStretchLastSection">
+         <bool>true</bool>
+        </attribute>
+        <column>
+         <property name="text">
+          <string>New Column</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>학생코드</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>QnA 학생</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>QnA 선생</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>문의</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>답변</string>
+         </property>
+        </column>
        </widget>
       </widget>
      </widget>

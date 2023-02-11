@@ -68,7 +68,7 @@
       <recent name="C:\Users\Kiot\PycharmProjects\APIproject" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.mainstudent">
+  <component name="RunManager" selected="Python.mainteacher">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -90,7 +90,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="eh_student" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="jyw_teacher" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="APIproject" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -102,7 +102,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/eh_student.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/jyw_teacher.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -257,11 +257,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.mainstudent" />
         <item itemvalue="Python.mainteacher" />
+        <item itemvalue="Python.mainstudent" />
+        <item itemvalue="Python.jyw_teacher" />
         <item itemvalue="Python.mainserver" />
         <item itemvalue="Python.test_student" />
-        <item itemvalue="Python.eh_student" />
       </list>
     </recent_temporary>
   </component>
@@ -568,7 +568,14 @@
       <option name="project" value="LOCAL" />
       <updated>1676012626760</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="230210 QnA 일부 기능 완성">
+      <created>1676025887942</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1676025887942</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -583,7 +590,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="230208 주석 추가" />
     <MESSAGE value="230208 코드 수정" />
     <MESSAGE value="230208 문제만들기 하는중" />
     <MESSAGE value="230208 문제만들기(단일클라기능구현)" />
@@ -608,7 +614,8 @@
     <MESSAGE value="2023.02.10 15:56 지혁수정" />
     <MESSAGE value="2023.02.10 16:00 지혁수정" />
     <MESSAGE value="2023.02.10 16:03 지혁수정" />
-    <option name="LAST_COMMIT_MESSAGE" value="2023.02.10 16:03 지혁수정" />
+    <MESSAGE value="230210 QnA 일부 기능 완성" />
+    <option name="LAST_COMMIT_MESSAGE" value="230210 QnA 일부 기능 완성" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

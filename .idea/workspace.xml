@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b67695f3-0f6c-41d6-9e8d-087e47805076" name="변경" comment="23.02.11 11:37 eh">
-      <change beforePath="$PROJECT_DIR$/eh_student.py" beforeDir="false" afterPath="$PROJECT_DIR$/eh_student.py" afterDir="false" />
+    <list default="true" id="b67695f3-0f6c-41d6-9e8d-087e47805076" name="변경" comment="2023.02.11 15:49 지혁수정">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/2023-02-11__11_55_______.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/2023-02-11__11_55_______.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.ui" beforeDir="false" afterPath="$PROJECT_DIR$/main.ui" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mainstudent.py" beforeDir="false" afterPath="$PROJECT_DIR$/mainstudent.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -67,7 +69,7 @@
       <recent name="C:\Users\Kiot\PycharmProjects\APIproject" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.mainstudent">
+  <component name="RunManager">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -257,8 +259,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.mainstudent" />
-        <item itemvalue="Python.mainteacher" />
         <item itemvalue="Python.mainserver" />
+        <item itemvalue="Python.mainteacher" />
         <item itemvalue="Python.test_student" />
         <item itemvalue="Python.eh_student" />
       </list>

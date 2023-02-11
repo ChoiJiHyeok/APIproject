@@ -10,6 +10,7 @@ import xmltodict as xmltodict
 import math
 from tkinter import messagebox, Tk
 import json
+import time
 
 form_class = uic.loadUiType("main.ui")[0]
 svrip = 'localhost'
@@ -41,6 +42,7 @@ class WindowClass(QMainWindow, form_class):
 
         #장은희테스트
         # self.stw.setCurrentIndex(3)
+        self.selected = False
 
         # 시그널 - 메서드
         self.hbt_add.clicked.connect(self.signup)
@@ -215,17 +217,25 @@ class WindowClass(QMainWindow, form_class):
             self.answer_table.setVerticalHeaderLabels(self.row_list)  # row 항목명 세팅
 
 
-
-
-
         # ####장은희
         # 실시간 상담 (자기자신)
         elif head == 'st_chat':
             self.slw_chat.addItem(f"{msg[2]} {msg[0]}/{msg[1]} 학생 : {msg[3]}")
+
         # 실시간 상담 (선생님->학생)
         elif head == 'at_chat':
-            self.slw_chat.addItem(f"{msg[2]} {msg[1]} 선생님 : {msg[3]}")
-            self.slw_chat.scrollToBottom()
+            print('받은매시지:',msg)
+            #['a1', '최', '2023-02-11 15:01', 'ㅋㅋㅋㅋㅋ', 's1', '최지혁']
+            if self.code == msg[4] and self.name == msg[5]:
+                self.selected = True #현재 이 학생은 선생님과 매칭된 상태
+                if self.selected == True:
+                    self.slw_chat.addItem(f"{msg[2]} {msg[1]} 선생님 : {msg[3]}")
+                    self.slw_chat.scrollToBottom()
+            else:
+                pass
+
+
+
 
 
 ###########################################################################

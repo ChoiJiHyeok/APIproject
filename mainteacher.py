@@ -22,6 +22,7 @@ class WindowClass(QMainWindow, form_class):
         self.qna_show = False
 
         #장은희테스트
+        self.SEL = False
         # self.atw.setCurrentIndex(2)
         # 실시간상담채팅
         self.ale_chat.returnPressed.connect(self.at_chat) # 메시지 전송
@@ -142,13 +143,15 @@ class WindowClass(QMainWindow, form_class):
 
         # 실시간 상담 (학생->선생님)
         elif head == 'st_chat':
-            if self.select_code == msg[0] and self.select_name == msg[1]:
-                self.alw_chat.addItem(f"{msg[2]} {msg[0]}/{msg[1]} 학생 : {msg[3]}")
-                self.alw_chat.scrollToBottom()
+            if self.SEL == True:
+                if self.select_code == msg[0] and self.select_name == msg[1]:
+                    self.alw_chat.addItem(f"{msg[2]} {msg[0]}/{msg[1]} 학생 : {msg[3]}")
+                    self.alw_chat.scrollToBottom()
 
         # 실시간 상담 (자기자신)
         elif head == 'at_chat':
-            self.alw_chat.addItem(f"{msg[2]} {msg[1]} 선생님 : {msg[3]}")
+            if self.SEL == True:
+                self.alw_chat.addItem(f"{msg[2]} {msg[1]} 선생님 : {msg[3]}")
 
         elif head == 'select_user':
             self.alw_chat.clear()
@@ -157,7 +160,6 @@ class WindowClass(QMainWindow, form_class):
                 self.alw_chat.addItem(f"{msg[i][2]} {msg[i][0]}/{msg[i][1]} 학생 : {msg[i][3]}")
                 self.alw_chat.scrollToBottom()
 
-            self.alw_chat.addItem(f"{msg[1]}({msg[2]}) : {msg[3]}")
         # ``` QnA
         # 처음 QnA창에 들어가면 질문내역 위젯에 등록
         elif head == 'set_stw_qa':
@@ -264,6 +266,8 @@ class WindowClass(QMainWindow, form_class):
             self.send_msg('management', '')
         # 장은희_상담탭 구현중
         elif tab == 2: # alw_chat_user에 학생 넣기. 시그널 전송
+            self.alw_chat.clear()
+            self.SEL = False
             self.send_msg('chat_user', '')
 
         elif tab == 3 and not self.qna_show:
@@ -277,17 +281,18 @@ class WindowClass(QMainWindow, form_class):
 
 
     #####장은희
-    # 상담 (관리자 프로그램으로 서버에 [관리자코드, 관리자이름, 채팅시간, 채팅내용] 전송)
+    # 상담 (관리자 프로그램으로 서버에 [관리자코드, 관리자이름, 채팅시간, 채팅내용, 현재선택한학생] 전송)
     def at_chat(self):
         chat_time = datetime.now().strftime("%Y-%m-%d %H:%M")
         chat_msg = self.ale_chat.text()
         # self.alw_chat.addItem(f"{self.name}({time}) : {chat_msg}")
         if chat_msg and chat_time:
-            self.send_msg('at_chat', [self.code, self.name, chat_time, chat_msg])
+            self.send_msg('at_chat', [self.code, self.name, chat_time, chat_msg, self.select_code, self.select_name])
         self.alw_chat.scrollToBottom()
         self.ale_chat.clear()
 
     def select_user(self): # 아이템클릭/서버한테 '학생별로 수신받고 싶어' 시그널 보내기
+        self.SEL = True
         self.selectName = self.alw_chat_user.currentItem().text()
         self.send_msg('select_user', self.selectName)
 

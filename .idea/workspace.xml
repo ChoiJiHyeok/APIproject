@@ -67,7 +67,7 @@
       <recent name="C:\Users\Kiot\PycharmProjects\APIproject" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.mainteacher">
+  <component name="RunManager" selected="Python.mainstudent">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -256,9 +256,9 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.mainteacher" />
-        <item itemvalue="Python.mainserver" />
         <item itemvalue="Python.mainstudent" />
+        <item itemvalue="Python.mainserver" />
+        <item itemvalue="Python.mainteacher" />
         <item itemvalue="Python.test_student" />
         <item itemvalue="Python.eh_student" />
       </list>
@@ -609,7 +609,14 @@
       <option name="project" value="LOCAL" />
       <updated>1676090266375</updated>
     </task>
-    <option name="localTasksCounter" value="49" />
+    <task id="LOCAL-00049" summary="230211 QnA 완료">
+      <created>1676091385703</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1676091385703</updated>
+    </task>
+    <option name="localTasksCounter" value="50" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -624,7 +631,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="230208 학생 회원가입시 회원관리DB에 등록 추가" />
     <MESSAGE value="230209 학생 회원가입시 이름없이 가입 수정" />
     <MESSAGE value="230209 학생관리" />
     <MESSAGE value="230209 큰 데이터 받기" />
@@ -649,7 +655,8 @@
     <MESSAGE value="230211 사라진 파일 추가" />
     <MESSAGE value="230211 문제 만들기 수정" />
     <MESSAGE value="230211 QnA 수정중" />
-    <option name="LAST_COMMIT_MESSAGE" value="230211 QnA 수정중" />
+    <MESSAGE value="230211 QnA 완료" />
+    <option name="LAST_COMMIT_MESSAGE" value="230211 QnA 완료" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

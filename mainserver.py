@@ -283,7 +283,7 @@ class Server:
                 self.send_msg(administrator, 'add_stw_qa', [num, msg[0], msg[1], '', msg[2], ''])
         # 학생이 QnA창에 들어갔을때 입장한 학생의 질문내역을 전송
         elif head == 'qna':
-            sql = f"select * from qna where student_num = '{msg[0]}' and student_name = '{msg[1]};' order by q_num;"
+            sql = f"select * from qna where student_num = '{msg[0]}' and student_name = '{msg[1]}' order by q_num;"
             qna = db_execute(sql)
             self.send_msg(c, 'set_stw_qa', qna)
         # 선생이 QnA창에 들어갔을때 모든 학생의 질문내역을 전송
@@ -294,6 +294,9 @@ class Server:
         elif head == 'answer':
             sql = f"insert into qna values ('{msg[0]}', '{msg[1]}', '{msg[2]}', '{msg[3]}', '', '{msg[4]}');"
             db_execute(sql)
+            sql = "select * from qna order by q_num;"
+            qna = db_execute(sql)
+            self.send_msg(c, 'set_stw_qa', qna)
         # ```
 
 ###########################################################################

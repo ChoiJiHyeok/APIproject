@@ -1,7 +1,6 @@
-import time
+import pymysql as p
 import sys
 from PyQt5.QtWidgets import *
-import pymysql as p
 from PyQt5 import uic
 import socket
 import threading
@@ -39,6 +38,9 @@ class WindowClass(QMainWindow, form_class):
         self.stackedWidget.setCurrentIndex(0)
         self.read_api()
         self.action = True
+
+        #장은희테스트
+        # self.stw.setCurrentIndex(3)
 
         # 시그널 - 메서드
         self.hbt_add.clicked.connect(self.signup)
@@ -137,21 +139,18 @@ class WindowClass(QMainWindow, form_class):
         while True:
             new_msg = True
             tmsg = ''
+            buffer = 10
             while True:
-                # 전송된 데이터를 20바이트씩 받기
-                msg = c.recv(1024)
+                msg = c.recv(buffer)
                 tmsg += msg.decode()
 
-                print(tmsg)
-                # 전송된 데이터의 길이 정보를 추출
+                # 전송된 데이터의 길이 정보를 추출하여 buffer에 저장
                 if new_msg:
-                    size = int(msg[:10])
+                    buffer = int(msg)
+                    new_msg = False
+                else:
                     # json.loads할 데이터에 길이 정보를 제거
                     tmsg = tmsg[10:]
-                    new_msg = False
-
-                # 전송된 데이터의 길이 정보와 json.loads할 데이터의 길이가 같으면 반복문 종료
-                if len(tmsg) == size:
                     break
             rmsg = json.loads(tmsg)
             if rmsg:
@@ -222,10 +221,10 @@ class WindowClass(QMainWindow, form_class):
         # ####장은희
         # 실시간 상담 (자기자신)
         elif head == 'st_chat':
-            self.slw_chat.addItem(f"{msg[1]}({msg[2]}) : {msg[3]}")
+            self.slw_chat.addItem(f"{msg[2]} {msg[0]}/{msg[1]} 학생 : {msg[3]}")
         # 실시간 상담 (선생님->학생)
         elif head == 'at_chat':
-            self.slw_chat.addItem(f"{msg[1]}({msg[2]}) : {msg[3]}")
+            self.slw_chat.addItem(f"{msg[2]} {msg[1]} 선생님 : {msg[3]}")
             self.slw_chat.scrollToBottom()
 
 
@@ -235,9 +234,9 @@ class WindowClass(QMainWindow, form_class):
     # 로그인 (학생 프로그램으로 서버에 [학생 코드, 권한, 이름] 전송)
     def login(self):
         code = self.hle_code.text()
-        self.name = self.hle_name.text()
-        if code and self.name:
-            self.send_msg('login', [code, '학생', self.name])
+        name = self.hle_name.text()
+        if code and name:
+            self.send_msg('login', [code, '학생', name])
         else:
             self.messagebox('로그인 실패')
         self.hle_code.clear()
@@ -258,12 +257,11 @@ class WindowClass(QMainWindow, form_class):
     #####장은희
     # 상담 (학생 프로그램으로 서버에 [학생코드, 학생이름, 채팅시간, 채팅내용] 전송)
     def st_chat(self):
-        chat_time = str(datetime.now()) #strftime("%Y-%m-%d %H:%M:%S")
-        time = datetime.now().strftime("%H:%M")
+        chat_time = datetime.now().strftime("%Y-%m-%d %H:%M")
         chat_msg = self.sle_chat.text()
         # self.slw_chat.addItem(f"{self.name}({time}) : {chat_msg}")
         if chat_msg and chat_time:
-            self.send_msg('st_chat', [self.code, self.name, chat_time, chat_msg, time])
+            self.send_msg('st_chat', [self.code, self.name, chat_time, chat_msg])
         self.slw_chat.scrollToBottom()
         self.sle_chat.clear()
 

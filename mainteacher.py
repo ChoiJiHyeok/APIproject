@@ -152,12 +152,11 @@ class WindowClass(QMainWindow, form_class):
 
         elif head == 'select_user':
             self.alw_chat.clear()
-            print('이전메시지',msg)
+            print('이전메시지', msg)
             for i in range(len(msg)):
                 self.alw_chat.addItem(f"{msg[i][2]} {msg[i][0]}/{msg[i][1]} 학생 : {msg[i][3]}")
                 self.alw_chat.scrollToBottom()
 
-            self.alw_chat.addItem(f"{msg[1]}({msg[2]}) : {msg[3]}")
         # ``` QnA
         # 처음 QnA창에 들어가면 질문내역 위젯에 등록
         elif head == 'set_stw_qa':
@@ -265,7 +264,6 @@ class WindowClass(QMainWindow, form_class):
         # 장은희_상담탭 구현중
         elif tab == 2: # alw_chat_user에 학생 넣기. 시그널 전송
             self.send_msg('chat_user', '')
-
         elif tab == 3 and not self.qna_show:
             self.qna_show = True
             self.send_msg('qna_adin', '')

@@ -581,7 +581,14 @@
       <option name="project" value="LOCAL" />
       <updated>1676031445153</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="230211 import time 추가">
+      <created>1676084288667</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1676084288667</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -596,7 +603,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="230208 문제만들기 하는중" />
     <MESSAGE value="230208 문제만들기(단일클라기능구현)" />
     <MESSAGE value="230208 문제만들기(다중클라기능구현)" />
     <MESSAGE value="230208 문제만들기(다중클라기능구현) 주석 추가" />
@@ -621,16 +627,11 @@
     <MESSAGE value="2023.02.10 16:03 지혁수정" />
     <MESSAGE value="2023.02.10 17:25 지혁수정" />
     <MESSAGE value="2023.02.10 21:17 지혁수정" />
-    <option name="LAST_COMMIT_MESSAGE" value="2023.02.10 21:17 지혁수정" />
+    <MESSAGE value="230211 import time 추가" />
+    <option name="LAST_COMMIT_MESSAGE" value="230211 import time 추가" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/mainstudent.py</url>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
           <properties notifyOnTerminate="true" exception="BaseException">

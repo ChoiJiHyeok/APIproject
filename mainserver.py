@@ -92,7 +92,7 @@ class Server:
                     print('현재연결된선생소켓', self.admin_socks)
                 elif msg[1] == '학생':
                     self.student_socks.append(c)
-                    print('현재연결된학생소켓',self.student_socks)
+                    print('현재연결된학생소켓', self.student_socks)
             # 학생 또는 선생 프로그램에서 다른 권한의 계정으로 로그인 시도한 경우
             # 로그인 정보가 틀린경우
             else:
@@ -165,7 +165,7 @@ class Server:
                 self.send_msg(c, 'study', [user_infor, more_infor])
             else:
                 self.send_msg(c, 'study', 'False')
-        #```
+        # ```
         # 학생용
         # 학생이 학습내용 풀러오기
 
@@ -174,44 +174,39 @@ class Server:
                 try:
                     year=msg[1].split("~")
                     print(year)
-                    sql=f'SELECT *FROM learning_data WHERE date BETWEEN "{year[0]}" AND "{year[1]}"'
-                    study_contents=db_execute(sql)
+                    sql = f'SELECT *FROM learning_data WHERE date BETWEEN "{year[0]}" AND "{year[1]}"'
+                    study_contents = db_execute(sql)
                     print(study_contents)
-                    self.send_msg(c,'load_history',study_contents)
+                    self.send_msg(c, 'load_history', study_contents)
                 except IndexError:
                     print('study')
             else:
                 print('gg')
-        elif head == "save_contents": # 학습내용 저장 하기
-            sql=f'UPDATE study_progress SET study_progress = "{msg[0]}:{msg[1]}~{msg[2]}" WHERE student_name = "{msg[0]}"'
-            update_progress=db_execute(sql)
+        elif head == "save_contents":   # 학습내용 저장 하기
+            sql = f'UPDATE study_progress SET study_progress = "{msg[0]}:{msg[1]}~{msg[2]}" WHERE student_name = "{msg[0]}"'
+            update_progress = db_execute(sql)
             print(update_progress)
 
-        elif head == 'loading_studying': #저장된 학습내용 불러오기
-            sql=f'SELECT *FROM learning_data WHERE date BETWEEN "{msg[1]}" AND "{msg[2]}"'
-            find_contents=db_execute(sql)
-            self.send_msg(c,'loading_studying',find_contents)
+        elif head == 'loading_studying':     # 저장된 학습내용 불러오기
+            sql = f'SELECT *FROM learning_data WHERE date BETWEEN "{msg[1]}" AND "{msg[2]}"'
+            find_contents = db_execute(sql)
+            self.send_msg(c, 'loading_studying', find_contents)
 
         elif head == 'call_quiz':
-            sql=f'SELECT {msg[0]},{msg[1]},{msg[2]} FROM api.quiz'
-            find_quiz=db_execute(sql)
-            print(find_quiz,'퀴즈전송')
-            self.send_msg(c,'loading_quiz',find_quiz)
+            sql = f'SELECT {msg[0]},{msg[1]},{msg[2]} FROM api.quiz'
+            find_quiz = db_execute(sql)
+            print(find_quiz, '퀴즈전송')
+            self.send_msg(c, 'loading_quiz', find_quiz)
 
         elif head == '정답':
-            sql=f'SELECT count(*)FROM quiz_student WHERE quiz_num="{msg[1][-1]}" AND student_name="{msg[0]}"';
-            count_data=db_execute(sql)
+            sql = f'SELECT count(*)FROM quiz_student WHERE quiz_num="{msg[1][-1]}" AND student_name="{msg[0]}";'
+            count_data = db_execute(sql)
             print(count_data)
             if count_data[0][0] == 0:
                 # sql1=f"INSERT INTO quiz_student ()"
-                sql2=f'SELECT quiz FROM api.quiz WHERE quiz_num="{msg[1][-1]}"'
-                see_quiz=db_execute(sql2)
-                print(see_quiz,'확인하자')
-
-
-
-
-
+                sql2 = f'SELECT quiz FROM api.quiz WHERE quiz_num="{msg[1][-1]}";'
+                see_quiz = db_execute(sql2)
+                print(see_quiz, '확인하자')
 
         # ####장은희
         # 실시간 상담 (학생프로그램)
@@ -221,7 +216,7 @@ class Server:
             chat_time = msg[2]
             chat_msg = msg[3]
             sql = f"insert into chatlog values \
-                  ('{member_num}','{member_name}','{chat_time}','{chat_msg}')"
+                  ('{member_num}','{member_name}','{chat_time}','{chat_msg}');"
             db_execute(sql)
             st_chat_list = [member_num, member_name, chat_time, chat_msg]
             self.send_msg(c, 'st_chat', st_chat_list)
@@ -236,7 +231,7 @@ class Server:
             chat_time = msg[2]
             chat_msg = msg[3]
             sql = f"insert into chatlog values \
-                  ('{member_num}','{member_name}','{chat_time}','{chat_msg}')"
+                  ('{member_num}','{member_name}','{chat_time}','{chat_msg}');"
             db_execute(sql)
             at_chat_list = [member_num, member_name, chat_time, chat_msg]
             # self.send_msg(c, 'at_chat', at_chat_list)
@@ -248,10 +243,11 @@ class Server:
             select_user = msg.split('/')
             self.select_code = select_user[0]
             self.select_name = select_user[1]
-            sql = f"select * from chatlog where member_num = '{self.select_code}' and member_name = '{self.select_name}'"
+            sql = f"select * from chatlog where " \
+                  f"member_num = '{self.select_code}' and member_name = '{self.select_name}';"
             at_select_user = db_execute(sql)
-            print('121313123',at_select_user)
-            #본인 클라에게 전송
+            print('121313123', at_select_user)
+            # 본인 클라에게 전송
             self.send_msg(c, 'select_user', at_select_user)
 
         elif head == 'chat_user':
@@ -260,7 +256,27 @@ class Server:
             for admin in self.admin_socks:
                 self.send_msg(admin, 'chat_user', alw_chat_user_list)
 
-
+        # ``` QnA
+        # 신규 질문을 받아 DB에 저장하고 등록자와 관리자에게 내용 전송
+        elif head == 'question':
+            sql = "select count(distinct q_num) from qna;"
+            num = db_execute(sql)[0][0]+1
+            sql = f"insert into qna values ('{num}', '{msg[0]}', '{msg[1]}', '{msg[2]}', '');"
+            db_execute(sql)
+            self.send_msg(c, 'add_stw_qa', [num, msg[0], msg[1], msg[2], ''])
+            for administrator in self.admin_socks:
+                self.send_msg(administrator, 'add_stw_qa', [num, msg[0], msg[1], msg[2], ''])
+        # 학생이 QnA창에 들어갔을때 입장한 학생의 질문내역을 전송
+        elif head == 'qna':
+            sql = f"select * from qna where member_num = '{msg[0]}' and member_name = '{msg[1]}';"
+            qna = db_execute(sql)
+            self.send_msg(c, 'set_stw_qa', qna)
+        # 선생이 QnA창에 들어갔을때 모든 학생의 질문내역을 전송
+        elif head == 'qna_adin':
+            sql = "select * from qna;"
+            qna = db_execute(sql)
+            self.send_msg(c, 'set_stw_qa', qna)
+        # ```
 
 ###########################################################################
 # 도구 메서드

@@ -37,8 +37,10 @@ class WindowClass(QMainWindow, form_class):
         super().__init__()
         self.setupUi(self)
         self.stackedWidget.setCurrentIndex(0)
+        self.stw.setCurrentIndex(0)
         self.read_api()
         self.action = True
+        self.qna_show = False
 
         #장은희테스트
         # self.stw.setCurrentIndex(3)
@@ -52,10 +54,11 @@ class WindowClass(QMainWindow, form_class):
         self.study_save_btn.clicked.connect(self.save_contents)
         self.load_study_btn.clicked.connect(self.load_save)
         self.answer_table.cellChanged.connect(self.input_answer)
-
-
-        ##장은희##
+        # #장은희##
         self.sle_chat.returnPressed.connect(self.st_chat) # 실시간 상담채팅
+        # QnA
+        self.sbt_qa.clicked.connect(self.interpellate)
+        self.stw.currentChanged.connect(self.stw_move)
 
         # 서버 연결
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -223,7 +226,21 @@ class WindowClass(QMainWindow, form_class):
         elif head == 'at_chat':
             self.slw_chat.addItem(f"{msg[2]} {msg[1]} 선생님 : {msg[3]}")
             self.slw_chat.scrollToBottom()
-
+        # ```QnA
+        # 추가 등록된 질문 받아 위젯에 넣기
+        elif head == 'add_stw_qa':
+            row = self.stw_qa.rowCount()
+            self.stw_qa.setRowCount(row+1)
+            for idx, val in enumerate(msg):
+                self.stw_qa.setItem(row, idx, QTableWidgetItem(str(val)))
+        # 처음 QnA 창에 들어가면 질문 내역 위젯에 넣기
+        elif head == 'set_stw_qa':
+            row = len(msg)
+            self.stw_qa.setRowCount(row)
+            for row, qna in enumerate(msg):
+                for col, val in enumerate(qna):
+                    self.stw_qa.setItem(row, col, QTableWidgetItem(str(val)))
+        # ```
 
 ###########################################################################
 # 시그널 - 메서드
@@ -263,7 +280,21 @@ class WindowClass(QMainWindow, form_class):
         self.slw_chat.scrollToBottom()
         self.sle_chat.clear()
 
+    # ``` QnA
+    # 추가 질문 등록시 서버에 DB저장하고 위제에 새로운 질문 등록하도록 신호전달
+    def interpellate(self):
+        question = self.sle_qa.text()
+        if question:
+            self.send_msg('question', [self.code, self.name, question])
+            self.sle_qa.clear()
 
+    # 처음 QnA창에 이동시 위젯에 질문내역 불러오게 서버에 신호전달
+    def stw_move(self):
+        tab = self.stw.currentIndex()
+        if tab == 4 and not self.qna_show:
+            self.send_msg('qna', [self.code, self.name])
+            self.qna_show = True
+    # ```
 
 ###########################################################################
 # 도구 메서드

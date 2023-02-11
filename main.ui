@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="page">
      <widget class="QLineEdit" name="hle_code">
@@ -1122,7 +1122,7 @@
         </attribute>
         <column>
          <property name="text">
-          <string>New Column</string>
+          <string>문의번호</string>
          </property>
         </column>
         <column>

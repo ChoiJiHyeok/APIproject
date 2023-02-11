@@ -215,9 +215,10 @@ class WindowClass(QMainWindow, form_class):
             self.quiz_type_box.clear()
             for i in msg:
                 self.quiz_type_box.addItem(i[0])
-        #quiz load
-        elif head == 'data_quiz': #학생이 문제 풀기 스코어 문제 수정
 
+        #학생이 문제 풀기
+        #quiz load
+        elif head == 'data_quiz':
             self.stw_test.setRowCount(0)
             self.stw_test.setRowCount(len(msg))
             self.stw_test.setColumnCount(2)

@@ -297,6 +297,9 @@ class WindowClass(QMainWindow, form_class):
 
     # 답변 등록
     def answer(self):
+        ans = self.ale_qa.text()
+        recipient = self.atw_qa.currentRow()
+        print(recipient)
         pass
 
 ###########################################################################

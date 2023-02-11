@@ -10,6 +10,7 @@ import xmltodict as xmltodict
 import math
 from tkinter import messagebox, Tk
 import json
+import time
 
 form_class = uic.loadUiType("main.ui")[0]
 svrip = 'localhost'
@@ -214,10 +215,6 @@ class WindowClass(QMainWindow, form_class):
             self.answer_table.setColumnCount(1)
             self.answer_table.setVerticalHeaderLabels(self.row_list)  # row 항목명 세팅
 
-
-
-
-
         # ####장은희
         # 실시간 상담 (자기자신)
         elif head == 'st_chat':
@@ -231,6 +228,7 @@ class WindowClass(QMainWindow, form_class):
 ###########################################################################
 # 시그널 - 메서드
 ###########################################################################
+
     # 로그인 (학생 프로그램으로 서버에 [학생 코드, 권한, 이름] 전송)
     def login(self):
         code = self.hle_code.text()

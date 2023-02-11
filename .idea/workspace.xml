@@ -4,15 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fa1378f8-de63-4f4f-b010-13ee8a7202c8" name="변경" comment="23.02.10 12:21 eh">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eh_server.py" beforeDir="false" afterPath="$PROJECT_DIR$/eh_server.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eh_student.py" beforeDir="false" afterPath="$PROJECT_DIR$/eh_student.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eh_teacher.py" beforeDir="false" afterPath="$PROJECT_DIR$/eh_teacher.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mainserver.py" beforeDir="false" afterPath="$PROJECT_DIR$/mainserver.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mainstudent.py" beforeDir="false" afterPath="$PROJECT_DIR$/mainstudent.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mainteacher.py" beforeDir="false" afterPath="$PROJECT_DIR$/mainteacher.py" afterDir="false" />
-    </list>
+    <list default="true" id="b67695f3-0f6c-41d6-9e8d-087e47805076" name="변경" comment="2023.02.10 21:17 지혁수정" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -56,8 +48,8 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/pythonproject_jeh/APIproject&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Kiot/PycharmProjects/APIproject&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.idesettings.debugger.python&quot;
   },
   &quot;keyToStringList&quot;: {
     &quot;GitStage.ChangesTree.GroupingKeys&quot;: [
@@ -69,11 +61,10 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\pythonproject_jeh\APIproject" />
       <recent name="C:\Users\Kiot\PycharmProjects\APIproject" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.mainserver">
+  <component name="RunManager" selected="Python.mainstudent">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -158,27 +149,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="mainstudent1" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="APIproject" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/mainstudent1.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="mainteacher" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="APIproject" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -192,6 +162,27 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/mainteacher.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="test_student" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="APIproject" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test_student.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -262,10 +253,10 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.mainteacher" />
         <item itemvalue="Python.mainstudent" />
+        <item itemvalue="Python.mainteacher" />
         <item itemvalue="Python.mainserver" />
-        <item itemvalue="Python.mainstudent1" />
+        <item itemvalue="Python.test_student" />
         <item itemvalue="Python.eh_student" />
       </list>
     </recent_temporary>
@@ -482,14 +473,112 @@
       <option name="project" value="LOCAL" />
       <updated>1675997907783</updated>
     </task>
-    <task id="LOCAL-00030" summary="23.02.10 12:21 eh">
-      <created>1675999327922</created>
+    <task id="LOCAL-00030" summary="230210 test">
+      <created>1675998508354</created>
       <option name="number" value="00030" />
       <option name="presentableId" value="LOCAL-00030" />
       <option name="project" value="LOCAL" />
-      <updated>1675999327922</updated>
+      <updated>1675998508354</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="230210 test">
+      <created>1675998653107</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1675998653107</updated>
+    </task>
+    <task id="LOCAL-00032" summary="230210 파일 추가">
+      <created>1675998799567</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1675998799567</updated>
+    </task>
+    <task id="LOCAL-00033" summary="230210 파일 추가">
+      <created>1676000684571</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1676000684571</updated>
+    </task>
+    <task id="LOCAL-00034" summary="230210 취합 완료 이제부터 작업은 main에서 커밋 하기전에 본인 pyton 파일에 저장하고 커밋 할것">
+      <created>1676001006628</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1676001006628</updated>
+    </task>
+    <task id="LOCAL-00035" summary="230210 취합 완료 이제부터 작업은 main에서 커밋 하기전에 본인 pyton 파일에 저장하고 커밋 할것">
+      <created>1676001270444</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1676001270444</updated>
+    </task>
+    <task id="LOCAL-00036" summary="230210 취합 완료 이제부터 작업은 main에서 커밋 하기전에 본인 pyton 파일에 저장하고 커밋 할것">
+      <created>1676004286819</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1676004286819</updated>
+    </task>
+    <task id="LOCAL-00037" summary="230210 수신 메서드 수정">
+      <created>1676006003719</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1676006003719</updated>
+    </task>
+    <task id="LOCAL-00038" summary="2023.02.10 14:24 지혁수정">
+      <created>1676006688470</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1676006688470</updated>
+    </task>
+    <task id="LOCAL-00039" summary="2023.02.10 14:24 지혁수정">
+      <created>1676006704773</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1676006704773</updated>
+    </task>
+    <task id="LOCAL-00040" summary="2023.02.10 15:56 지혁수정">
+      <created>1676012240335</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1676012240335</updated>
+    </task>
+    <task id="LOCAL-00041" summary="2023.02.10 16:00 지혁수정">
+      <created>1676012435333</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1676012435333</updated>
+    </task>
+    <task id="LOCAL-00042" summary="2023.02.10 16:03 지혁수정">
+      <created>1676012626760</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1676012626760</updated>
+    </task>
+    <task id="LOCAL-00043" summary="2023.02.10 17:25 지혁수정">
+      <created>1676017529754</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1676017529754</updated>
+    </task>
+    <task id="LOCAL-00044" summary="2023.02.10 21:17 지혁수정">
+      <created>1676031445153</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1676031445153</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -504,14 +593,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="230206 API_test.py 추가" />
-    <MESSAGE value="230206 API_test.py 신간 측정 추가" />
-    <MESSAGE value="230206 UI 생성" />
-    <MESSAGE value="230206 select 모듈 예제" />
-    <MESSAGE value="230207 서버-클라 기초틀" />
-    <MESSAGE value="230207 가입, 로그인 기능" />
-    <MESSAGE value="230208 주석 추가" />
-    <MESSAGE value="230208 코드 수정" />
     <MESSAGE value="230208 문제만들기 하는중" />
     <MESSAGE value="230208 문제만들기(단일클라기능구현)" />
     <MESSAGE value="230208 문제만들기(다중클라기능구현)" />
@@ -527,16 +608,24 @@
     <MESSAGE value="230210 11:27 파일 이름 변경" />
     <MESSAGE value="230210 11:27 main 파일 생성" />
     <MESSAGE value="230210 띄어쓰기 수정" />
-    <MESSAGE value="23.02.10 12:21 eh" />
-    <option name="LAST_COMMIT_MESSAGE" value="23.02.10 12:21 eh" />
+    <MESSAGE value="230210 test" />
+    <MESSAGE value="230210 파일 추가" />
+    <MESSAGE value="230210 취합 완료 이제부터 작업은 main에서 커밋 하기전에 본인 pyton 파일에 저장하고 커밋 할것" />
+    <MESSAGE value="230210 수신 메서드 수정" />
+    <MESSAGE value="2023.02.10 14:24 지혁수정" />
+    <MESSAGE value="2023.02.10 15:56 지혁수정" />
+    <MESSAGE value="2023.02.10 16:00 지혁수정" />
+    <MESSAGE value="2023.02.10 16:03 지혁수정" />
+    <MESSAGE value="2023.02.10 17:25 지혁수정" />
+    <MESSAGE value="2023.02.10 21:17 지혁수정" />
+    <option name="LAST_COMMIT_MESSAGE" value="2023.02.10 21:17 지혁수정" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/mainteacher.py</url>
-          <line>217</line>
-          <option name="timeStamp" value="2" />
+          <url>file://$PROJECT_DIR$/mainstudent.py</url>
+          <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>

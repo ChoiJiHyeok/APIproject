@@ -60,10 +60,13 @@ class Server:
             except ConnectionResetError:
                 self.p_msg(c, '연결 종료')
                 self.c_socks.remove(c)
+                print('연결된 클라: ', len(self.c_socks))
                 if c in self.student_socks:
                     self.student_socks.remove(c)
+                    print('연결된 학생: ', len(self.student_socks))
                 if c in self.admin_socks:
                     self.admin_socks.remove(c)
+                    print('연결된 선생: ', len(self.student_socks))
                 c.close()
                 break
             else:
@@ -86,8 +89,10 @@ class Server:
                 # 정보를 선생과 학생으로 구분하여 전송하기위해 list에 소켓 저장
                 if msg[1] == '관리자':
                     self.admin_socks.append(c)
-                else:
+                    print('현재연결된선생소켓', self.admin_socks)
+                elif msg[1] == '학생':
                     self.student_socks.append(c)
+                    print('현재연결된학생소켓',self.student_socks)
             # 학생 또는 선생 프로그램에서 다른 권한의 계정으로 로그인 시도한 경우
             # 로그인 정보가 틀린경우
             else:
@@ -112,9 +117,11 @@ class Server:
                 sql = f"insert into login_data values('s{num}', '{msg[0]}','{msg[1]}')"
                 db_execute(sql)
                 # 회원관리 DB에 신규 등록
-                sql = f"insert into study_progress values('F','{msg[1]}', '0', '0');"
+                sql = f"insert into study_progress values('F','s{num}','{msg[1]}', '0', '0');"
                 db_execute(sql)
                 self.send_msg(c, 'signup', ['success', f's{num}'])
+                for client in self.admin_socks:
+                    self.send_msg(client, 'add_alw_user', [f's{num}', f'{msg[1]}'])
 
         # ``` 문제 만들기
         # 문제 등록하기
@@ -143,6 +150,22 @@ class Server:
             quiz_list = db_execute(sql)
             self.send_msg(c, 'load_quiz', quiz_list)
         # ```
+        # ``` 학생 관리
+        elif head == 'management':
+            sql = "select member_num ,member_name from login_data where member_num like 's%';"
+            user_infor = db_execute(sql)
+            self.send_msg(c, 'management', user_infor)
+        elif head == 'study':
+            sql = f"select quiz_num, min(student_name), sum(quiz_point) as sum from quiz_student" \
+                  f" where student_name = '{msg}' group by quiz_num;"
+            user_infor = db_execute(sql)
+            sql = f"select * from quiz_student where student_name = '{msg}' order by quiz_num;"
+            more_infor = db_execute(sql)
+            if user_infor:
+                self.send_msg(c, 'study', [user_infor, more_infor])
+            else:
+                self.send_msg(c, 'study', 'False')
+        #```
         # 학생용
         # 학생이 학습내용 풀러오기
 
@@ -154,7 +177,7 @@ class Server:
                     sql=f'SELECT *FROM learning_data WHERE date BETWEEN "{year[0]}" AND "{year[1]}"'
                     study_contents=db_execute(sql)
                     print(study_contents)
-                    self.send_msg(c, 'load_history', study_contents)
+                    self.send_msg(c,'load_history',study_contents)
                 except IndexError:
                     print('study')
             else:
@@ -167,16 +190,74 @@ class Server:
         elif head == 'loading_studying': #저장된 학습내용 불러오기
             sql=f'SELECT *FROM learning_data WHERE date BETWEEN "{msg[1]}" AND "{msg[2]}"'
             find_contents=db_execute(sql)
-            self.send_msg(c, 'loading_studying', find_contents)
+            self.send_msg(c,'loading_studying',find_contents)
+
+        elif head == 'call_quiz':
+            sql=f'SELECT {msg[0]},{msg[1]},{msg[2]} FROM api.quiz'
+            find_quiz=db_execute(sql)
+            print(find_quiz,'퀴즈전송')
+            self.send_msg(c,'loading_quiz',find_quiz)
+
+        elif head == '정답':
+            sql=f'SELECT count(*)FROM quiz_student WHERE quiz_num="{msg[1][-1]}" AND student_name="{msg[0]}"';
+            count_data=db_execute(sql)
+            print(count_data)
+            if count_data[0][0] == 0:
+                # sql1=f"INSERT INTO quiz_student ()"
+                sql2=f'SELECT quiz FROM api.quiz WHERE quiz_num="{msg[1][-1]}"'
+                see_quiz=db_execute(sql2)
+                print(see_quiz,'확인하자')
+
+
+
+
+
+
+        # ####장은희
+        # 실시간 상담 (학생프로그램)
+        elif head == 'st_chat':
+            member_num = msg[0]
+            member_name = msg[1]
+            chat_time = msg[2]
+            chat_msg = msg[3]
+            sql = f"insert into chatlog values \
+                  ('{member_num}','{member_name}','{chat_time}','{chat_msg}')"
+            db_execute(sql)
+            st_chat_list = [member_num, member_name, msg[4], chat_msg]
+            self.send_msg(c, 'st_chat', st_chat_list)
+            # 관리자 권한을 가진 모든 클라에게 전송
+            for admin in self.admin_socks:
+                self.send_msg(admin, 'st_chat', st_chat_list)
+
+            # sql = f"select disticnt * from chatlog "
+
+        # 실시간 상담 (관리자프로그램)
+        elif head == 'at_chat':
+            member_num = msg[0]
+            member_name = msg[1]
+            chat_time = msg[2]
+            chat_msg = msg[3]
+            sql = f"insert into chatlog values \
+                  ('{member_num}','{member_name}','{chat_time}','{chat_msg}')"
+            db_execute(sql)
+            at_chat_list = [member_num, member_name, msg[4], chat_msg]
+            self.send_msg(c, 'at_chat', at_chat_list)
+            # 학생 클라에게 전송
+            for student in self.student_socks:
+                self.send_msg(student, 'at_chat', at_chat_list)
+
+
 
 ###########################################################################
 # 도구 메서드
 ###########################################################################
 
+    # 클라소켓, 주제, 내용으로 클라에 데이터 전송
     def send_msg(self, c, head, value):
         msg = json.dumps([head, value])
+        print('서버 전송 바이트: ', len(msg))
+        # 전송 데인터의 처음 10바이트를 전송 길이정보를 넣어 전송
         msg = f"{len(msg):<10}"+msg
-        print(len(msg))
         c.sendall(msg.encode())
         self.p_msg(c, '보낸 메시지:', value)
 

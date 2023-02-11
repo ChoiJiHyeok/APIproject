@@ -17,7 +17,11 @@ class WindowClass(QMainWindow, form_class):
         super().__init__()
         self.setupUi(self)
         self.stackedWidget.setCurrentIndex(0)
+        self.atw.setCurrentIndex(0)
         self.user_management = False
+        self.qna_show = False
+
+        self.ale_chat.returnPressed.connect(self.at_chat) # 실시간상담채팅
 
         # 시그널 - 메서드
         # 로그인, 회원가입
@@ -46,21 +50,18 @@ class WindowClass(QMainWindow, form_class):
         while True:
             new_msg = True
             tmsg = ''
+            buffer = 10
             while True:
-                # 전송된 데이터를 20바이트씩 받기
-                msg = c.recv(20)
+                msg = c.recv(buffer)
                 tmsg += msg.decode()
 
-                print(tmsg)
-                # 전송된 데이터의 길이 정보를 추출
+                # 전송된 데이터의 길이 정보를 추출하여 buffer에 저장
                 if new_msg:
-                    size = int(msg[:10])
+                    buffer = int(msg)
+                    new_msg = False
+                else:
                     # json.loads할 데이터에 길이 정보를 제거
                     tmsg = tmsg[10:]
-                    new_msg = False
-
-                # 전송된 데이터의 길이 정보와 json.loads할 데이터의 길이가 같으면 반복문 종료
-                if len(tmsg) == size:
                     break
             rmsg = json.loads(tmsg)
             if rmsg:
@@ -79,7 +80,6 @@ class WindowClass(QMainWindow, form_class):
                 self.name = msg[2]
                 # 관리자 페이지 이동
                 self.stackedWidget.setCurrentIndex(2)
-                self.atw.setCurrentIndex(0)
                 # 문제 등록 번호 콤보박스에 등록
                 for i in msg[3]:
                     self.acb_num.addItem(str(i[0]))
@@ -120,11 +120,35 @@ class WindowClass(QMainWindow, form_class):
         # 학생 회원가입시 코드및 이름 받아오기
         elif head == 'add_alw_user':
             self.alw_user.addItem(f'[{msg[0]}]{msg[1]}')
+
         elif head == 'study':
             self.atw_record.clear()
             if msg != 'False':
                 for m in msg[0]:
                     self.add_top_tree(str(m[0]), str(m[1]), str(m[2]), msg[1])
+        # ```
+        # ###장은희
+        # 실시간 상담 (학생->선생님)
+        elif head == 'st_chat':
+            self.alw_chat.addItem(f"{msg[1]}({msg[2]}) : {msg[3]}")
+            self.alw_chat.scrollToBottom()
+        # 실시간 상담 (자기자신)
+        elif head == 'at_chat':
+            self.alw_chat.addItem(f"{msg[1]}({msg[2]}) : {msg[3]}")
+        # ``` QnA
+        # 처음 QnA창에 들어가면 질문내역 위젯에 등록
+        elif head == 'set_stw_qa':
+            self.atw_qa.setRowCount(len(msg))
+            for row, qna in enumerate(msg):
+                for col, val in enumerate(qna):
+                    self.atw_qa.setItem(row, col, QTableWidgetItem(str(val)))
+        # 추가된 질문 받아와 위젯에 등록
+        elif head == 'add_stw_qa':
+            row = self.atw_qa.rowCount()
+            self.atw_qa.setRowCount(row+1)
+            for idx, val in enumerate(msg):
+                self.atw_qa.setItem(row, idx, QTableWidgetItem(str(val)))
+        # ```
 
     # tree 위젯에 item 추가하기
     def add_top_tree(self, num, name, score, value):
@@ -215,11 +239,27 @@ class WindowClass(QMainWindow, form_class):
         if tab == 1 and not self.user_management:
             self.user_management = True
             self.send_msg('management', '')
+        elif tab == 3 and not self.qna_show:
+            self.qna_show = True
+            self.send_msg('qna_adin', '')
 
     # 학생관리창에서 학생이름을 더블 클릭하면 서버에 신호 전송
     def study_progress(self):
         name = self.alw_user.currentItem().text().split(']')[1]
         self.send_msg('study', name)
+
+
+    #####장은희
+    # 상담 (관리자 프로그램으로 서버에 [관리자코드, 관리자이름, 채팅시간, 채팅내용] 전송)
+    def at_chat(self):
+        chat_time = str(datetime.now()) #strftime("%Y-%m-%d %H:%M:%S")
+        time = datetime.now().strftime("%H:%M")
+        chat_msg = self.ale_chat.text()
+        # self.alw_chat.addItem(f"{self.name}({time}) : {chat_msg}")
+        if chat_msg and chat_time:
+            self.send_msg('at_chat', [self.code, self.name, chat_time, chat_msg, time])
+        self.alw_chat.scrollToBottom()
+        self.ale_chat.clear()
 
 
 ###########################################################################

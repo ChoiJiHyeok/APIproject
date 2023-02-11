@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="page">
      <widget class="QLineEdit" name="hle_code">
@@ -234,7 +234,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -415,7 +415,7 @@
          <bool>false</bool>
         </attribute>
         <attribute name="horizontalHeaderStretchLastSection">
-         <bool>true</bool>
+         <bool>false</bool>
         </attribute>
         <attribute name="verticalHeaderCascadingSectionResizes">
          <bool>false</bool>
@@ -506,79 +506,40 @@
        <attribute name="title">
         <string>문제</string>
        </attribute>
-       <widget class="QTableView" name="stw_test">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>10</y>
-          <width>256</width>
-          <height>511</height>
-         </rect>
-        </property>
-       </widget>
-       <widget class="Line" name="line_14">
-        <property name="geometry">
-         <rect>
-          <x>270</x>
-          <y>10</y>
-          <width>20</width>
-          <height>511</height>
-         </rect>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-       </widget>
-       <widget class="Line" name="line_15">
-        <property name="geometry">
-         <rect>
-          <x>280</x>
-          <y>320</y>
-          <width>501</width>
-          <height>20</height>
-         </rect>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-       <widget class="QLabel" name="sl_test">
-        <property name="geometry">
-         <rect>
-          <x>290</x>
-          <y>20</y>
-          <width>481</width>
-          <height>291</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>문제</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-        </property>
-       </widget>
-       <widget class="QLineEdit" name="sle_test">
-        <property name="geometry">
-         <rect>
-          <x>290</x>
-          <y>340</y>
-          <width>431</width>
-          <height>181</height>
-         </rect>
-        </property>
-       </widget>
        <widget class="QPushButton" name="sbr_test">
         <property name="geometry">
          <rect>
           <x>730</x>
           <y>340</y>
           <width>51</width>
-          <height>181</height>
+          <height>191</height>
          </rect>
         </property>
         <property name="text">
-         <string>확인</string>
+         <string>제출</string>
+        </property>
+       </widget>
+       <widget class="QTableWidget" name="stw_test">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>10</y>
+          <width>781</width>
+          <height>321</height>
+         </rect>
+        </property>
+        <property name="editTriggers">
+         <set>QAbstractItemView::NoEditTriggers</set>
+        </property>
+       </widget>
+       <widget class="QTableWidget" name="answer_table">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>340</y>
+          <width>721</width>
+          <height>192</height>
+         </rect>
         </property>
        </widget>
       </widget>
@@ -643,6 +604,43 @@
           <height>381</height>
          </rect>
         </property>
+        <property name="editTriggers">
+         <set>QAbstractItemView::NoEditTriggers</set>
+        </property>
+        <attribute name="horizontalHeaderDefaultSectionSize">
+         <number>150</number>
+        </attribute>
+        <attribute name="horizontalHeaderMinimumSectionSize">
+         <number>50</number>
+        </attribute>
+        <attribute name="horizontalHeaderStretchLastSection">
+         <bool>true</bool>
+        </attribute>
+        <column>
+         <property name="text">
+          <string>질문등록번호</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>회원코드</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>이름</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>질문</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>답변</string>
+         </property>
+        </column>
        </widget>
        <widget class="QPushButton" name="sbt_qa">
         <property name="geometry">
@@ -1016,6 +1014,43 @@
           <height>381</height>
          </rect>
         </property>
+        <property name="editTriggers">
+         <set>QAbstractItemView::NoEditTriggers</set>
+        </property>
+        <attribute name="horizontalHeaderDefaultSectionSize">
+         <number>150</number>
+        </attribute>
+        <attribute name="horizontalHeaderMinimumSectionSize">
+         <number>50</number>
+        </attribute>
+        <attribute name="horizontalHeaderStretchLastSection">
+         <bool>true</bool>
+        </attribute>
+        <column>
+         <property name="text">
+          <string>질문등록번호</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>회원코드</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>이름</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>질문</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>답변</string>
+         </property>
+        </column>
        </widget>
       </widget>
      </widget>
@@ -1027,7 +1062,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>799</width>
      <height>21</height>
     </rect>
    </property>

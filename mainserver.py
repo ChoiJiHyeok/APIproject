@@ -53,7 +53,7 @@ class Server:
     def receive(self, c):
         while True:
             try:
-                rmsg = json.loads(c.recv(1024).decode())
+                rmsg = json.loads(c.recv(4096).decode())
                 if rmsg:
                     self.p_msg(c, '받은 메시지:', rmsg)
                     self.reaction(c, rmsg[0], rmsg[1])
@@ -117,7 +117,7 @@ class Server:
                 sql = f"insert into login_data values('s{num}', '{msg[0]}','{msg[1]}')"
                 db_execute(sql)
                 # 회원관리 DB에 신규 등록
-                sql = f"insert into study_progress values('F','{msg[1]}', '0', '0');"
+                sql = f"insert into study_progress values('F','s{num}','{msg[1]}', '0', '0');"
                 db_execute(sql)
                 self.send_msg(c, 'signup', ['success', f's{num}'])
                 for client in self.admin_socks:
@@ -165,8 +165,55 @@ class Server:
                 self.send_msg(c, 'study', [user_infor, more_infor])
             else:
                 self.send_msg(c, 'study', 'False')
+        #```
+        # 학생용
+        # 학생이 학습내용 풀러오기
 
-        #####장은희
+        elif head == 'call_contents':
+            if msg[1] != '연도선택':
+                try:
+                    year=msg[1].split("~")
+                    print(year)
+                    sql=f'SELECT *FROM learning_data WHERE date BETWEEN "{year[0]}" AND "{year[1]}"'
+                    study_contents=db_execute(sql)
+                    print(study_contents)
+                    self.send_msg(c,'load_history',study_contents)
+                except IndexError:
+                    print('study')
+            else:
+                print('gg')
+        elif head == "save_contents": # 학습내용 저장 하기
+            sql=f'UPDATE study_progress SET study_progress = "{msg[0]}:{msg[1]}~{msg[2]}" WHERE student_name = "{msg[0]}"'
+            update_progress=db_execute(sql)
+            print(update_progress)
+
+        elif head == 'loading_studying': #저장된 학습내용 불러오기
+            sql=f'SELECT *FROM learning_data WHERE date BETWEEN "{msg[1]}" AND "{msg[2]}"'
+            find_contents=db_execute(sql)
+            self.send_msg(c,'loading_studying',find_contents)
+
+        elif head == 'call_quiz':
+            sql=f'SELECT {msg[0]},{msg[1]},{msg[2]} FROM api.quiz'
+            find_quiz=db_execute(sql)
+            print(find_quiz,'퀴즈전송')
+            self.send_msg(c,'loading_quiz',find_quiz)
+
+        elif head == '정답':
+            sql=f'SELECT count(*)FROM quiz_student WHERE quiz_num="{msg[1][-1]}" AND student_name="{msg[0]}"';
+            count_data=db_execute(sql)
+            print(count_data)
+            if count_data[0][0] == 0:
+                # sql1=f"INSERT INTO quiz_student ()"
+                sql2=f'SELECT quiz FROM api.quiz WHERE quiz_num="{msg[1][-1]}"'
+                see_quiz=db_execute(sql2)
+                print(see_quiz,'확인하자')
+
+
+
+
+
+
+        # ####장은희
         # 실시간 상담 (학생프로그램)
         elif head == 'st_chat':
             member_num = msg[0]

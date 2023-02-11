@@ -20,7 +20,11 @@ class WindowClass(QMainWindow, form_class):
 
         #장은희테스트
         self.atw.setCurrentIndex(2)
-        self.ale_chat.returnPressed.connect(self.at_chat) # 실시간상담채팅
+        # 실시간상담채팅
+        self.ale_chat.returnPressed.connect(self.at_chat) # 메시지 전송
+        self.alw_chat_user.itemClicked.connect(self.select_user) # 학생별로 수신
+        # self.alw_chat_user.currentItemChanged.connect(self.select_change_user) # 큐메시지박스/학생연결끊김
+
 
         # 시그널 - 메서드
         # 로그인, 회원가입
@@ -114,14 +118,29 @@ class WindowClass(QMainWindow, form_class):
             self.acb_num.addItem(str(msg))
         # ```
         #####장은희
-        # 실시간 상담 (학생->선생님)
+        # alw_chat_user에 학생 넣기
+        elif head == 'chat_user':
+            self.alw_chat_user.clear()
+            for i in range(len(msg)):
+                self.alw_chat_user.addItem(f"{msg[i][0]}/{msg[i][2]}")
+
+        # 실시간 상담 (학생이 보낸 메시지)
         elif head == 'st_chat':
-            if self.hle_code.text() == msg[0]:
-                self.alw_chat.addItem(f"{msg[1]}({msg[2]}) : {msg[3]}")
+            if self.select_code == msg[0] and self.select_name == msg[1]:
+                self.alw_chat.addItem(f"{msg[2]} {msg[0]}/{msg[1]} 학생 : {msg[3]}")
                 self.alw_chat.scrollToBottom()
+
         # 실시간 상담 (자기자신)
         elif head == 'at_chat':
-            self.alw_chat.addItem(f"{msg[1]}({msg[2]}) : {msg[3]}")
+            self.alw_chat.addItem(f"{msg[2]} {msg[1]} 선생님 : {msg[3]}")
+
+        elif head == 'select_user':
+            self.alw_chat.clear()
+            print('이전메시지',msg)
+            for i in range(len(msg)):
+                self.alw_chat.addItem(f"{msg[i][2]} {msg[i][0]}/{msg[i][1]} 학생 : {msg[i][3]}")
+                self.alw_chat.scrollToBottom()
+
 
 ###########################################################################
 # 송신
@@ -195,18 +214,32 @@ class WindowClass(QMainWindow, form_class):
         tab = self.atw.currentIndex()
         if tab == 1:
             self.send_msg('management', '')
+        # 장은희_상담탭 구현중
+        if tab == 2: # alw_chat_user에 학생 넣기. 시그널 전송
+            self.send_msg('chat_user', '')
 
     #####장은희
     # 상담 (관리자 프로그램으로 서버에 [관리자코드, 관리자이름, 채팅시간, 채팅내용] 전송)
     def at_chat(self):
-        chat_time = str(datetime.now()) #strftime("%Y-%m-%d %H:%M:%S")
-        time = datetime.now().strftime("%H:%M")
+        chat_time = datetime.now().strftime("%Y-%m-%d %H:%M")
         chat_msg = self.ale_chat.text()
         # self.alw_chat.addItem(f"{self.name}({time}) : {chat_msg}")
         if chat_msg and chat_time:
-            self.send_msg('at_chat', [self.code, self.name, chat_time, chat_msg, time])
+            self.send_msg('at_chat', [self.code, self.name, chat_time, chat_msg])
         self.alw_chat.scrollToBottom()
         self.ale_chat.clear()
+
+    def select_user(self): # 아이템클릭/서버한테 '학생별로 수신받고 싶어' 시그널 보내기
+        self.selectName = self.alw_chat_user.currentItem().text()
+        self.send_msg('select_user', self.selectName)
+
+        select_user = self.selectName.split('/')
+        self.select_code = select_user[0]
+        self.select_name = select_user[1]
+        print(self.select_name)
+
+
+
 
 
 ###########################################################################
@@ -246,6 +279,17 @@ class WindowClass(QMainWindow, form_class):
     def del_atw_q(self):
         self.atw_q.clearContents()
         self.atw_q.setRowCount(0)
+
+    # 학생연결 종료
+    # def select_change_user(self):
+    #     self.messagebox('현재 상담중인 학생과 연결이 종료됩니다.')
+    #     self.alw_chat.clear()
+
+
+
+
+
+
 
 ###########################################################################
 # 도구 메서드

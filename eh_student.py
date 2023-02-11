@@ -129,12 +129,11 @@ class WindowClass(QMainWindow, form_class):
         #####장은희
         # 실시간 상담 (자기자신)
         elif head == 'st_chat':
-            self.slw_chat.addItem(f"{msg[1]}({msg[2]}) : {msg[3]}")
+            self.slw_chat.addItem(f"{msg[2]} {msg[0]}/{msg[1]} 학생 : {msg[3]}")
         # 실시간 상담 (선생님->학생)
         elif head == 'at_chat':
-            if self.hle_code.text() == msg[0]:
-                self.slw_chat.addItem(f"{msg[1]}({msg[2]}) : {msg[3]}")
-                self.slw_chat.scrollToBottom()
+            self.slw_chat.addItem(f"{msg[2]} {msg[1]} 선생님 : {msg[3]}")
+            self.slw_chat.scrollToBottom()
 
 
 ###########################################################################
@@ -166,12 +165,11 @@ class WindowClass(QMainWindow, form_class):
     #####장은희
     # 상담 (학생 프로그램으로 서버에 [학생코드, 학생이름, 채팅시간, 채팅내용] 전송)
     def st_chat(self):
-        chat_time = str(datetime.now()) #strftime("%Y-%m-%d %H:%M:%S")
-        time = datetime.now().strftime("%H:%M")
+        chat_time = datetime.now().strftime("%Y-%m-%d %H:%M")
         chat_msg = self.sle_chat.text()
         # self.slw_chat.addItem(f"{self.name}({time}) : {chat_msg}")
         if chat_msg and chat_time:
-            self.send_msg('st_chat', [self.code, self.name, chat_time, chat_msg, time])
+            self.send_msg('st_chat', [self.code, self.name, chat_time, chat_msg])
         self.slw_chat.scrollToBottom()
         self.sle_chat.clear()
 

@@ -176,13 +176,11 @@ class Server:
             sql = f"insert into chatlog values \
                   ('{member_num}','{member_name}','{chat_time}','{chat_msg}')"
             db_execute(sql)
-            st_chat_list = [member_num, member_name, msg[4], chat_msg]
+            st_chat_list = [member_num, member_name, chat_time, chat_msg]
             self.send_msg(c, 'st_chat', st_chat_list)
             # 관리자 권한을 가진 모든 클라에게 전송
             for admin in self.admin_socks:
                 self.send_msg(admin, 'st_chat', st_chat_list)
-
-            # sql = f"select disticnt * from chatlog "
 
         # 실시간 상담 (관리자프로그램)
         elif head == 'at_chat':
@@ -193,11 +191,27 @@ class Server:
             sql = f"insert into chatlog values \
                   ('{member_num}','{member_name}','{chat_time}','{chat_msg}')"
             db_execute(sql)
-            at_chat_list = [member_num, member_name, msg[4], chat_msg]
-            self.send_msg(c, 'at_chat', at_chat_list)
-            # 학생 클라에게 전송
+            at_chat_list = [member_num, member_name, chat_time, chat_msg]
+            # self.send_msg(c, 'at_chat', at_chat_list)
+            # # 학생 클라에게 전송
             for student in self.student_socks:
                 self.send_msg(student, 'at_chat', at_chat_list)
+
+        elif head == 'select_user':
+            select_user = msg.split('/')
+            self.select_code = select_user[0]
+            self.select_name = select_user[1]
+            sql = f"select * from chatlog where member_num = '{self.select_code}' and member_name = '{self.select_name}'"
+            at_select_user = db_execute(sql)
+            print('121313123',at_select_user)
+            #본인 클라에게 전송
+            self.send_msg(c, 'select_user', at_select_user)
+
+        elif head == 'chat_user':
+            sql = f"SELECT * FROM api.login_data where authority = '학생'"
+            alw_chat_user_list = db_execute(sql)
+            for admin in self.admin_socks:
+                self.send_msg(admin, 'chat_user', alw_chat_user_list)
 
 
 

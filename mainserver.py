@@ -193,20 +193,32 @@ class Server:
             self.send_msg(c,'loading_studying',find_contents)
 
         elif head == 'call_quiz':
-            sql=f'SELECT {msg[0]},{msg[1]},{msg[2]} FROM api.quiz'
-            find_quiz=db_execute(sql)
-            print(find_quiz,'퀴즈전송')
-            self.send_msg(c,'loading_quiz',find_quiz)
+            # sql=f'SELECT {msg[0]},{msg[1]},{msg[2]} FROM api.quiz'
+            # find_quiz=db_execute(sql)
+            # print(find_quiz,'퀴즈전송')
+            sql1 = f'SELECT DISTINCT {msg[3]} FROM api.quiz;'
+            send_quizcode = db_execute(sql1)
+            print(send_quizcode, '퀴즈 유형 보내기')
+            self.send_msg(c,'loading_quiz',send_quizcode)
+
+        elif head == 'quiz_type':
+            sql=f'SELECT quiz_num, score, quiz FROM api.quiz WHERE quiz_code = "{msg[0]}"'
+            go_quiz=db_execute(sql)
+            self.send_msg(c,'data_quiz',go_quiz)
 
         elif head == '정답':
-            sql=f'SELECT count(*)FROM quiz_student WHERE quiz_num="{msg[1][-1]}" AND student_name="{msg[0]}"';
+            sql=f'SELECT count(*)FROM quiz_student WHERE quiz_num="{msg[1]}" AND student_name="{msg[0]}" AND quiz="{msg[5]}"';
+            print("확인1")
             count_data=db_execute(sql)
             print(count_data)
             if count_data[0][0] == 0:
-                # sql1=f"INSERT INTO quiz_student ()"
-                sql2=f'SELECT quiz FROM api.quiz WHERE quiz_num="{msg[1][-1]}"'
-                see_quiz=db_execute(sql2)
-                print(see_quiz,'확인하자')
+                sql1=f'INSERT INTO quiz_student (quiz_num, quiz, answer, student_name, sol_time) VALUES ("{msg[1]}","{msg[5]}","{msg[3]}","{msg[0]}","{msg[4]}")'
+                print("확인2")
+                db_execute(sql1)
+            else:
+                sql2=f'UPDATE quiz_student SET answer = "{msg[3]}", sol_time="{msg[4]}" WHERE quiz_num="{msg[1]}" and quiz="{msg[5]}" and student_name="{msg[0]}"';
+                print("확인3")
+                db_execute(sql2)
 
 
 

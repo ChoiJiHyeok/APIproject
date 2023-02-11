@@ -49,6 +49,7 @@ class WindowClass(QMainWindow, form_class):
         self.study_save_btn.clicked.connect(self.save_contents)
         self.load_study_btn.clicked.connect(self.load_save)
         self.answer_table.cellChanged.connect(self.input_answer)
+        self.quiz_type_box.currentTextChanged.connect(self.show_quiz)
 
 
         ##장은희##
@@ -88,10 +89,17 @@ class WindowClass(QMainWindow, form_class):
                     db_execute(spl)
 
 
+    def show_quiz(self):
+        self.send_msg('quiz_type',[self.quiz_type_box.currentText()])
+
+
+
 
     def input_answer(self, row, column): # 정답 입력하면 시간 제서 서버로
         print('hihi')
         cell_answer=self.answer_table.item(row,column).text()
+        quiz_text=self.stw_test.item(row,column+1).text()
+        print(quiz_text,'퀴즈텍스트')
         get_num=self.row_list[row]
         print(get_num[-1],'문제 번호')
         print(cell_answer)
@@ -100,7 +108,7 @@ class WindowClass(QMainWindow, form_class):
         sol_time=f"{measure_time:0.2f}"
         print(sol_time)
         self.start=time.time()
-        self.send_msg('정답', [self.name, get_num, cell_answer])
+        self.send_msg('정답', [self.name, self.quiz_type_box.currentText(), get_num, cell_answer,sol_time,quiz_text]) # 이름, 퀴즈코드, 문제번호, 제출 답안, 풀이 시간 전달
 
     def show_contents(self, index): # Qtablewidget에 보여줄 학습내용 연도 선택
         self.comboBox.clear()
@@ -112,7 +120,7 @@ class WindowClass(QMainWindow, form_class):
                     self.comboBox.addItem(str(i)+'년'+'~'+str(i+100)+'년')
 
         elif index==2:
-            self.send_msg("call_quiz", ['quiz_num' , 'score', 'quiz'])
+            self.send_msg("call_quiz", ['quiz_num' , 'score', 'quiz','quiz_code'])
             self.start = time.time()
 
 
@@ -194,9 +202,15 @@ class WindowClass(QMainWindow, form_class):
             for i in range(len(msg)):
                 for j in range(3):
                     self.stw_contents.setItem(i, j, QTableWidgetItem(str(msg[i][j])))
+        # 문제유형 선택 : self.quiz_type_box에 유형 추가
+        elif head == "loading_quiz":  #quiz 테이블 테이블 위젯에 표시
+            print(msg, '퀴즈유형 확인')
+            self.quiz_type_box.clear()
+            for i in msg:
+                self.quiz_type_box.addItem(i[0])
         #학생이 문제 풀기
-        elif head == "loading_quiz":
-            #quiz load
+        #quiz load
+        elif head == 'data_quiz':
             self.stw_test.setRowCount(0)
             self.stw_test.setRowCount(len(msg))
             self.stw_test.setColumnCount(3)
@@ -214,6 +228,9 @@ class WindowClass(QMainWindow, form_class):
             self.answer_table.setRowCount(len(msg))
             self.answer_table.setColumnCount(1)
             self.answer_table.setVerticalHeaderLabels(self.row_list)  # row 항목명 세팅
+
+
+
 
 
 

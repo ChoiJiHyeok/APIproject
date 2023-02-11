@@ -4,7 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b67695f3-0f6c-41d6-9e8d-087e47805076" name="변경" comment="2023.02.10 21:17 지혁수정" />
+    <list default="true" id="b67695f3-0f6c-41d6-9e8d-087e47805076" name="변경" comment="2023.02.10 21:31 지혁수정">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/2023-02-10__11_54_______.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jh_server.py" beforeDir="false" afterPath="$PROJECT_DIR$/jh_server.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jh_student.py" beforeDir="false" afterPath="$PROJECT_DIR$/jh_student.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.ui" beforeDir="false" afterPath="$PROJECT_DIR$/main.ui" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -44,27 +51,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Kiot/PycharmProjects/APIproject&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.idesettings.debugger.python&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "C:/APIproject",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;GitStage.ChangesTree.GroupingKeys&quot;: [
-      &quot;directory&quot;,
-      &quot;module&quot;,
-      &quot;repository&quot;
+  "keyToStringList": {
+    "GitStage.ChangesTree.GroupingKeys": [
+      "directory",
+      "module",
+      "repository"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Kiot\PycharmProjects\APIproject" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.mainstudent">
+  <component name="RunManager">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -253,18 +260,18 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.eh_student" />
         <item itemvalue="Python.mainstudent" />
         <item itemvalue="Python.mainteacher" />
         <item itemvalue="Python.mainserver" />
         <item itemvalue="Python.test_student" />
-        <item itemvalue="Python.eh_student" />
       </list>
     </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="애플리케이션 수준" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="디폴트 작업">
-      <changelist id="fa1378f8-de63-4f4f-b010-13ee8a7202c8" name="변경" comment="" />
+      <changelist id="b67695f3-0f6c-41d6-9e8d-087e47805076" name="변경" comment="2023.02.10 21:31 지혁수정" />
       <created>1675663922632</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -578,7 +585,28 @@
       <option name="project" value="LOCAL" />
       <updated>1676031445153</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="2023.02.10 21:26 지혁수정">
+      <created>1676032008530</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1676032008530</updated>
+    </task>
+    <task id="LOCAL-00046" summary="2023.02.10 21:27 지혁수정">
+      <created>1676032069953</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1676032069953</updated>
+    </task>
+    <task id="LOCAL-00047" summary="2023.02.10 21:31 지혁수정">
+      <created>1676032318750</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1676032318750</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -593,9 +621,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="230208 문제만들기 하는중" />
-    <MESSAGE value="230208 문제만들기(단일클라기능구현)" />
-    <MESSAGE value="230208 문제만들기(다중클라기능구현)" />
     <MESSAGE value="230208 문제만들기(다중클라기능구현) 주석 추가" />
     <MESSAGE value="230208 학생 회원가입시 회원관리DB에 등록 추가" />
     <MESSAGE value="230209 학생 회원가입시 이름없이 가입 수정" />
@@ -618,16 +643,13 @@
     <MESSAGE value="2023.02.10 16:03 지혁수정" />
     <MESSAGE value="2023.02.10 17:25 지혁수정" />
     <MESSAGE value="2023.02.10 21:17 지혁수정" />
-    <option name="LAST_COMMIT_MESSAGE" value="2023.02.10 21:17 지혁수정" />
+    <MESSAGE value="2023.02.10 21:26 지혁수정" />
+    <MESSAGE value="2023.02.10 21:27 지혁수정" />
+    <MESSAGE value="2023.02.10 21:31 지혁수정" />
+    <option name="LAST_COMMIT_MESSAGE" value="2023.02.10 21:31 지혁수정" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/mainstudent.py</url>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
           <properties notifyOnTerminate="true" exception="BaseException">

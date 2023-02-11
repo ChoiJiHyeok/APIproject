@@ -70,7 +70,7 @@ class Server:
                         break
                 rmsg = json.loads(tmsg)
                 if rmsg:
-                    self.p_msg(c,'받은 메시지:', rmsg)
+                    self.p_msg(c, '받은 메시지:', rmsg)
                     self.reaction(c, rmsg[0], rmsg[1])
             except ConnectionResetError:
                 self.p_msg(c, '연결 종료')
@@ -278,19 +278,22 @@ class Server:
             num = db_execute(sql)[0][0]+1
             sql = f"insert into qna values ('{num}', '{msg[0]}', '{msg[1]}', '', '{msg[2]}', '');"
             db_execute(sql)
-            self.send_msg(c, 'add_stw_qa', [num, msg[0], msg[1], msg[2], ''])
+            self.send_msg(c, 'add_stw_qa', [num, msg[0], msg[1], '', msg[2], ''])
             for administrator in self.admin_socks:
-                self.send_msg(administrator, 'add_stw_qa', [num, msg[0], msg[1], msg[2], ''])
+                self.send_msg(administrator, 'add_stw_qa', [num, msg[0], msg[1], '', msg[2], ''])
         # 학생이 QnA창에 들어갔을때 입장한 학생의 질문내역을 전송
         elif head == 'qna':
-            sql = f"select * from qna where student_num = '{msg[0]}' and student_name = '{msg[1]}';"
+            sql = f"select * from qna where student_num = '{msg[0]}' and student_name = '{msg[1]};' order by q_num;"
             qna = db_execute(sql)
             self.send_msg(c, 'set_stw_qa', qna)
         # 선생이 QnA창에 들어갔을때 모든 학생의 질문내역을 전송
         elif head == 'qna_adin':
-            sql = "select * from qna;"
+            sql = "select * from qna order by q_num;"
             qna = db_execute(sql)
             self.send_msg(c, 'set_stw_qa', qna)
+        elif head == 'answer':
+            sql = f"insert into qna values ('{msg[0]}', '{msg[1]}', '{msg[2]}', '{msg[3]}', '', '{msg[4]}');"
+            db_execute(sql)
         # ```
 
 ###########################################################################

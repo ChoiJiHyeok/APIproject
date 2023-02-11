@@ -40,7 +40,6 @@ class WindowClass(QMainWindow, form_class):
         self.stw.setCurrentIndex(0)
         self.read_api()
         self.action = True
-        self.qna_show = False
 
         #장은희테스트
         # self.stw.setCurrentIndex(3)
@@ -291,9 +290,8 @@ class WindowClass(QMainWindow, form_class):
     # 처음 QnA창에 이동시 위젯에 질문내역 불러오게 서버에 신호전달
     def stw_move(self):
         tab = self.stw.currentIndex()
-        if tab == 4 and not self.qna_show:
+        if tab == 4:
             self.send_msg('qna', [self.code, self.name])
-            self.qna_show = True
     # ```
 
 ###########################################################################

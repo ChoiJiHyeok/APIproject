@@ -19,7 +19,6 @@ class WindowClass(QMainWindow, form_class):
         self.stackedWidget.setCurrentIndex(0)
         self.atw.setCurrentIndex(0)
         self.user_management = False
-        self.qna_show = False
 
         #장은희테스트
         # self.atw.setCurrentIndex(2)
@@ -266,8 +265,7 @@ class WindowClass(QMainWindow, form_class):
         # 장은희_상담탭 구현중
         elif tab == 2: # alw_chat_user에 학생 넣기. 시그널 전송
             self.send_msg('chat_user', '')
-        elif tab == 3 and not self.qna_show:
-            self.qna_show = True
+        elif tab == 3:
             self.send_msg('qna_adin', '')
 
     # 학생관리창에서 학생이름을 더블 클릭하면 서버에 신호 전송
@@ -298,9 +296,15 @@ class WindowClass(QMainWindow, form_class):
     # 답변 등록
     def answer(self):
         ans = self.ale_qa.text()
-        recipient = self.atw_qa.currentRow()
-        print(recipient)
-        pass
+        row = self.atw_qa.currentRow()
+        if row >= 0:
+            num = self.atw_qa.item(row, 0).text()
+            code = self.atw_qa.item(row, 1).text()
+            stu_name = self.atw_qa.item(row, 2).text()
+            self.send_msg('answer', [num, code, stu_name, self.name, ans])
+            self.ale_qa.clear()
+        else:
+            self.messagebox('답변할 QnA를 선택하세요.')
 
 ###########################################################################
 # 송신 기능이 없는 시그널 - 메서드

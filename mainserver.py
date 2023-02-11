@@ -3,7 +3,7 @@ import socketserver
 from datetime import datetime
 import json
 
-server_ip = '10.10.21.105'
+server_ip = 'localhost'
 server_port = 9000
 
 db_host = '10.10.21.105'
@@ -214,12 +214,12 @@ class Server:
             sql1 = f'SELECT DISTINCT {msg[3]} FROM api.quiz;'
             send_quizcode = db_execute(sql1)
             print(send_quizcode, '퀴즈 유형 보내기')
-            self.send_msg(c,'loading_quiz',send_quizcode)
+            self.send_msg(c, 'loading_quiz', send_quizcode)
 
         elif head == 'quiz_type':
-            sql=f'SELECT quiz_num, quiz, score FROM api.quiz WHERE quiz_code = "{msg[0]}"'
+            sql=f'SELECT quiz_num, score, quiz FROM api.quiz WHERE quiz_code = "{msg[0]}"'
             go_quiz=db_execute(sql)
-            self.send_msg(c,'data_quiz',go_quiz)
+            self.send_msg(c, 'data_quiz', go_quiz)
 
         elif head == '정답':
             sql2 = f'SELECT quiz ,answer, score FROM quiz WHERE answer = "{msg[3]}" and quiz_code="{msg[1]}" and quiz_num="{msg[2][-1]}"'

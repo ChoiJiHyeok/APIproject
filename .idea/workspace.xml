@@ -6,6 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="b67695f3-0f6c-41d6-9e8d-087e47805076" name="변경" comment="2023.02.11 15:49 지혁수정">
       <change beforePath="$PROJECT_DIR$/.idea/shelf/2023-02-11__11_55_______.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/2023-02-11__11_55_______.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.ui" beforeDir="false" afterPath="$PROJECT_DIR$/main.ui" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mainstudent.py" beforeDir="false" afterPath="$PROJECT_DIR$/mainstudent.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -67,7 +69,7 @@
       <recent name="C:\Users\Kiot\PycharmProjects\APIproject" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.mainstudent">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -256,9 +258,9 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.mainteacher" />
         <item itemvalue="Python.mainstudent" />
         <item itemvalue="Python.mainserver" />
+        <item itemvalue="Python.mainteacher" />
         <item itemvalue="Python.test_student" />
         <item itemvalue="Python.eh_student" />
       </list>
@@ -272,13 +274,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1675663922632</updated>
-    </task>
-    <task id="LOCAL-00007" summary="230208 주석 추가">
-      <created>1675820244029</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1675820244029</updated>
     </task>
     <task id="LOCAL-00008" summary="230208 코드 수정">
       <created>1675823419538</created>
@@ -616,7 +611,14 @@
       <option name="project" value="LOCAL" />
       <updated>1676099672021</updated>
     </task>
-    <option name="localTasksCounter" value="56" />
+    <task id="LOCAL-00056" summary="230211 코드 수정">
+      <created>1676101657341</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1676101657341</updated>
+    </task>
+    <option name="localTasksCounter" value="57" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -631,7 +633,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Revert &quot;230209 큰 데이터 받기&quot;&#10;&#10;This reverts commit aead9543" />
     <MESSAGE value="Revert &quot;230209 학생관리&quot;&#10;&#10;This reverts commit f1b5dae4" />
     <MESSAGE value="230210 - 복원중" />
     <MESSAGE value="230210 - 복원" />
@@ -656,7 +657,8 @@
     <MESSAGE value="230211 QnA 수정" />
     <MESSAGE value="230211 학생 로그인 화면 완료" />
     <MESSAGE value="230211 ui 수정" />
-    <option name="LAST_COMMIT_MESSAGE" value="230211 ui 수정" />
+    <MESSAGE value="230211 코드 수정" />
+    <option name="LAST_COMMIT_MESSAGE" value="230211 코드 수정" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

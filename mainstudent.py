@@ -310,8 +310,10 @@ class WindowClass(QMainWindow, form_class):
     # 주제, 내용으로 서버에 데이터 전송
     def send_msg(self, head, value):
         msg = json.dumps([head, value])
+        msg = f"{len(msg):<10}"+msg
         self.sock.sendall(msg.encode())
         self.p_msg('보낸 메시지:', msg)
+
 
     # 메시지 종류, 내용을 매개 변수로 콘솔에 확인 내용 출력
     def p_msg(self, head, *msg):

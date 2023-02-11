@@ -53,9 +53,24 @@ class Server:
     def receive(self, c):
         while True:
             try:
-                rmsg = json.loads(c.recv(4096).decode())
+                new_msg = True
+                tmsg = ''
+                buffer = 10
+                while True:
+                    msg = c.recv(buffer)
+                    tmsg += msg.decode()
+
+                    # 전송된 데이터의 길이 정보를 추출하여 buffer에 저장
+                    if new_msg:
+                        buffer = int(msg)
+                        new_msg = False
+                    else:
+                        # json.loads할 데이터에 길이 정보를 제거
+                        tmsg = tmsg[10:]
+                        break
+                rmsg = json.loads(tmsg)
                 if rmsg:
-                    self.p_msg(c, '받은 메시지:', rmsg)
+                    self.p_msg(c,'받은 메시지:', rmsg)
                     self.reaction(c, rmsg[0], rmsg[1])
             except ConnectionResetError:
                 self.p_msg(c, '연결 종료')
@@ -126,27 +141,27 @@ class Server:
         # ``` 문제 만들기
         # 문제 등록하기
         elif head == 'register_question':
-            sql = "select count(distinct quiz_num) from quiz;"
+            sql = "select count(distinct quiz_code) from quiz;"
             quiz_num = db_execute(sql)[0][0]
             # 신규 문제
             if msg[0][0] > quiz_num:
                 # 문제 DB에 저장
-                for v in msg:
-                    sql = f"insert into quiz values('{v[0]}', '{v[1]}', '{v[2]}', '{v[3]}', '{v[4]}');"
+                for i, v in enumerate(msg):
+                    sql = f"insert into quiz values('{v[0]}', '{i+1}', '{v[1]}', '{v[2]}', '{v[3]}', '{v[4]}');"
                     db_execute(sql)
                 # 관리자 권한을 가진 모든 클라에게 전송 [추가 등록된 문제 등록 번호]
                 for administrator in self.admin_socks:
                     self.send_msg(administrator, 'add_acb_num', msg[0][0])
             # 기존 문제 수정
             else:
-                sql = f"delete from quiz where quiz_num = {msg[0][0]};"
+                sql = f"delete from quiz where quiz_code = {msg[0][0]};"
                 db_execute(sql)
                 for v in msg:
                     sql = f"insert into quiz values('{v[0]}', '{v[1]}', '{v[2]}', '{v[3]}', '{v[4]}');"
                     db_execute(sql)
         # 해당 등록 번호의 문제 목록 클라에 전송
         elif head == 'load_quiz':
-            sql = f"select * from quiz where quiz_num= '{msg}'"
+            sql = f"select * from quiz where quiz_code= '{msg}'"
             quiz_list = db_execute(sql)
             self.send_msg(c, 'load_quiz', quiz_list)
         # ```

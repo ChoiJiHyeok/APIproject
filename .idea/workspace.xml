@@ -67,7 +67,7 @@
       <recent name="C:\Users\Kiot\PycharmProjects\APIproject" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.mainstudent">
+  <component name="RunManager" selected="Python.mainteacher">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -256,9 +256,9 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.mainstudent" />
-        <item itemvalue="Python.mainserver" />
         <item itemvalue="Python.mainteacher" />
+        <item itemvalue="Python.mainserver" />
+        <item itemvalue="Python.mainstudent" />
         <item itemvalue="Python.test_student" />
         <item itemvalue="Python.eh_student" />
       </list>
@@ -588,7 +588,14 @@
       <option name="project" value="LOCAL" />
       <updated>1676084288667</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="230211 사라진 파일 추가">
+      <created>1676085717403</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1676085717403</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -603,7 +610,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="230208 문제만들기(단일클라기능구현)" />
     <MESSAGE value="230208 문제만들기(다중클라기능구현)" />
     <MESSAGE value="230208 문제만들기(다중클라기능구현) 주석 추가" />
     <MESSAGE value="230208 학생 회원가입시 회원관리DB에 등록 추가" />
@@ -628,7 +634,8 @@
     <MESSAGE value="2023.02.10 17:25 지혁수정" />
     <MESSAGE value="2023.02.10 21:17 지혁수정" />
     <MESSAGE value="230211 import time 추가" />
-    <option name="LAST_COMMIT_MESSAGE" value="230211 import time 추가" />
+    <MESSAGE value="230211 사라진 파일 추가" />
+    <option name="LAST_COMMIT_MESSAGE" value="230211 사라진 파일 추가" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

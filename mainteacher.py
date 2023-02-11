@@ -43,6 +43,8 @@ class WindowClass(QMainWindow, form_class):
         # 학생관리
         self.atw.currentChanged.connect(self.atw_move)
         self.alw_user.itemDoubleClicked.connect(self.study_progress)
+        # QnA
+        self.abt_qa.clicked.connect(self.answer)
 
         # 서버 연결
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -273,7 +275,6 @@ class WindowClass(QMainWindow, form_class):
         name = self.alw_user.currentItem().text().split(']')[1]
         self.send_msg('study', name)
 
-
     #####장은희
     # 상담 (관리자 프로그램으로 서버에 [관리자코드, 관리자이름, 채팅시간, 채팅내용] 전송)
     def at_chat(self):
@@ -294,9 +295,9 @@ class WindowClass(QMainWindow, form_class):
         self.select_name = select_user[1]
         print(self.select_name)
 
-
-
-
+    # 답변 등록
+    def answer(self):
+        pass
 
 ###########################################################################
 # 송신 기능이 없는 시그널 - 메서드
@@ -341,12 +342,6 @@ class WindowClass(QMainWindow, form_class):
     #     self.messagebox('현재 상담중인 학생과 연결이 종료됩니다.')
     #     self.alw_chat.clear()
 
-
-
-
-
-
-
 ###########################################################################
 # 도구 메서드
 ###########################################################################
@@ -361,6 +356,7 @@ class WindowClass(QMainWindow, form_class):
     # 주제, 내용으로 서버에 데이터 전송
     def send_msg(self, head, value):
         msg = json.dumps([head, value])
+        msg = f"{len(msg):<10}"+msg
         self.sock.sendall(msg.encode())
         self.p_msg('보낸 메시지:', msg)
 

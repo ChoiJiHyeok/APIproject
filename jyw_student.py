@@ -10,7 +10,7 @@ import xmltodict as xmltodict
 import math
 from tkinter import messagebox, Tk
 import json
-
+import time
 
 form_class = uic.loadUiType("main.ui")[0]
 svrip = 'localhost'
@@ -40,10 +40,11 @@ class WindowClass(QMainWindow, form_class):
         self.stw.setCurrentIndex(0)
         self.read_api()
         self.action = True
-        self.qna_show = False
+
+        #장은희테스트
+        # self.stw.setCurrentIndex(3)
 
         # 시그널 - 메서드
-
         self.hbt_add.clicked.connect(self.signup)
         self.hbt_login.clicked.connect(self.login)
         self.hle_name.returnPressed.connect(self.login)
@@ -51,7 +52,8 @@ class WindowClass(QMainWindow, form_class):
         self.comboBox.currentTextChanged.connect(self.select_year)
         self.study_save_btn.clicked.connect(self.save_contents)
         self.load_study_btn.clicked.connect(self.load_save)
-        ##장은희##
+        self.answer_table.cellChanged.connect(self.input_answer)
+        # #장은희##
         self.sle_chat.returnPressed.connect(self.st_chat) # 실시간 상담채팅
         # QnA
         self.sbt_qa.clicked.connect(self.interpellate)
@@ -90,20 +92,35 @@ class WindowClass(QMainWindow, form_class):
                     spl = f'insert into learning_data values ({data_listnum},"{data_year}년 {data_month}월 {data_day}일","{date_summary}")'
                     db_execute(spl)
 
+    def input_answer(self, row, column): # 정답 입력하면 시간 제서 서버로
+        print('hihi')
+        cell_answer=self.answer_table.item(row,column).text()
+        get_num=self.row_list[row]
+        print(get_num[-1],'문제 번호')
+        print(cell_answer)
+        self.end=time.time()
+        measure_time=(self.start-self.end)*(-1)
+        sol_time=f"{measure_time:0.2f}"
+        print(sol_time)
+        self.start=time.time()
+        self.send_msg('정답', [self.name, get_num, cell_answer])
+
     def show_contents(self, index): # Qtablewidget에 보여줄 학습내용 연도 선택
         self.comboBox.clear()
         if index==1:
-            for i in range(1000, 2001, 100):
+            for i in range(1000,2001,100):
                 if i == 2000:
                     self.comboBox.addItem(str(i) + '년' + '~' + str(i + 23)+'년')
-                    # self.send_msg('call_contents', [index, self.comboBox.currentText()])
                 else:
                     self.comboBox.addItem(str(i)+'년'+'~'+str(i+100)+'년')
-                    # self.send_msg('call_contents', [index, self.comboBox.currentText()])
+
+        elif index==2:
+            self.send_msg("call_quiz", ['quiz_num' , 'score', 'quiz'])
+            self.start = time.time()
+
+
         else:
             print(index)
-        # if index == 2:
-
     def select_year(self):
         self.send_msg("call_contents", ['연도', self.comboBox.currentText()])
 
@@ -150,6 +167,7 @@ class WindowClass(QMainWindow, form_class):
                 self.code = msg[1]
                 self.name = msg[2]
                 self.messagebox('로그인 성공')
+                self.send_msg('stu_home', [self.code, self.name])
             else:
                 self.messagebox('로그인 실패')
         elif head == 'signup':
@@ -164,24 +182,47 @@ class WindowClass(QMainWindow, form_class):
             self.stw_contents.setRowCount(0)
             self.stw_contents.setRowCount(len(msg))
             self.stw_contents.setColumnCount(3)
+            header = self.stw_contents.horizontalHeader()
             for i in range(len(msg)):
                 for j in range(3):
                     self.stw_contents.setItem(i, j, QTableWidgetItem(str(msg[i][j])))
+            self.stw_contents.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents) #셀값에 따라 자동으로 컬럼 넓이 조절
+
         # 저장된 학습내용 불러옴
         elif head == 'loading_studying':
-            self.stw_contents.setRowCount(0)
             self.stw_contents.setRowCount(len(msg))
             self.stw_contents.setColumnCount(3)
             for i in range(len(msg)):
                 for j in range(3):
                     self.stw_contents.setItem(i, j, QTableWidgetItem(str(msg[i][j])))
+        #학생이 문제 풀기
+        elif head == "loading_quiz":
+            #quiz load
+            self.stw_test.setRowCount(0)
+            self.stw_test.setRowCount(len(msg))
+            self.stw_test.setColumnCount(3)
+
+            for i in range(len(msg)):
+                for j in range(3):
+                    self.stw_test.setItem(i, j, QTableWidgetItem(str(msg[i][j])))
+            self.stw_test.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
+
+            #정답란 제출란
+            self.row_list = []
+            for l in range(len(msg)):
+                self.row_list.append('문제' + str(l+1))
+            print(self.row_list)
+            self.answer_table.setRowCount(len(msg))
+            self.answer_table.setColumnCount(1)
+            self.answer_table.setVerticalHeaderLabels(self.row_list)  # row 항목명 세팅
+
         # ####장은희
         # 실시간 상담 (자기자신)
         elif head == 'st_chat':
-            self.slw_chat.addItem(f"{msg[1]}({msg[2]}) : {msg[3]}")
+            self.slw_chat.addItem(f"{msg[2]} {msg[0]}/{msg[1]} 학생 : {msg[3]}")
         # 실시간 상담 (선생님->학생)
         elif head == 'at_chat':
-            self.slw_chat.addItem(f"{msg[1]}({msg[2]}) : {msg[3]}")
+            self.slw_chat.addItem(f"{msg[2]} {msg[1]} 선생님 : {msg[3]}")
             self.slw_chat.scrollToBottom()
         # ```QnA
         # 추가 등록된 질문 받아 위젯에 넣기
@@ -198,6 +239,37 @@ class WindowClass(QMainWindow, form_class):
                 for col, val in enumerate(qna):
                     self.stw_qa.setItem(row, col, QTableWidgetItem(str(val)))
         # ```
+        # ``` 학생 로그인 첫 화면
+        elif head == 'set_stu_home':
+            self.sl_h_rating.setText(msg[0])
+            self.sl_h_name.setText(msg[2])
+            self.slcd_h_point.display(msg[3])
+            if msg[4] != '':
+                self.sle_h_progress.setText(msg[4].split(':')[1])
+            self.send_msg('study', self.name)
+        elif head == 'study':
+            self.stw_h_score.clear()
+            if msg != 'False':
+                for m in msg[0]:
+                    self.add_top_tree(str(m[0]), str(m[1]), str(m[2]), msg[1])
+        # ```
+
+        # tree 위젯에 item 추가하기
+    def add_top_tree(self, num, name, score, value):
+        item = QTreeWidgetItem(self.stw_h_score)
+        item.setText(0, num)
+        item.setText(1, name)
+        item.setText(2, score)
+        for i in value:
+            if str(i[0]) == num:
+                sub_item = QTreeWidgetItem(item)
+                sub_item.setText(0, str(i[1]))
+                sub_item.setText(1, str(i[2]))
+                sub_item.setText(2, str(i[3]))
+                sub_item.setText(3, str(i[4]))
+                sub_item.setText(4, str(i[5]))
+
+
 
 ###########################################################################
 # 시그널 - 메서드
@@ -229,12 +301,11 @@ class WindowClass(QMainWindow, form_class):
     #####장은희
     # 상담 (학생 프로그램으로 서버에 [학생코드, 학생이름, 채팅시간, 채팅내용] 전송)
     def st_chat(self):
-        chat_time = str(datetime.now()) #strftime("%Y-%m-%d %H:%M:%S")
-        time = datetime.now().strftime("%H:%M")
+        chat_time = datetime.now().strftime("%Y-%m-%d %H:%M")
         chat_msg = self.sle_chat.text()
         # self.slw_chat.addItem(f"{self.name}({time}) : {chat_msg}")
         if chat_msg and chat_time:
-            self.send_msg('st_chat', [self.code, self.name, chat_time, chat_msg, time])
+            self.send_msg('st_chat', [self.code, self.name, chat_time, chat_msg])
         self.slw_chat.scrollToBottom()
         self.sle_chat.clear()
 
@@ -245,13 +316,17 @@ class WindowClass(QMainWindow, form_class):
         if question:
             self.send_msg('question', [self.code, self.name, question])
             self.sle_qa.clear()
-    # 처음 QnA창에 이동시 위젯에 질문내역 불러오게 서버에 신호전달
+    # ```
+
+    # tab 위젯 이동시 서버에 신호 전달
     def stw_move(self):
         tab = self.stw.currentIndex()
-        if tab == 4 and not self.qna_show:
+        if tab == 1:
+            self.send_msg('stu_home', [self.code, self.name])
+        # QnA창에 이동시 위젯에 질문내역 불러오게 서버에 신호전달
+        elif tab == 4:
             self.send_msg('qna', [self.code, self.name])
-            self.qna_show = True
-    # ```
+
 
 ###########################################################################
 # 도구 메서드
@@ -267,6 +342,7 @@ class WindowClass(QMainWindow, form_class):
     # 주제, 내용으로 서버에 데이터 전송
     def send_msg(self, head, value):
         msg = json.dumps([head, value])
+        msg = f"{len(msg):<10}"+msg
         self.sock.sendall(msg.encode())
         self.p_msg('보낸 메시지:', msg)
 

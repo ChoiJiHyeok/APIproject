@@ -19,7 +19,6 @@ class WindowClass(QMainWindow, form_class):
         self.stackedWidget.setCurrentIndex(0)
         self.atw.setCurrentIndex(0)
         self.user_management = False
-        self.qna_show = False
 
         #장은희테스트
         self.SEL = False
@@ -44,6 +43,8 @@ class WindowClass(QMainWindow, form_class):
         # 학생관리
         self.atw.currentChanged.connect(self.atw_move)
         self.alw_user.itemDoubleClicked.connect(self.study_progress)
+        # QnA
+        self.abt_qa.clicked.connect(self.answer)
 
         # 서버 연결
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -155,7 +156,7 @@ class WindowClass(QMainWindow, form_class):
 
         elif head == 'select_user':
             self.alw_chat.clear()
-            print('이전메시지',msg)
+            print('이전메시지', msg)
             for i in range(len(msg)):
                 self.alw_chat.addItem(f"{msg[i][2]} {msg[i][0]}/{msg[i][1]} 학생 : {msg[i][3]}")
                 self.alw_chat.scrollToBottom()
@@ -269,16 +270,13 @@ class WindowClass(QMainWindow, form_class):
             self.alw_chat.clear()
             self.SEL = False
             self.send_msg('chat_user', '')
-
-        elif tab == 3 and not self.qna_show:
-            self.qna_show = True
+        elif tab == 3:
             self.send_msg('qna_adin', '')
 
     # 학생관리창에서 학생이름을 더블 클릭하면 서버에 신호 전송
     def study_progress(self):
         name = self.alw_user.currentItem().text().split(']')[1]
         self.send_msg('study', name)
-
 
     #####장은희
     # 상담 (관리자 프로그램으로 서버에 [관리자코드, 관리자이름, 채팅시간, 채팅내용, 현재선택한학생] 전송)
@@ -301,9 +299,18 @@ class WindowClass(QMainWindow, form_class):
         self.select_name = select_user[1]
         print(self.select_name)
 
-
-
-
+    # 답변 등록
+    def answer(self):
+        ans = self.ale_qa.text()
+        row = self.atw_qa.currentRow()
+        if row >= 0:
+            num = self.atw_qa.item(row, 0).text()
+            code = self.atw_qa.item(row, 1).text()
+            stu_name = self.atw_qa.item(row, 2).text()
+            self.send_msg('answer', [num, code, stu_name, self.name, ans])
+            self.ale_qa.clear()
+        else:
+            self.messagebox('답변할 QnA를 선택하세요.')
 
 ###########################################################################
 # 송신 기능이 없는 시그널 - 메서드
@@ -348,12 +355,6 @@ class WindowClass(QMainWindow, form_class):
     #     self.messagebox('현재 상담중인 학생과 연결이 종료됩니다.')
     #     self.alw_chat.clear()
 
-
-
-
-
-
-
 ###########################################################################
 # 도구 메서드
 ###########################################################################
@@ -368,6 +369,7 @@ class WindowClass(QMainWindow, form_class):
     # 주제, 내용으로 서버에 데이터 전송
     def send_msg(self, head, value):
         msg = json.dumps([head, value])
+        msg = f"{len(msg):<10}"+msg
         self.sock.sendall(msg.encode())
         self.p_msg('보낸 메시지:', msg)
 

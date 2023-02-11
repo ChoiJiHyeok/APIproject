@@ -273,13 +273,6 @@
       <option name="presentableId" value="Default" />
       <updated>1675663922632</updated>
     </task>
-    <task id="LOCAL-00001" summary="230206 API_test.py 추가">
-      <created>1675664048841</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1675664048841</updated>
-    </task>
     <task id="LOCAL-00002" summary="230206 API_test.py 신간 측정 추가">
       <created>1675665227533</created>
       <option name="number" value="00002" />
@@ -581,7 +574,49 @@
       <option name="project" value="LOCAL" />
       <updated>1676031445153</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="230211 import time 추가">
+      <created>1676084288667</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1676084288667</updated>
+    </task>
+    <task id="LOCAL-00046" summary="230211 사라진 파일 추가">
+      <created>1676085717403</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1676085717403</updated>
+    </task>
+    <task id="LOCAL-00047" summary="230211 문제 만들기 수정">
+      <created>1676088552389</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1676088552389</updated>
+    </task>
+    <task id="LOCAL-00048" summary="230211 QnA 수정중">
+      <created>1676090266375</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1676090266375</updated>
+    </task>
+    <task id="LOCAL-00049" summary="230211 QnA 완료">
+      <created>1676091385703</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1676091385703</updated>
+    </task>
+    <task id="LOCAL-00050" summary="230211 QnA 수정">
+      <created>1676091913581</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1676091913582</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -596,12 +631,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="230208 문제만들기 하는중" />
-    <MESSAGE value="230208 문제만들기(단일클라기능구현)" />
-    <MESSAGE value="230208 문제만들기(다중클라기능구현)" />
-    <MESSAGE value="230208 문제만들기(다중클라기능구현) 주석 추가" />
-    <MESSAGE value="230208 학생 회원가입시 회원관리DB에 등록 추가" />
-    <MESSAGE value="230209 학생 회원가입시 이름없이 가입 수정" />
     <MESSAGE value="230209 학생관리" />
     <MESSAGE value="230209 큰 데이터 받기" />
     <MESSAGE value="Revert &quot;230209 큰 데이터 받기&quot;&#10;&#10;This reverts commit aead9543" />
@@ -621,16 +650,16 @@
     <MESSAGE value="2023.02.10 16:03 지혁수정" />
     <MESSAGE value="2023.02.10 17:25 지혁수정" />
     <MESSAGE value="2023.02.10 21:17 지혁수정" />
-    <option name="LAST_COMMIT_MESSAGE" value="2023.02.10 21:17 지혁수정" />
+    <MESSAGE value="230211 import time 추가" />
+    <MESSAGE value="230211 사라진 파일 추가" />
+    <MESSAGE value="230211 문제 만들기 수정" />
+    <MESSAGE value="230211 QnA 수정중" />
+    <MESSAGE value="230211 QnA 완료" />
+    <MESSAGE value="230211 QnA 수정" />
+    <option name="LAST_COMMIT_MESSAGE" value="230211 QnA 수정" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/mainstudent.py</url>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
           <properties notifyOnTerminate="true" exception="BaseException">

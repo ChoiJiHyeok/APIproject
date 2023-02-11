@@ -257,8 +257,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.mainstudent" />
-        <item itemvalue="Python.mainserver" />
         <item itemvalue="Python.mainteacher" />
+        <item itemvalue="Python.mainserver" />
         <item itemvalue="Python.test_student" />
         <item itemvalue="Python.eh_student" />
       </list>
@@ -272,13 +272,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1675663922632</updated>
-    </task>
-    <task id="LOCAL-00001" summary="230206 API_test.py 추가">
-      <created>1675664048841</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1675664048841</updated>
     </task>
     <task id="LOCAL-00002" summary="230206 API_test.py 신간 측정 추가">
       <created>1675665227533</created>
@@ -616,7 +609,14 @@
       <option name="project" value="LOCAL" />
       <updated>1676091385703</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="230211 QnA 수정">
+      <created>1676091913581</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1676091913582</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -631,7 +631,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="230209 학생 회원가입시 이름없이 가입 수정" />
     <MESSAGE value="230209 학생관리" />
     <MESSAGE value="230209 큰 데이터 받기" />
     <MESSAGE value="Revert &quot;230209 큰 데이터 받기&quot;&#10;&#10;This reverts commit aead9543" />
@@ -656,7 +655,8 @@
     <MESSAGE value="230211 문제 만들기 수정" />
     <MESSAGE value="230211 QnA 수정중" />
     <MESSAGE value="230211 QnA 완료" />
-    <option name="LAST_COMMIT_MESSAGE" value="230211 QnA 완료" />
+    <MESSAGE value="230211 QnA 수정" />
+    <option name="LAST_COMMIT_MESSAGE" value="230211 QnA 수정" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -92,8 +92,6 @@ class WindowClass(QMainWindow, form_class):
                     spl = f'insert into learning_data values ({data_listnum},"{data_year}년 {data_month}월 {data_day}일","{date_summary}")'
                     db_execute(spl)
 
-
-
     def input_answer(self, row, column): # 정답 입력하면 시간 제서 서버로
         print('hihi')
         cell_answer=self.answer_table.item(row,column).text()
@@ -169,6 +167,7 @@ class WindowClass(QMainWindow, form_class):
                 self.code = msg[1]
                 self.name = msg[2]
                 self.messagebox('로그인 성공')
+                self.send_msg('stu_home', [self.code, self.name])
             else:
                 self.messagebox('로그인 실패')
         elif head == 'signup':
@@ -240,6 +239,37 @@ class WindowClass(QMainWindow, form_class):
                 for col, val in enumerate(qna):
                     self.stw_qa.setItem(row, col, QTableWidgetItem(str(val)))
         # ```
+        # ``` 학생 로그인 첫 화면
+        elif head == 'set_stu_home':
+            self.sl_h_rating.setText(msg[0])
+            self.sl_h_name.setText(msg[2])
+            self.slcd_h_point.display(msg[3])
+            if msg[4] != '':
+                self.sle_h_progress.setText(msg[4].split(':')[1])
+            self.send_msg('study', self.name)
+        elif head == 'study':
+            self.stw_h_score.clear()
+            if msg != 'False':
+                for m in msg[0]:
+                    self.add_top_tree(str(m[0]), str(m[1]), str(m[2]), msg[1])
+        # ```
+
+        # tree 위젯에 item 추가하기
+    def add_top_tree(self, num, name, score, value):
+        item = QTreeWidgetItem(self.stw_h_score)
+        item.setText(0, num)
+        item.setText(1, name)
+        item.setText(2, score)
+        for i in value:
+            if str(i[0]) == num:
+                sub_item = QTreeWidgetItem(item)
+                sub_item.setText(0, str(i[1]))
+                sub_item.setText(1, str(i[2]))
+                sub_item.setText(2, str(i[3]))
+                sub_item.setText(3, str(i[4]))
+                sub_item.setText(4, str(i[5]))
+
+
 
 ###########################################################################
 # 시그널 - 메서드
@@ -286,13 +316,17 @@ class WindowClass(QMainWindow, form_class):
         if question:
             self.send_msg('question', [self.code, self.name, question])
             self.sle_qa.clear()
+    # ```
 
-    # 처음 QnA창에 이동시 위젯에 질문내역 불러오게 서버에 신호전달
+    # tab 위젯 이동시 서버에 신호 전달
     def stw_move(self):
         tab = self.stw.currentIndex()
-        if tab == 4:
+        if tab == 1:
+            self.send_msg('stu_home', [self.code, self.name])
+        # QnA창에 이동시 위젯에 질문내역 불러오게 서버에 신호전달
+        elif tab == 4:
             self.send_msg('qna', [self.code, self.name])
-    # ```
+
 
 ###########################################################################
 # 도구 메서드
@@ -311,7 +345,6 @@ class WindowClass(QMainWindow, form_class):
         msg = f"{len(msg):<10}"+msg
         self.sock.sendall(msg.encode())
         self.p_msg('보낸 메시지:', msg)
-
 
     # 메시지 종류, 내용을 매개 변수로 콘솔에 확인 내용 출력
     def p_msg(self, head, *msg):

@@ -298,6 +298,14 @@ class Server:
             qna = db_execute(sql)
             self.send_msg(c, 'set_stw_qa', qna)
         # ```
+        # ``` 학생 로그인 첫 화면
+
+        elif head == 'stu_home':
+            sql = f"select * from study_progress where member_num = '{msg[0]}' and student_name = '{msg[1]}';"
+            infor = db_execute(sql)[0]
+            self.send_msg(c, 'set_stu_home', infor)
+            print(infor)
+        # ```
 
 ###########################################################################
 # 도구 메서드
@@ -306,11 +314,10 @@ class Server:
     # 클라소켓, 주제, 내용으로 클라에 데이터 전송
     def send_msg(self, c, head, value):
         msg = json.dumps([head, value])
-        print('서버 전송 바이트: ', len(msg))
         # 전송 데인터의 처음 10바이트를 전송 길이정보를 넣어 전송
         msg = f"{len(msg):<10}"+msg
         c.sendall(msg.encode())
-        self.p_msg(c, '보낸 메시지:', value)
+        self.p_msg(c, '보낸 메시지:', msg)
 
     # 클라소켓, 메시지 종류, 내용을 매개 변수로 콘솔에 확인 내용 출력
     def p_msg(self, sock, head, *msg):

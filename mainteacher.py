@@ -113,8 +113,8 @@ class WindowClass(QMainWindow, form_class):
             # 테이블 위젯 셀에 내용 저장
             for row, quiz_list in enumerate(msg):
                 for col, value in enumerate(quiz_list):
-                    if col != 0:
-                        self.atw_q.setItem(row, col-1, QTableWidgetItem(value))
+                    if col > 1:
+                        self.atw_q.setItem(row, col-2, QTableWidgetItem(str(value)))
         # 추가된 문제 등록번호 콤보박스에 저장
         elif head == 'add_acb_num':
             self.acb_num.addItem(str(msg))

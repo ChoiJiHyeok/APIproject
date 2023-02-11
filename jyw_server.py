@@ -98,7 +98,7 @@ class Server:
             if login:
                 # DB에 저장된 문제 등록 목록 및 정보 클라에 전달
                 # [로그인성공여부, 회원코드, 회원이름, 문제등록번호목록]
-                sql = f"select distinct quiz_num from quiz;"
+                sql = f"select distinct quiz_code from quiz;"
                 quiz_num = db_execute(sql)
                 self.send_msg(c, 'login', ['success', msg[0], msg[2], quiz_num])
                 # 정보를 선생과 학생으로 구분하여 전송하기위해 list에 소켓 저장
@@ -156,8 +156,8 @@ class Server:
             else:
                 sql = f"delete from quiz where quiz_code = {msg[0][0]};"
                 db_execute(sql)
-                for v in msg:
-                    sql = f"insert into quiz values('{v[0]}', '{v[1]}', '{v[2]}', '{v[3]}', '{v[4]}');"
+                for i, v in enumerate(msg):
+                    sql = f"insert into quiz values('{v[0]}', '{i+1}', '{v[1]}', '{v[2]}', '{v[3]}', '{v[4]}');"
                     db_execute(sql)
         # 해당 등록 번호의 문제 목록 클라에 전송
         elif head == 'load_quiz':
@@ -208,20 +208,32 @@ class Server:
             self.send_msg(c, 'loading_studying', find_contents)
 
         elif head == 'call_quiz':
-            sql = f'SELECT {msg[0]},{msg[1]},{msg[2]} FROM api.quiz'
-            find_quiz = db_execute(sql)
-            print(find_quiz, '퀴즈전송')
-            self.send_msg(c, 'loading_quiz', find_quiz)
+            # sql=f'SELECT {msg[0]},{msg[1]},{msg[2]} FROM api.quiz'
+            # find_quiz=db_execute(sql)
+            # print(find_quiz,'퀴즈전송')
+            sql1 = f'SELECT DISTINCT {msg[3]} FROM api.quiz;'
+            send_quizcode = db_execute(sql1)
+            print(send_quizcode, '퀴즈 유형 보내기')
+            self.send_msg(c,'loading_quiz',send_quizcode)
+
+        elif head == 'quiz_type':
+            sql=f'SELECT quiz_num, score, quiz FROM api.quiz WHERE quiz_code = "{msg[0]}"'
+            go_quiz=db_execute(sql)
+            self.send_msg(c,'data_quiz',go_quiz)
 
         elif head == '정답':
-            sql = f'SELECT count(*)FROM quiz_student WHERE quiz_num="{msg[1][-1]}" AND student_name="{msg[0]}";'
-            count_data = db_execute(sql)
+            sql=f'SELECT count(*)FROM quiz_student WHERE quiz_num="{msg[1]}" AND student_name="{msg[0]}" AND quiz="{msg[5]}"';
+            print("확인1")
+            count_data=db_execute(sql)
             print(count_data)
             if count_data[0][0] == 0:
-                # sql1=f"INSERT INTO quiz_student ()"
-                sql2 = f'SELECT quiz FROM api.quiz WHERE quiz_num="{msg[1][-1]}";'
-                see_quiz = db_execute(sql2)
-                print(see_quiz, '확인하자')
+                sql1=f'INSERT INTO quiz_student (quiz_num, quiz, answer, student_name, sol_time) VALUES ("{msg[1]}","{msg[5]}","{msg[3]}","{msg[0]}","{msg[4]}")'
+                print("확인2")
+                db_execute(sql1)
+            else:
+                sql2=f'UPDATE quiz_student SET answer = "{msg[3]}", sol_time="{msg[4]}" WHERE quiz_num="{msg[1]}" and quiz="{msg[5]}" and student_name="{msg[0]}"';
+                print("확인3")
+                db_execute(sql2)
 
         # ####장은희
         # 실시간 상담 (학생프로그램)
@@ -248,8 +260,8 @@ class Server:
             sql = f"insert into chatlog values \
                   ('{member_num}','{member_name}','{chat_time}','{chat_msg}');"
             db_execute(sql)
-            at_chat_list = [member_num, member_name, chat_time, chat_msg]
-            # self.send_msg(c, 'at_chat', at_chat_list)
+            at_chat_list = [member_num, member_name, chat_time, chat_msg, msg[4], msg[5]]
+            self.send_msg(c, 'at_chat', at_chat_list)
             # # 학생 클라에게 전송
             for student in self.student_socks:
                 self.send_msg(student, 'at_chat', at_chat_list)
@@ -261,15 +273,17 @@ class Server:
             sql = f"select * from chatlog where " \
                   f"member_num = '{self.select_code}' and member_name = '{self.select_name}';"
             at_select_user = db_execute(sql)
-            print('121313123', at_select_user)
-            # 본인 클라에게 전송
+            #시그널을 보낸 선생님 클라에게 전송
             self.send_msg(c, 'select_user', at_select_user)
+
+
 
         elif head == 'chat_user':
             sql = f"SELECT * FROM api.login_data where authority = '학생'"
             alw_chat_user_list = db_execute(sql)
-            for admin in self.admin_socks:
-                self.send_msg(admin, 'chat_user', alw_chat_user_list)
+            # 시그널을 보낸 선생님 클라에게 전송
+            self.send_msg(c, 'chat_user', alw_chat_user_list)
+
 
         # ``` QnA
         # 신규 질문을 받아 DB에 저장하고 등록자와 관리자에게 내용 전송

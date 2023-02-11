@@ -69,7 +69,7 @@
       <recent name="C:\Users\Kiot\PycharmProjects\APIproject" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.mainstudent">
+  <component name="RunManager" selected="Python.mainteacher">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -258,9 +258,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.mainteacher" />
         <item itemvalue="Python.mainstudent" />
         <item itemvalue="Python.mainserver" />
-        <item itemvalue="Python.mainteacher" />
         <item itemvalue="Python.test_student" />
         <item itemvalue="Python.eh_student" />
       </list>
@@ -274,20 +274,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1675663922632</updated>
-    </task>
-    <task id="LOCAL-00005" summary="230207 서버-클라 기초틀">
-      <created>1675757221132</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1675757221132</updated>
-    </task>
-    <task id="LOCAL-00006" summary="230207 가입, 로그인 기능">
-      <created>1675768722125</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1675768722125</updated>
     </task>
     <task id="LOCAL-00007" summary="230208 주석 추가">
       <created>1675820244029</created>
@@ -618,7 +604,21 @@
       <option name="project" value="LOCAL" />
       <updated>1676099268470</updated>
     </task>
-    <option name="localTasksCounter" value="54" />
+    <task id="LOCAL-00054" summary="230211 ui 수정">
+      <created>1676099345711</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1676099345711</updated>
+    </task>
+    <task id="LOCAL-00055" summary="230211 ui 수정">
+      <created>1676099672021</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1676099672021</updated>
+    </task>
+    <option name="localTasksCounter" value="56" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

@@ -198,6 +198,18 @@ class Server:
             print(find_quiz,'퀴즈전송')
             self.send_msg(c,'loading_quiz',find_quiz)
 
+        elif head == '정답':
+            sql=f'SELECT count(*)FROM quiz_student WHERE quiz_num="{msg[1][-1]}" AND student_name="{msg[0]}"';
+            count_data=db_execute(sql)
+            print(count_data)
+            if count_data[0][0] == 0:
+                # sql1=f"INSERT INTO quiz_student ()"
+                sql2=f'SELECT quiz FROM api.quiz WHERE quiz_num="{msg[1][-1]}"'
+                see_quiz=db_execute(sql2)
+                print(see_quiz,'확인하자')
+
+
+
 
 
 

@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b67695f3-0f6c-41d6-9e8d-087e47805076" name="변경" comment="2023.02.10 16:03 지혁수정">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jh_student.py" beforeDir="false" afterPath="$PROJECT_DIR$/jh_student.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.ui" beforeDir="false" afterPath="$PROJECT_DIR$/main.ui" afterDir="false" />
-    </list>
+    <list default="true" id="b67695f3-0f6c-41d6-9e8d-087e47805076" name="변경" comment="2023.02.10 21:17 지혁수정" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -68,7 +64,7 @@
       <recent name="C:\Users\Kiot\PycharmProjects\APIproject" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.mainteacher">
+  <component name="RunManager" selected="Python.mainstudent">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -90,7 +86,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="jyw_teacher" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="eh_student" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="APIproject" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -102,7 +98,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/jyw_teacher.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/eh_student.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -257,11 +253,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.mainteacher" />
         <item itemvalue="Python.mainstudent" />
-        <item itemvalue="Python.jyw_teacher" />
+        <item itemvalue="Python.mainteacher" />
         <item itemvalue="Python.mainserver" />
         <item itemvalue="Python.test_student" />
+        <item itemvalue="Python.eh_student" />
       </list>
     </recent_temporary>
   </component>
@@ -568,14 +564,21 @@
       <option name="project" value="LOCAL" />
       <updated>1676012626760</updated>
     </task>
-    <task id="LOCAL-00043" summary="230210 QnA 일부 기능 완성">
-      <created>1676025887942</created>
+    <task id="LOCAL-00043" summary="2023.02.10 17:25 지혁수정">
+      <created>1676017529754</created>
       <option name="number" value="00043" />
       <option name="presentableId" value="LOCAL-00043" />
       <option name="project" value="LOCAL" />
-      <updated>1676025887942</updated>
+      <updated>1676017529754</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="2023.02.10 21:17 지혁수정">
+      <created>1676031445153</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1676031445153</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -590,7 +593,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="230208 코드 수정" />
     <MESSAGE value="230208 문제만들기 하는중" />
     <MESSAGE value="230208 문제만들기(단일클라기능구현)" />
     <MESSAGE value="230208 문제만들기(다중클라기능구현)" />
@@ -614,8 +616,9 @@
     <MESSAGE value="2023.02.10 15:56 지혁수정" />
     <MESSAGE value="2023.02.10 16:00 지혁수정" />
     <MESSAGE value="2023.02.10 16:03 지혁수정" />
-    <MESSAGE value="230210 QnA 일부 기능 완성" />
-    <option name="LAST_COMMIT_MESSAGE" value="230210 QnA 일부 기능 완성" />
+    <MESSAGE value="2023.02.10 17:25 지혁수정" />
+    <MESSAGE value="2023.02.10 21:17 지혁수정" />
+    <option name="LAST_COMMIT_MESSAGE" value="2023.02.10 21:17 지혁수정" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

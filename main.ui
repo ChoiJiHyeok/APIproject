@@ -234,7 +234,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -358,38 +358,94 @@
          <string>F</string>
         </property>
        </widget>
-       <widget class="Line" name="line_12">
-        <property name="geometry">
-         <rect>
-          <x>385</x>
-          <y>90</y>
-          <width>20</width>
-          <height>441</height>
-         </rect>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-       </widget>
-       <widget class="QTableWidget" name="stw_h_score">
-        <property name="geometry">
-         <rect>
-          <x>410</x>
-          <y>100</y>
-          <width>371</width>
-          <height>421</height>
-         </rect>
-        </property>
-       </widget>
-       <widget class="QTableWidget" name="stw_h_progress">
+       <widget class="QLineEdit" name="stw_h_progress">
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>100</y>
-          <width>371</width>
-          <height>421</height>
+          <y>120</y>
+          <width>771</width>
+          <height>30</height>
          </rect>
         </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="Line" name="line_12">
+        <property name="geometry">
+         <rect>
+          <x>4</x>
+          <y>150</y>
+          <width>781</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_9">
+        <property name="geometry">
+         <rect>
+          <x>350</x>
+          <y>100</y>
+          <width>56</width>
+          <height>12</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>학습진도</string>
+        </property>
+       </widget>
+       <widget class="QTreeWidget" name="stw_h_score">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>170</y>
+          <width>771</width>
+          <height>351</height>
+         </rect>
+        </property>
+        <property name="editTriggers">
+         <set>QAbstractItemView::NoEditTriggers</set>
+        </property>
+        <attribute name="headerCascadingSectionResizes">
+         <bool>false</bool>
+        </attribute>
+        <attribute name="headerHighlightSections">
+         <bool>true</bool>
+        </attribute>
+        <attribute name="headerShowSortIndicator" stdset="0">
+         <bool>false</bool>
+        </attribute>
+        <attribute name="headerStretchLastSection">
+         <bool>true</bool>
+        </attribute>
+        <column>
+         <property name="text">
+          <string>등록번호/ 문제</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>이름/ 답안</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>점수/ 이름</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>채점</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>소요시간</string>
+         </property>
+        </column>
        </widget>
       </widget>
       <widget class="QWidget" name="tab_2">
@@ -680,7 +736,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab_q">
        <attribute name="title">

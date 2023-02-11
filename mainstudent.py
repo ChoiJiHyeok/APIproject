@@ -13,7 +13,7 @@ import json
 import time
 
 form_class = uic.loadUiType("main.ui")[0]
-svrip = '10.10.21.105'
+svrip = 'localhost'
 port = 9000
 
 db_host = '10.10.21.105'
@@ -55,6 +55,7 @@ class WindowClass(QMainWindow, form_class):
         self.load_study_btn.clicked.connect(self.load_save)
         self.answer_table.cellChanged.connect(self.input_answer)
         self.quiz_type_box.currentTextChanged.connect(self.show_quiz)
+        self.sbr_test.clicked.connect(self.clear_answer_table)
 
 
         ##장은희##
@@ -356,6 +357,9 @@ class WindowClass(QMainWindow, form_class):
         # QnA창에 이동시 위젯에 질문내역 불러오게 서버에 신호전달
         elif tab == 4:
             self.send_msg('qna', [self.code, self.name])
+
+    def clear_answer_table(self):
+        self.answer_table.setRowCount(0)
 
 
 ###########################################################################

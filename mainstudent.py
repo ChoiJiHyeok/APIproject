@@ -13,7 +13,7 @@ import json
 import time
 
 form_class = uic.loadUiType("main.ui")[0]
-svrip = 'localhost'
+svrip = '10.10.21.105'
 port = 9000
 
 db_host = '10.10.21.105'
@@ -97,13 +97,13 @@ class WindowClass(QMainWindow, form_class):
                     db_execute(spl)
 
 
-    def show_quiz(self):
+    def show_quiz(self):# 퀴즈 내용을 요청하는 메서드
         self.send_msg('quiz_type',[self.quiz_type_box.currentText()])
 
 
 
 
-    def input_answer(self, row, column): # 정답 입력하면 시간 제서 서버로
+    def input_answer(self, row, column): # 정답 입력하면 시간 제서 서버로 보내는 메서드
         print('hihi')
         cell_answer=self.answer_table.item(row,column).text()
         quiz_text=self.stw_test.item(row,column+1).text()
@@ -118,7 +118,7 @@ class WindowClass(QMainWindow, form_class):
         self.start=time.time()
         self.send_msg('정답', [self.name, self.quiz_type_box.currentText(), get_num, cell_answer,sol_time,quiz_text]) # 이름, 퀴즈코드, 문제번호, 제출 답안, 풀이 시간 전달
 
-    def show_contents(self, index): # Qtablewidget에 보여줄 학습내용 연도 선택
+    def show_contents(self, index): # Qtablewidget에 보여줄 학습내용 연도 선택하는 메서드
         self.comboBox.clear()
         if index==1:
             for i in range(1000,2001,100):
@@ -134,18 +134,18 @@ class WindowClass(QMainWindow, form_class):
 
         else:
             print(index)
-    def select_year(self):
+    def select_year(self): # 학습할 내용을 선택하는 메서드
         self.send_msg("call_contents", ['연도', self.comboBox.currentText()])
 
     # 학습내용 저장하기
-    def save_contents(self):
+    def save_contents(self): # 학습할 내용 저장하는 메서드
         self.save1=self.stw_contents.item(0, 1).text()
         print(self.msg)
         self.save2=self.stw_contents.item(self.msg-1, 1).text()
         print(self.save1, self.save2)
         self.send_msg('save_contents', [self.name, self.save1, self.save2])
 
-    def load_save(self):
+    def load_save(self): # 저장된 학습내용을 불러오는 메서드
         self.send_msg('loading_studying', [self.name, self.save1, self.save2])
 
     # 수신 메서드
@@ -189,8 +189,9 @@ class WindowClass(QMainWindow, form_class):
                 self.messagebox(f'가입 성공, 발급 코드: {code} 입니다.')
             else:
                 self.messagebox('가입 실패')
-        # db learning_data  Qtablewidget에 표시
-        elif head == 'load_history':
+
+        elif head == 'load_history':# db learning_data  Qtablewidget에 표시
+
             self.msg = len(msg)
             self.stw_contents.setRowCount(0)
             self.stw_contents.setRowCount(len(msg))
@@ -201,28 +202,28 @@ class WindowClass(QMainWindow, form_class):
                     self.stw_contents.setItem(i, j, QTableWidgetItem(str(msg[i][j])))
             self.stw_contents.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents) #셀값에 따라 자동으로 컬럼 넓이 조절
 
-        # 저장된 학습내용 불러옴
-        elif head == 'loading_studying':
+        elif head == 'loading_studying': # 저장된 학습내용 불러옴
+
             self.stw_contents.setRowCount(len(msg))
             self.stw_contents.setColumnCount(3)
             for i in range(len(msg)):
                 for j in range(3):
                     self.stw_contents.setItem(i, j, QTableWidgetItem(str(msg[i][j])))
-        # 문제유형 선택 : self.quiz_type_box에 유형 추가
-        elif head == "loading_quiz":  #quiz 테이블 테이블 위젯에 표시
+        elif head == "loading_quiz": # 문제유형 선택 : self.quiz_type_box에 유형 추가
+
             print(msg, '퀴즈유형 확인')
             self.quiz_type_box.clear()
             for i in msg:
                 self.quiz_type_box.addItem(i[0])
-        #학생이 문제 풀기
         #quiz load
-        elif head == 'data_quiz':
+        elif head == 'data_quiz': #학생이 문제 풀기
+
             self.stw_test.setRowCount(0)
             self.stw_test.setRowCount(len(msg))
-            self.stw_test.setColumnCount(3)
+            self.stw_test.setColumnCount(2)
 
             for i in range(len(msg)):
-                for j in range(3):
+                for j in range(2):
                     self.stw_test.setItem(i, j, QTableWidgetItem(str(msg[i][j])))
             self.stw_test.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
 

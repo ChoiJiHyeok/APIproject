@@ -3,7 +3,7 @@ import socketserver
 from datetime import datetime
 import json
 
-server_ip = 'localhost'
+server_ip = '10.10.21.105'
 server_port = 9000
 
 db_host = '10.10.21.105'
@@ -217,23 +217,22 @@ class Server:
             self.send_msg(c,'loading_quiz',send_quizcode)
 
         elif head == 'quiz_type':
-            sql=f'SELECT quiz_num, score, quiz FROM api.quiz WHERE quiz_code = "{msg[0]}"'
+            sql=f'SELECT quiz_num, quiz, score FROM api.quiz WHERE quiz_code = "{msg[0]}"'
             go_quiz=db_execute(sql)
             self.send_msg(c,'data_quiz',go_quiz)
 
         elif head == '정답':
-            sql=f'SELECT count(*)FROM quiz_student WHERE quiz_num="{msg[1]}" AND student_name="{msg[0]}" AND quiz="{msg[5]}"';
-            print("확인1")
-            count_data=db_execute(sql)
-            print(count_data)
-            if count_data[0][0] == 0:
-                sql1=f'INSERT INTO quiz_student (quiz_num, quiz, answer, student_name, sol_time) VALUES ("{msg[1]}","{msg[5]}","{msg[3]}","{msg[0]}","{msg[4]}")'
-                print("확인2")
+            sql2 = f'SELECT quiz ,answer, score FROM quiz WHERE answer = "{msg[3]}" and quiz_code="{msg[1]}" and quiz_num="{msg[2][-1]}"'
+            student_scored = db_execute(sql2)
+            if student_scored !=():
+                sql1 = f'INSERT INTO quiz_student (quiz_num, quiz, answer, student_name, quiz_point, sol_time) VALUES ("{msg[1]}","{msg[5]}","{msg[3]}","{msg[0]}","{student_scored[0][2]}","{msg[4]}")'
+                print('채점1')
                 db_execute(sql1)
             else:
-                sql2=f'UPDATE quiz_student SET answer = "{msg[3]}", sol_time="{msg[4]}" WHERE quiz_num="{msg[1]}" and quiz="{msg[5]}" and student_name="{msg[0]}"';
-                print("확인3")
-                db_execute(sql2)
+                sql4=f'INSERT INTO quiz_student (quiz_num, quiz, answer, student_name, quiz_point, sol_time) VALUES ("{msg[1]}","{msg[5]}","{msg[3]}","{msg[0]}", "0","{msg[4]}")'
+                print("확인2")
+                db_execute(sql4)
+
 
         # ####장은희
         # 실시간 상담 (학생프로그램)

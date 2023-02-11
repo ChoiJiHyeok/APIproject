@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b67695f3-0f6c-41d6-9e8d-087e47805076" name="변경" comment="2023.02.11 15:49 지혁수정">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/2023-02-11__11_55_______.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/2023-02-11__11_55_______.xml" afterDir="false" />
+    <list default="true" id="b67695f3-0f6c-41d6-9e8d-087e47805076" name="변경" comment="2023.02.11 16:01 지혁수정">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jh_server.py" beforeDir="false" afterPath="$PROJECT_DIR$/jh_server.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.ui" beforeDir="false" afterPath="$PROJECT_DIR$/main.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mainserver.py" beforeDir="false" afterPath="$PROJECT_DIR$/mainserver.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mainstudent.py" beforeDir="false" afterPath="$PROJECT_DIR$/mainstudent.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -49,23 +50,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Kiot/PycharmProjects/APIproject&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.idesettings.debugger.python&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "C:/APIproject",
+    "settings.editor.selected.configurable": "reference.idesettings.debugger.python"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;GitStage.ChangesTree.GroupingKeys&quot;: [
-      &quot;directory&quot;,
-      &quot;module&quot;,
-      &quot;repository&quot;
+  "keyToStringList": {
+    "GitStage.ChangesTree.GroupingKeys": [
+      "directory",
+      "module",
+      "repository"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\APIproject" />
       <recent name="C:\Users\Kiot\PycharmProjects\APIproject" />
     </key>
   </component>
@@ -104,6 +106,27 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/eh_student.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="jh_server" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="APIproject" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/jh_server.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -175,27 +198,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="test_student" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="APIproject" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test_student.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration default="true" type="Tox" factoryName="Tox">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -258,29 +260,22 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.mainstudent" />
         <item itemvalue="Python.mainserver" />
-        <item itemvalue="Python.mainteacher" />
-        <item itemvalue="Python.test_student" />
+        <item itemvalue="Python.jh_server" />
         <item itemvalue="Python.eh_student" />
+        <item itemvalue="Python.mainstudent" />
+        <item itemvalue="Python.mainteacher" />
       </list>
     </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="애플리케이션 수준" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="디폴트 작업">
-      <changelist id="fa1378f8-de63-4f4f-b010-13ee8a7202c8" name="변경" comment="" />
+      <changelist id="b67695f3-0f6c-41d6-9e8d-087e47805076" name="변경" comment="2023.02.11 15:49 지혁수정" />
       <created>1675663922632</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1675663922632</updated>
-    </task>
-    <task id="LOCAL-00002" summary="230206 API_test.py 신간 측정 추가">
-      <created>1675665227533</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1675665227533</updated>
     </task>
     <task id="LOCAL-00003" summary="230206 UI 생성">
       <created>1675679541327</created>
@@ -618,7 +613,14 @@
       <option name="project" value="LOCAL" />
       <updated>1676091913582</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="2023.02.11 16:01 지혁수정">
+      <created>1676098909381</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1676098909382</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -633,7 +635,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="230209 학생관리" />
     <MESSAGE value="230209 큰 데이터 받기" />
     <MESSAGE value="Revert &quot;230209 큰 데이터 받기&quot;&#10;&#10;This reverts commit aead9543" />
     <MESSAGE value="Revert &quot;230209 학생관리&quot;&#10;&#10;This reverts commit f1b5dae4" />
@@ -658,7 +659,8 @@
     <MESSAGE value="230211 QnA 수정중" />
     <MESSAGE value="230211 QnA 완료" />
     <MESSAGE value="230211 QnA 수정" />
-    <option name="LAST_COMMIT_MESSAGE" value="230211 QnA 수정" />
+    <MESSAGE value="2023.02.11 16:01 지혁수정" />
+    <option name="LAST_COMMIT_MESSAGE" value="2023.02.11 16:01 지혁수정" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

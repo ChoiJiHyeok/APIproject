@@ -168,7 +168,7 @@ class Server:
         #```
         # 학생용
         # 학생이 학습내용 풀러오기
-
+        #학생이 연도 선택하면 그에따른 내용 불러오기
         elif head == 'call_contents':
             if msg[1] != '연도선택':
                 try:
@@ -191,7 +191,7 @@ class Server:
             sql=f'SELECT *FROM learning_data WHERE date BETWEEN "{msg[1]}" AND "{msg[2]}"'
             find_contents=db_execute(sql)
             self.send_msg(c,'loading_studying',find_contents)
-
+        #퀴즈내용 불러오기
         elif head == 'call_quiz':
             # sql=f'SELECT {msg[0]},{msg[1]},{msg[2]} FROM api.quiz'
             # find_quiz=db_execute(sql)
@@ -200,12 +200,12 @@ class Server:
             send_quizcode = db_execute(sql1)
             print(send_quizcode, '퀴즈 유형 보내기')
             self.send_msg(c,'loading_quiz',send_quizcode)
-
+        #퀴즈코드 에 따른 db 전송
         elif head == 'quiz_type':
             sql=f'SELECT quiz_num, score, quiz FROM api.quiz WHERE quiz_code = "{msg[0]}"'
             go_quiz=db_execute(sql)
             self.send_msg(c,'data_quiz',go_quiz)
-
+        # 클라에서 정답입력 받았을때
         elif head == '정답':
             sql=f'SELECT count(*)FROM quiz_student WHERE quiz_num="{msg[1]}" AND student_name="{msg[0]}" AND quiz="{msg[5]}"';
             print("확인1")

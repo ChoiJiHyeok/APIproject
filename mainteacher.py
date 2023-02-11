@@ -19,9 +19,15 @@ class WindowClass(QMainWindow, form_class):
         self.stackedWidget.setCurrentIndex(0)
         self.atw.setCurrentIndex(0)
         self.user_management = False
-        self.qna_show = False
 
-        self.ale_chat.returnPressed.connect(self.at_chat) # 실시간상담채팅
+        #장은희테스트
+        self.SEL = False
+        # self.atw.setCurrentIndex(2)
+        # 실시간상담채팅
+        self.ale_chat.returnPressed.connect(self.at_chat) # 메시지 전송
+        self.alw_chat_user.itemClicked.connect(self.select_user) # 학생별로 수신
+        # self.alw_chat_user.currentItemChanged.connect(self.select_change_user) # 큐메시지박스/학생연결끊김
+
 
         # 시그널 - 메서드
         # 로그인, 회원가입
@@ -37,6 +43,8 @@ class WindowClass(QMainWindow, form_class):
         # 학생관리
         self.atw.currentChanged.connect(self.atw_move)
         self.alw_user.itemDoubleClicked.connect(self.study_progress)
+        # QnA
+        self.abt_qa.clicked.connect(self.answer)
 
         # 서버 연결
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -128,13 +136,31 @@ class WindowClass(QMainWindow, form_class):
                     self.add_top_tree(str(m[0]), str(m[1]), str(m[2]), msg[1])
         # ```
         # ###장은희
+        # alw_chat_user에 학생 넣기
+        elif head == 'chat_user':
+            self.alw_chat_user.clear()
+            for i in range(len(msg)):
+                self.alw_chat_user.addItem(f"{msg[i][0]}/{msg[i][2]}")
+
         # 실시간 상담 (학생->선생님)
         elif head == 'st_chat':
-            self.alw_chat.addItem(f"{msg[1]}({msg[2]}) : {msg[3]}")
-            self.alw_chat.scrollToBottom()
+            if self.SEL == True:
+                if self.select_code == msg[0] and self.select_name == msg[1]:
+                    self.alw_chat.addItem(f"{msg[2]} {msg[0]}/{msg[1]} 학생 : {msg[3]}")
+                    self.alw_chat.scrollToBottom()
+
         # 실시간 상담 (자기자신)
         elif head == 'at_chat':
-            self.alw_chat.addItem(f"{msg[1]}({msg[2]}) : {msg[3]}")
+            if self.SEL == True:
+                self.alw_chat.addItem(f"{msg[2]} {msg[1]} 선생님 : {msg[3]}")
+
+        elif head == 'select_user':
+            self.alw_chat.clear()
+            print('이전메시지', msg)
+            for i in range(len(msg)):
+                self.alw_chat.addItem(f"{msg[i][2]} {msg[i][0]}/{msg[i][1]} 학생 : {msg[i][3]}")
+                self.alw_chat.scrollToBottom()
+
         # ``` QnA
         # 처음 QnA창에 들어가면 질문내역 위젯에 등록
         elif head == 'set_stw_qa':
@@ -239,8 +265,12 @@ class WindowClass(QMainWindow, form_class):
         if tab == 1 and not self.user_management:
             self.user_management = True
             self.send_msg('management', '')
-        elif tab == 3 and not self.qna_show:
-            self.qna_show = True
+        # 장은희_상담탭 구현중
+        elif tab == 2: # alw_chat_user에 학생 넣기. 시그널 전송
+            self.alw_chat.clear()
+            self.SEL = False
+            self.send_msg('chat_user', '')
+        elif tab == 3:
             self.send_msg('qna_adin', '')
 
     # 학생관리창에서 학생이름을 더블 클릭하면 서버에 신호 전송
@@ -248,19 +278,39 @@ class WindowClass(QMainWindow, form_class):
         name = self.alw_user.currentItem().text().split(']')[1]
         self.send_msg('study', name)
 
-
     #####장은희
-    # 상담 (관리자 프로그램으로 서버에 [관리자코드, 관리자이름, 채팅시간, 채팅내용] 전송)
+    # 상담 (관리자 프로그램으로 서버에 [관리자코드, 관리자이름, 채팅시간, 채팅내용, 현재선택한학생] 전송)
     def at_chat(self):
-        chat_time = str(datetime.now()) #strftime("%Y-%m-%d %H:%M:%S")
-        time = datetime.now().strftime("%H:%M")
+        chat_time = datetime.now().strftime("%Y-%m-%d %H:%M")
         chat_msg = self.ale_chat.text()
         # self.alw_chat.addItem(f"{self.name}({time}) : {chat_msg}")
         if chat_msg and chat_time:
-            self.send_msg('at_chat', [self.code, self.name, chat_time, chat_msg, time])
+            self.send_msg('at_chat', [self.code, self.name, chat_time, chat_msg, self.select_code, self.select_name])
         self.alw_chat.scrollToBottom()
         self.ale_chat.clear()
 
+    def select_user(self): # 아이템클릭/서버한테 '학생별로 수신받고 싶어' 시그널 보내기
+        self.SEL = True
+        self.selectName = self.alw_chat_user.currentItem().text()
+        self.send_msg('select_user', self.selectName)
+
+        select_user = self.selectName.split('/')
+        self.select_code = select_user[0]
+        self.select_name = select_user[1]
+        print(self.select_name)
+
+    # 답변 등록
+    def answer(self):
+        ans = self.ale_qa.text()
+        row = self.atw_qa.currentRow()
+        if row >= 0:
+            num = self.atw_qa.item(row, 0).text()
+            code = self.atw_qa.item(row, 1).text()
+            stu_name = self.atw_qa.item(row, 2).text()
+            self.send_msg('answer', [num, code, stu_name, self.name, ans])
+            self.ale_qa.clear()
+        else:
+            self.messagebox('답변할 QnA를 선택하세요.')
 
 ###########################################################################
 # 송신 기능이 없는 시그널 - 메서드
@@ -300,6 +350,11 @@ class WindowClass(QMainWindow, form_class):
         self.atw_q.clearContents()
         self.atw_q.setRowCount(0)
 
+    # 학생연결 종료
+    # def select_change_user(self):
+    #     self.messagebox('현재 상담중인 학생과 연결이 종료됩니다.')
+    #     self.alw_chat.clear()
+
 ###########################################################################
 # 도구 메서드
 ###########################################################################
@@ -314,6 +369,7 @@ class WindowClass(QMainWindow, form_class):
     # 주제, 내용으로 서버에 데이터 전송
     def send_msg(self, head, value):
         msg = json.dumps([head, value])
+        msg = f"{len(msg):<10}"+msg
         self.sock.sendall(msg.encode())
         self.p_msg('보낸 메시지:', msg)
 

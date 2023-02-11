@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b67695f3-0f6c-41d6-9e8d-087e47805076" name="변경" comment="2023.02.11 15:49 지혁수정">
+    <list default="true" id="b67695f3-0f6c-41d6-9e8d-087e47805076" name="변경" comment="2023.02.11 19:21 지혁수정">
       <change beforePath="$PROJECT_DIR$/.idea/shelf/2023-02-11__11_55_______.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/2023-02-11__11_55_______.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.ui" beforeDir="false" afterPath="$PROJECT_DIR$/main.ui" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mainstudent.py" beforeDir="false" afterPath="$PROJECT_DIR$/mainstudent.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -633,7 +631,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Revert &quot;230209 학생관리&quot;&#10;&#10;This reverts commit f1b5dae4" />
     <MESSAGE value="230210 - 복원중" />
     <MESSAGE value="230210 - 복원" />
     <MESSAGE value="230210 11:27 파일 이름 변경" />
@@ -658,7 +655,8 @@
     <MESSAGE value="230211 학생 로그인 화면 완료" />
     <MESSAGE value="230211 ui 수정" />
     <MESSAGE value="230211 코드 수정" />
-    <option name="LAST_COMMIT_MESSAGE" value="230211 코드 수정" />
+    <MESSAGE value="2023.02.11 19:21 지혁수정" />
+    <option name="LAST_COMMIT_MESSAGE" value="2023.02.11 19:21 지혁수정" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

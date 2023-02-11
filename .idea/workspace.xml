@@ -6,8 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="b67695f3-0f6c-41d6-9e8d-087e47805076" name="변경" comment="2023.02.11 15:49 지혁수정">
       <change beforePath="$PROJECT_DIR$/.idea/shelf/2023-02-11__11_55_______.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/2023-02-11__11_55_______.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.ui" beforeDir="false" afterPath="$PROJECT_DIR$/main.ui" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mainstudent.py" beforeDir="false" afterPath="$PROJECT_DIR$/mainstudent.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -69,7 +67,7 @@
       <recent name="C:\Users\Kiot\PycharmProjects\APIproject" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.mainteacher">
+  <component name="RunManager">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />

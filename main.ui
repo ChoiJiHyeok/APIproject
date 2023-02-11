@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="page">
      <widget class="QLineEdit" name="hle_code">
@@ -358,7 +358,7 @@
          <string>F</string>
         </property>
        </widget>
-       <widget class="QLineEdit" name="stw_h_progress">
+       <widget class="QLineEdit" name="sle_h_progress">
         <property name="geometry">
          <rect>
           <x>10</x>

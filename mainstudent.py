@@ -216,7 +216,7 @@ class WindowClass(QMainWindow, form_class):
             for i in msg:
                 self.quiz_type_box.addItem(i[0])
         #quiz load
-        elif head == 'data_quiz': #학생이 문제 풀기
+        elif head == 'data_quiz': #학생이 문제 풀기 스코어 문제 수정
 
             self.stw_test.setRowCount(0)
             self.stw_test.setRowCount(len(msg))

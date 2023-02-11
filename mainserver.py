@@ -216,6 +216,7 @@ class Server:
             print(send_quizcode, '퀴즈 유형 보내기')
             self.send_msg(c,'loading_quiz',send_quizcode)
 
+        # 퀴즈 코드 전송
         elif head == 'quiz_type':
             sql=f'SELECT quiz_num, quiz, score FROM api.quiz WHERE quiz_code = "{msg[0]}"'
             go_quiz=db_execute(sql)

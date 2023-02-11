@@ -98,7 +98,7 @@ class Server:
             if login:
                 # DB에 저장된 문제 등록 목록 및 정보 클라에 전달
                 # [로그인성공여부, 회원코드, 회원이름, 문제등록번호목록]
-                sql = f"select distinct quiz_num from quiz;"
+                sql = f"select distinct quiz_code from quiz;"
                 quiz_num = db_execute(sql)
                 self.send_msg(c, 'login', ['success', msg[0], msg[2], quiz_num])
                 # 정보를 선생과 학생으로 구분하여 전송하기위해 list에 소켓 저장
@@ -156,8 +156,8 @@ class Server:
             else:
                 sql = f"delete from quiz where quiz_code = {msg[0][0]};"
                 db_execute(sql)
-                for v in msg:
-                    sql = f"insert into quiz values('{v[0]}', '{v[1]}', '{v[2]}', '{v[3]}', '{v[4]}');"
+                for i, v in enumerate(msg):
+                    sql = f"insert into quiz values('{v[0]}', '{i+1}', '{v[1]}', '{v[2]}', '{v[3]}', '{v[4]}');"
                     db_execute(sql)
         # 해당 등록 번호의 문제 목록 클라에 전송
         elif head == 'load_quiz':
